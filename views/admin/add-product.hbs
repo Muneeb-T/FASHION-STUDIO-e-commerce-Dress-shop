@@ -1,0 +1,606 @@
+<div class='content'>
+       <div class='animated fadeIn'>
+
+              <div class='row'>
+                     <div class='col'>
+                            <div class='card p-4'>
+                                   <div class='card-header'>
+                                          <div class='col d-flex
+                                                 justify-content-between p-0'>
+                                                 <h3 class='text-uppercase'>Add
+                                                        new products
+                                                 </h3>
+
+                                                 <a href='/admin/products/all' class='btn btn-sm
+                                                        font-weight-bold
+                                                        text-light
+                                                        badge-complete px-3'>View
+                                                        products</a>
+
+                                          </div>
+                                   </div>
+                                   {{#if categories}}
+                                   <div class='card-body card-block'>
+                                          <form action='/admin/add-product' id="add-product-form" method='post'
+                                                 autocomplete="off" autocapitalize="on" class='form-horizontal' ,
+                                                 enctype='multipart/form-data'>
+                                                 <div class='row form-group'>
+                                                        <div class='col
+                                                               col-md-3'><label for='product-name-input'
+                                                                      class='form-control-label'>Product
+                                                                      name</label>
+                                                        </div>
+                                                        <div class='col-12
+                                                               col-md-9'><input type='text' id='product-name-input'
+                                                                      name='productName'
+                                                                      placeholder='Enter product name'
+                                                                      class='form-control'
+                                                                      onkeypress="return allowAlphanuemricOnly(event)" />
+                                                        </div>
+                                                 </div>
+                                                 <div class='row form-group'>
+                                                        <div class='col
+                                                               col-md-3'><label for='brand-name-input'
+                                                                      class='form-control-label'>Brand
+                                                                      name</label>
+                                                        </div>
+                                                        <div class='col-12
+                                                               col-md-9'><input type='text' id='brand-name-input'
+                                                                      name='brandName' placeholder='Enter brand name'
+                                                                      class='form-control'
+                                                                      onkeypress="return allowAlphanuemricOnly(event)" />
+                                                        </div>
+                                                 </div>
+                                                 <div class='row form-group'>
+                                                        <div class='col
+                                                               col-md-3'><label for='select-product-type'
+                                                                      class='form-control-label'>Product
+                                                                      Type</label>
+                                                        </div>
+                                                        <div class='col-12
+                                                               col-md-9'>
+                                                               <select name='type' id='select-product-type'
+                                                                      class='form-control'>
+                                                                      <option value='men'>Men</option>
+                                                                      <option value='women'>Women</option>
+                                                                      <option value='kids'>Kids</option>
+                                                               </select>
+                                                        </div>
+                                                 </div>
+
+                                                 <div class='row form-group'>
+                                                        <div class='col
+                                                               col-md-3'><label for='select-product-category'
+                                                                      class='form-control-label'>Category</label></div>
+                                                        <div class='col-12
+                                                               col-md-9'>
+                                                               <select name='category' id='select-product-category'
+                                                                      class='form-control'>
+                                                                      {{#each
+                                                                      categories
+                                                                      }}
+                                                                      <option value='{{this._id}}'>{{this.name}}
+                                                                      </option>
+                                                                      {{/each}}
+                                                               </select>
+                                                        </div>
+                                                 </div>
+                                                 <div class='row form-group'>
+                                                        <div class='col
+                                                               col-md-3'><label for='price-input'
+                                                                      class='form-control-label'>Price</label></div>
+                                                        <div class='col-12
+                                                               col-md-9'><input type='number' id='price-input'
+                                                                      name='price' placeholder='Enter price'
+                                                                      class='form-control' />
+                                                        </div>
+                                                 </div>
+
+                                                 <div class='row form-group'>
+                                                        <div class='col
+                                                               col-md-3'><label for='product-description'
+                                                                      class='form-control-label'>Description</label>
+                                                        </div>
+                                                        <div class='col-12
+                                                               col-md-9'><textarea name='description'
+                                                                      id='product-description' rows='6'
+                                                                      placeholder='Product description'
+                                                                      class='form-control'></textarea>
+                                                        </div>
+                                                 </div>
+                                                 <div class='row form-group'>
+                                                        <div class='col-12
+                                                               col-md-3'><label
+                                                                      class='form-control-label'>Stock</label></div>
+                                                        <div class='col'>
+                                                               <div class='row
+                                                                      d-flex
+                                                                      size-chart-row'>
+                                                                      <div class='col-6
+                                                                             col-md-2
+                                                                             mb-2'><input type='number' name='XS'
+                                                                                    placeholder='XS'
+                                                                                    class='form-control' /></div>
+                                                                      <div class='col-6
+                                                                             col-md-2
+                                                                             mb-2'><input type='number' name='S'
+                                                                                    placeholder='S'
+                                                                                    class='form-control' /></div>
+                                                                      <div class='col-6
+                                                                             col-md-2
+                                                                             mb-2'><input type='number' name='M'
+                                                                                    placeholder='M'
+                                                                                    class='form-control' /></div>
+                                                                      <div class='col-6
+                                                                             col-md-2
+                                                                             mb-2'><input type='number' name='L'
+                                                                                    placeholder='L'
+                                                                                    class='form-control' /></div>
+                                                                      <div class='col-6
+                                                                             col-md-2
+                                                                             mb-2'><input type='number' name='XL'
+                                                                                    placeholder='XL'
+                                                                                    class='form-control' /></div>
+                                                                      <div class='col-6
+                                                                             col-md-2
+                                                                             mb-2'><input type='number' name='2XL'
+                                                                                    placeholder='2XL'
+                                                                                    class='form-control' /></div>
+                                                                      <div class='col-6
+                                                                             col-md-2
+                                                                             mb-2'><input type='number' name='3XL'
+                                                                                    placeholder='3XL'
+                                                                                    class='form-control' /></div>
+                                                                      <div class='col-6
+                                                                             col-md-2
+                                                                             mb-2'><input type='number' name='4XL'
+                                                                                    placeholder='4XL'
+                                                                                    class='form-control' /></div>
+                                                               </div>
+                                                        </div>
+
+                                                 </div>
+                                                 <div class='row form-group'>
+                                                        <div class='container'>
+                                                               <label class='form-control-label
+                                                                      mt-3
+                                                                      mb-3'>Upload
+                                                                      Images</label>
+                                                               <div class='row'>
+
+                                                                      <div class='col-12
+                                                                             col-lg-3
+                                                                             imgUp'>
+                                                                             <div class="profile-pic-wrapper
+                                                                                    border">
+                                                                                    <div class="pic-holder">
+                                                                                           <!-- uploaded pic shown here -->
+                                                                                           <img id="profilePic"
+                                                                                                  class="pic"
+                                                                                                  src="/admin/product-images/product-image-thumbnail.webp">
+                                                                                           <Input class="uploadProfileInput"
+                                                                                                  type="file"
+                                                                                                  name="product_image"
+                                                                                                  id="newProfilePhoto1"
+                                                                                                  accept="image/*"
+                                                                                                  style="opacity:
+                                                                                                  0;" / hidden>
+                                                                                           <label for="newProfilePhoto1"
+                                                                                                  class="upload-file-block">
+                                                                                                  <div
+                                                                                                         class="text-center">
+                                                                                                         <div
+                                                                                                                class="mb-2">
+                                                                                                                <i
+                                                                                                                       class="fa
+                                                                                                                       fa-camera
+                                                                                                                       fa-2x"></i>
+                                                                                                         </div>
+                                                                                                         <div
+                                                                                                                class="text-uppercase">
+                                                                                                                Upload
+                                                                                                                <br />
+                                                                                                                Image
+                                                                                                         </div>
+                                                                                                  </div>
+                                                                                           </label>
+                                                                                    </div>
+                                                                             </div>
+                                                                      </div>
+                                                                      <div class='col-12
+                                                                             col-lg-3
+                                                                             imgUp'>
+                                                                             <div class="profile-pic-wrapper
+                                                                                    border">
+                                                                                    <div class="pic-holder">
+                                                                                           <!-- uploaded pic shown here -->
+                                                                                           <img id="profilePic"
+                                                                                                  class="pic"
+                                                                                                  src="/admin/product-images/product-image-thumbnail.webp">
+                                                                                           <Input class="uploadProfileInput"
+                                                                                                  type="file"
+                                                                                                  name="product_image"
+                                                                                                  id="newProfilePhoto2"
+                                                                                                  accept="image/*"
+                                                                                                  style="opacity:
+                                                                                                  0;" / hidden>
+                                                                                           <label for="newProfilePhoto2"
+                                                                                                  class="upload-file-block">
+                                                                                                  <div
+                                                                                                         class="text-center">
+                                                                                                         <div
+                                                                                                                class="mb-2">
+                                                                                                                <i
+                                                                                                                       class="fa
+                                                                                                                       fa-camera
+                                                                                                                       fa-2x"></i>
+                                                                                                         </div>
+                                                                                                         <div
+                                                                                                                class="text-uppercase">
+                                                                                                                Upload
+                                                                                                                <br />
+                                                                                                                Image
+                                                                                                         </div>
+                                                                                                  </div>
+                                                                                           </label>
+                                                                                    </div>
+                                                                             </div>
+                                                                      </div>
+                                                                      <div class='col-12
+                                                                             col-lg-3
+                                                                             imgUp'>
+                                                                             <div class="profile-pic-wrapper
+                                                                                    border">
+                                                                                    <div class="pic-holder">
+                                                                                           <!-- uploaded pic shown here -->
+                                                                                           <img id="profilePic3"
+                                                                                                  class="pic"
+                                                                                                  src="/admin/product-images/product-image-thumbnail.webp">
+
+                                                                                           <Input class="uploadProfileInput"
+                                                                                                  type="file"
+                                                                                                  name="product_image"
+                                                                                                  id="newProfilePhoto3"
+                                                                                                  accept="image/*"
+                                                                                                  style="opacity:
+                                                                                                  0;" / hidden>
+                                                                                           <label for="newProfilePhoto3"
+                                                                                                  class="upload-file-block">
+                                                                                                  <div
+                                                                                                         class="text-center">
+                                                                                                         <div
+                                                                                                                class="mb-2">
+                                                                                                                <i
+                                                                                                                       class="fa
+                                                                                                                       fa-camera
+                                                                                                                       fa-2x"></i>
+                                                                                                         </div>
+                                                                                                         <div
+                                                                                                                class="text-uppercase">
+                                                                                                                Upload
+                                                                                                                <br />
+                                                                                                                Image
+                                                                                                         </div>
+                                                                                                  </div>
+                                                                                           </label>
+                                                                                    </div>
+                                                                             </div>
+                                                                      </div>
+                                                                      <div class='col-12
+                                                                             col-lg-3
+                                                                             imgUp'>
+                                                                             <div class="profile-pic-wrapper
+                                                                                    border">
+                                                                                    <div class="pic-holder">
+                                                                                           <!-- uploaded pic shown here -->
+                                                                                           <img id="profilePic4"
+                                                                                                  class="pic"
+                                                                                                  src="/admin/product-images/product-image-thumbnail.webp">
+                                                                                           <Input class="uploadProfileInput"
+                                                                                                  type="file"
+                                                                                                  name="product_image"
+                                                                                                  id="newProfilePhoto4"
+                                                                                                  accept="image/*"
+                                                                                                  style="opacity:
+                                                                                                  0;" / hidden>
+                                                                                           <label for="newProfilePhoto4"
+                                                                                                  class="upload-file-block">
+                                                                                                  <div
+                                                                                                         class="text-center">
+                                                                                                         <div
+                                                                                                                class="mb-2">
+                                                                                                                <i
+                                                                                                                       class="fa
+                                                                                                                       fa-camera
+                                                                                                                       fa-2x"></i>
+                                                                                                         </div>
+                                                                                                         <div
+                                                                                                                class="text-uppercase">
+                                                                                                                Upload
+                                                                                                                <br />
+                                                                                                                Image
+                                                                                                         </div>
+                                                                                                  </div>
+                                                                                           </label>
+                                                                                    </div>
+                                                                             </div>
+                                                                      </div>
+
+                                                               </div><!-- row -->
+                                                        </div><!-- container -->
+                                                 </div>
+                                                 <div class='row form-group
+                                                        text-center mt-5'>
+                                                        <div class='col'>
+                                                               <button class='btn
+                                                                      px-5
+                                                                      font-weight-bold
+                                                                      text-light
+                                                                      badge-complete' type='submit'>Submit
+                                                                      Product</button>
+                                                        </div>
+                                                 </div>
+
+                                          </form>
+                                   </div>
+                                   {{else}}
+                                   <div class='card p-4'>
+                                          <div class="card-body card-block">
+                                                 <h3 class="text-danger mb-3 font-weight-bold">No categories availabe
+                                                 </h3>
+                                                 <a class="btn btn-success" href="/admin/categories">Add categories</a>
+                                          </div>
+                                   </div>
+                                   {{/if}}
+
+                            </div>
+
+                     </div>
+
+              </div>
+       </div>
+</div>
+
+<script src='https://code.jquery.com/jquery-3.1.1.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
+<script src='/admin/local_js/validation.js'></script>
+<script src='/admin/local_js/script.js'></script>
+
+
+<style>
+       {
+                     {
+                      !-- .imagePreview {
+                            width: 100%;
+                            height: 200px;
+                            background-position: center center;
+                            background:
+                                   url(http://cliquecities.com/assets/no-image-e3699ae23f866f6cbdf8ba2443ee5c4e.jpg);
+                            background-color: #fff;
+                            background-size: cover;
+                            background-repeat:
+                                   no-repeat;
+                            display: inline-block;
+                            box-shadow: 0px 1px 1px 1px rgba(70,
+                                          70, 70, 0.2);
+                     }
+
+                     --
+              }
+       }
+
+       .btn-primary {
+              display: block;
+              border-radius: 0px;
+              box-shadow: 0px 2px 3px 1px rgba(75, 75, 75, 0.2);
+              margin-top: -5px;
+       }
+
+       .imgUp {
+              margin-bottom: 15px;
+       }
+</style>
+
+<style>
+       .profile-pic-wrapper {
+              width: 100%;
+              position: relative;
+              display: flex;
+
+              justify-content: center;
+              align-items: center;
+       }
+
+       .pic-holder {
+              text-align: center;
+              position: relative;
+              overflow: hidden;
+
+              justify-content: center;
+              align-items: center;
+       }
+
+       .pic-holder .pic {
+              height: 100%;
+              width: 100%;
+              -o-object-fit: cover;
+              object-fit: cover;
+              -o-object-position: center;
+              object-position: center;
+       }
+
+       .pic-holder .upload-file-block,
+       .pic-holder .upload-loader {
+              position: absolute;
+              top: 0;
+              left: 0;
+              height: 100%;
+              width: 100%;
+              background-color: rgba(90, 92, 105, 0.7);
+              color: #f8f9fc;
+              font-size: 12px;
+              font-weight: 600;
+              opacity: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: all 0.2s;
+       }
+
+       .pic-holder .upload-file-block {
+              cursor: pointer;
+       }
+
+       .pic-holder:hover .upload-file-block,
+       .uploadProfileInput:focus~.upload-file-block {
+              opacity: 1;
+       }
+
+       .pic-holder.uploadInProgress .upload-file-block {
+              display: none;
+       }
+
+       .pic-holder.uploadInProgress .upload-loader {
+              opacity: 1;
+       }
+
+       /* Snackbar css */
+       .snackbar {
+              visibility: hidden;
+              background-color: #333;
+              color: #fff;
+              text-align: center;
+              border-radius: 2px;
+              padding: 16px;
+              position: fixed;
+              z-index: 1;
+              left: 50%;
+              bottom: 30px;
+              font-size: 14px;
+              transform: translateX(-50%);
+       }
+
+       .snackbar.show {
+              visibility: visible;
+              -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+              animation: fadein 0.5s, fadeout 0.5s 2.5s;
+       }
+
+       @-webkit-keyframes fadein {
+              from {
+                     bottom: 0;
+                     opacity: 0;
+              }
+
+              to {
+                     bottom: 30px;
+                     opacity: 1;
+              }
+       }
+
+       @keyframes fadein {
+              from {
+                     bottom: 0;
+                     opacity: 0;
+              }
+
+              to {
+                     bottom: 30px;
+                     opacity: 1;
+              }
+       }
+
+       @-webkit-keyframes fadeout {
+              from {
+                     bottom: 30px;
+                     opacity: 1;
+              }
+
+              to {
+                     bottom: 0;
+                     opacity: 0;
+              }
+       }
+
+       @keyframes fadeout {
+              from {
+                     bottom: 30px;
+                     opacity: 1;
+              }
+
+              to {
+                     bottom: 0;
+                     opacity: 0;
+              }
+       }
+</style>
+
+<script>
+       $(document).on("change", ".uploadProfileInput", function () {
+              var triggerInput = this;
+              var currentImg = $(this).closest(".pic-holder").find(".pic").attr("src");
+              var holder = $(this).closest(".pic-holder");
+              var wrapper = $(this).closest(".profile-pic-wrapper");
+              $(wrapper).find('[role="alert"]').remove();
+              triggerInput.blur();
+              var files = !!this.files ? this.files : [];
+              if (!files.length || !window.FileReader) {
+                     return;
+              }
+              if (/^image/.test(files[0].type)) {
+                     // only image file
+                     var reader = new FileReader(); // instance of the FileReader
+                     reader.readAsDataURL(files[0]); // read the local file
+
+                     reader.onloadend = function () {
+                            $(holder).addClass("uploadInProgress");
+                            $(holder).find(".pic").attr("src", this.result);
+                            $(holder).append(
+                                   '<div class="upload-loader"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div>'
+                            );
+
+                            // Dummy timeout; call API or AJAX below
+
+                            $(holder).removeClass("uploadInProgress");
+                            $(holder).find(".upload-loader").remove();
+                            // If upload successful
+                            if (Math.random() < 0.9) {
+
+
+                            } else {
+                                   $(holder).find(".pic").attr("src", currentImg);
+                                   // Clear input after upload
+
+
+                            }
+
+                     };
+              } else {
+                     $(wrapper).append(
+                            '<div class="alert alert-danger d-inline-block p-2 small" role="alert">Please choose the valid image.</div>'
+                     );
+
+
+              }
+       });
+
+</script>
+<script>
+
+       $(function () {
+              $(document).on("change", ".uploadFile", function () {
+                     let uploadFile = $(this); var files = !!this.files ? this.files : []; if
+                            (!files.length || !window.FileReader) return; // no file selected, or noFileReader support 
+                     if (/^image/.test(files[0].type)) { // only image file
+                            var reader = new FileReader(); // instance of the FileReader
+                            reader.readAsDataURL(files[0]); // read the local file 
+                            reader.onloadend = function () { // set image data as background of div
+                                   //alert(uploadFile.closest(".upimage").find('.imagePreview').length);
+                                   uploadFile.closest(".imgUp").find('.imagePreview').css("background-image",
+                                          "url(" + this.result + ")");
+                            }
+                     }
+              });
+       });
+</script>

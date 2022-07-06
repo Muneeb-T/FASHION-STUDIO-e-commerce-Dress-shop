@@ -1,0 +1,159 @@
+<link rel='stylesheet' href='/admin/css/lib/datatable/dataTables.bootstrap.min.css' />
+
+
+<div class="content categories-content">
+       <div class="animanted-fadeIn categories-content-child">
+
+              <div class='orders'>
+                     <div class='row'>
+                            <div class='col'>
+                                   <div class='card'>
+
+
+                                          <div class='card-body'>
+                                                 <div class="row p-3">
+                                                        <div class="col-12 col-md-7">
+                                                               <h3 class='text-uppercase'>Categories
+                                                               </h3>
+                                                        </div>
+                                                        <div class="col-12 col-md-5">
+
+                                                               <div class="form-group">
+
+                                                                      <form id="add-category-form"
+                                                                             action="/admin/add-category" method="post">
+
+                                                                             <div
+                                                                                    class="input-group input-group-sm .category-add-form">
+
+                                                                                    <input id="new-category" type="text"
+                                                                                           onkeypress="return allowOnlyLetters(event,this)"
+                                                                                           class="form-control form-control-sm"
+                                                                                           name="category"
+                                                                                           placeholder="Create new category"
+                                                                                           aria-describedby="basic-addon2">
+                                                                                    <div class="input-group-append">
+                                                                                           <button type="submit"
+                                                                                                  class="btn btn-sm text-light badge-complete border-0  text-uppercase font-weight-bold input-group-addon px-3"
+                                                                                                  style="font-size: 12px;">Create</button>
+                                                                                    </div>
+                                                                             </div>
+                                                                             <div class="mb-3">
+                                                                                    <p id="addCategoryError" 
+                                                                                           class="text-danger category-error text-uppercase" style="font-size: small;"></p>
+                                                                             </div>
+                                                                      </form>
+                                                               </div>
+                                                        </div>
+
+                                                 </div>
+                                                 <hr class="mt-0">
+                                             
+                                                 <div class='table-stats order-table'>
+                                                        <table class='table' id='bootstrap-data-table'>
+                                                               <thead>
+                                                                      <tr>
+
+                                                                             <th>Name</th>
+                                                                             <th>Action</th>
+                                                                             <th>View products</th>
+
+
+                                                                      </tr>
+                                                               </thead>
+                                                               <tbody>
+
+                                                                      {{#each categories}}
+                                                                      <tr id="category-row-{{this._id}}">
+                                                                             <form id="edit-category-form-{{this._id}}">
+                                                                                    <td>
+                                                                                           <input type="text"
+                                                                                                  name="category"
+                                                                                                  id="category-name-input-{{this._id}}"
+                                                                                                  class="form-control font-weight-bold form-control-sm shadow-none border-0 disabled-background"
+                                                                                                  onkeypress="return allowOnlyLetters(event,this)"
+                                                                                                  value="{{this.name}}"
+                                                                                                  disabled>
+                                                                                           <div>
+                                                                                                  <small id="edit-category-error-{{this._id}}"
+                                                                                                         class="text-danger text-uppercase"></small>
+                                                                                           </div>
+                                                                                    </td>
+                                                                                    <td class="d-flex"><a
+                                                                                                  class="text-light btn badge badge-complete mr-2 font-weight-bold"
+                                                                                                  id="category-edit-button-{{this._id}}"
+                                                                                                  onclick="editCategory('{{this._id}}')"
+                                                                                                  onkeypress="return allowOnlyLetters(event,this)">Edit</a>
+
+                                                                                       
+                                                                                           <a onclick="deleteCategory(event,'{{this._id}}','{{../isDeletePage}}')"
+                                                                                                  class="text-light badge btn badge-pending font-weight-bold">{{#if ../isDeletePage}}Restore{{else}}Delete{{/if}}</a>
+                                                                             
+                                                                                    </td>
+                                                                             </form>
+                                                                             <td><a href="/admin/products/{{this._id}}"
+                                                                                           class="text-light btn badge badge-complete font-weight-bold">Products</a>
+                                                                             </td>
+
+
+                                                                      </tr>
+                                                                      {{/each}}
+
+                                                               </tbody>
+                                                        </table>
+
+                                                 </div>
+                                                 <!-- /.table-stats -->
+                                          </div>
+                                   </div>
+                                   <!-- /.card -->
+
+                                   <!-- /.col-lg-8 -->
+
+
+                            </div>
+
+                     </div>
+              </div>
+       </div>
+
+
+
+
+
+
+
+
+
+
+
+       <script src='/admin/js/lib/data-table/datatables.min.js'></script>
+       <script src='/admin/js/lib/data-table/dataTables.bootstrap.min.js'></script>
+       <script src='/admin/js/lib/data-table/dataTables.buttons.min.js'></script>
+       <script src='/admin/js/lib/data-table/buttons.bootstrap.min.js'></script>
+       <script src='/admin/js/lib/data-table/jszip.min.js'></script>
+       <script src='/admin/js/lib/data-table/vfs_fonts.js'></script>
+       <script src='/admin/js/lib/data-table/buttons.html5.min.js'></script>
+       <script src='/admin/js/lib/data-table/buttons.print.min.js'></script>
+       <script src='/admin/js/lib/data-table/buttons.colVis.min.js'></script>
+       <script src='/admin/js/init/datatables-init.js'></script>
+
+
+       {{!--
+       <script type='text/javascript'>
+
+
+              $(document).ready(function () {
+                     const table = $('#bootstrap-data-table').DataTable({
+                            responsive: true
+                     });
+
+              });
+       </script> --}}
+
+
+       <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
+
+       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+       <script src='/admin/local_js/validation.js'></script>
+       <script src="/admin/local_js/script.js"></script>

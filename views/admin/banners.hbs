@@ -1,0 +1,501 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+<div class="content">
+    <div class="animanted-fadeIn">
+        <div class='orders'>
+            <div class='row'>
+                <div class='col'>
+                    <div class='card'>
+
+                        <div class='card-body'>
+                            <div class="row p-3">
+                                <div class="col-12">
+                                    <h3 class='text-uppercase'>Add banners
+                                    </h3>
+                                    <hr>
+                                    <form id="addBannerForm" action="/admin/addBanners" method="post"
+                                        enctype="multipart/form-data">
+                                        <div id="addBannerDiv" class="row .addBannerDiv">
+                                            <div class="col-7">
+                                                <div class='row form-group'>
+                                                    <div class='container p-0'>
+
+
+
+                                                        <div class='col-12
+                                                                             col-lg-12
+                                                                             imgUp position-relative'>
+
+                                                            <button
+                                                                class="btn badge-complete add-image-button text-light first-add-button rounded-circle position-absolute shadow"
+                                                                onclick="event.preventDefault(); addNewImageInput(this);"
+                                                                style="z-index: 100; right:0; bottom:-10px"><i
+                                                                    class="fa fa-plus"></i></button>
+
+                                                            <div class="profile-pic-wrapper
+                                                                                    border">
+                                                                <div class="pic-holder position-relative">
+                                                                    <!-- uploaded pic shown here -->
+
+
+                                                                    <img id="profilePic" class="pic"
+                                                                        src="/admin/banner-images/banner-thumbnail">
+                                                                    <Input class="uploadProfileInput position-absolute" type="file"
+                                                                        name="banner_images" id="banner-file-input"
+                                                                        accept="image/*" style="opacity:0; visibility: hidden;">
+                                                                    <label for="banner-file-input"
+                                                                        class="upload-file-block">
+                                                                        <div class="text-center">
+                                                                            <div class="mb-2">
+                                                                                <i class="fa fa-camera fa-2x"></i>
+                                                                            </div>
+                                                                            <div class="text-uppercase">
+                                                                                Upload
+                                                                                <br />
+                                                                                Image
+                                                                            </div>
+                                                                        </div>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-5 align-items-center px-4">
+                                                <div class='row form-group'>
+                                                    <div class="col">
+                                                        <label for='banner-title-input'
+                                                            class='form-control-label'>Title</label>
+                                                        <input type='text' id='banner-title-input' name='title'
+                                                            placeholder='Enter title' class='form-control' {{!--
+                                                            onkeypress="return allowAlphanuemricOnly(event)" --}}
+                                                            required />
+                                                    </div>
+                                                </div>
+                                                <div class='row form-group'>
+                                                    <div class="col">
+                                                        <label for='banner-subtitle-input'
+                                                            class='form-control-label'>Subtitle</label>
+                                                        <input type='text' id='banner-subtitle-input' name='subtitle'
+                                                            placeholder='Enter title' class='form-control' {{!--
+                                                            onkeypress="return allowAlphanuemricOnly(event)" --}}
+                                                            required />
+                                                    </div>
+                                                </div>
+                                                <button id="addBannerSubmitButton" class='btn
+                                                                      px-5
+                                                                      w-100
+                                                                      mt-2
+                                                                      font-weight-bold
+                                                                      text-light
+                                                                      badge-complete' type='submit'>Add banner</button>
+
+                                            </div>
+
+                                        </div>
+                                    </form>
+
+
+                                </div>
+
+
+                            </div>
+                            <div class="row p-3 pb-0">
+                                <div class="col">
+                                    <h3 class='text-uppercase mt-5'>Active banners</h3>
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="reload-parent">
+                                <div class="row pt-0 p-3 reload-child">
+
+                                    {{#each banners}}
+                                    <div class="col-12" id="bannerView{{this._id}}">
+                                        <div class="mb-3 position-relative">
+                                            <button type="button" onclick="updateBanner('{{this._id}}','remove')"
+                                                class="close position-absolute" aria-label="Close"
+                                                style="z-index: 100; top:3%; right: 2%;">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <button type="button"
+                                                onclick="updateBanner('{{this._id}}','edit','{{this.title}}','{{this.subtitle}}','/admin/product-images/{{this.image}}')"
+                                                class="close position-absolute" aria-label="Close"
+                                                style="z-index: 100; top:3%; right: 6%;">
+                                                <i class="fa fa-edit" style="font-size: 20px;"></i>
+                                            </button>
+                                            <img src="/admin/product-images/{{this.image}}" alt="" srcset="">
+                                            <h6 class="position-absolute font-weight-bold"
+                                                style="top: 40%; left:10%; z-index : 100;">
+                                                {{this.subtitle}}
+                                            </h6>
+
+                                            <h1 class="position-absolute font-weight-bold"
+                                                style="top: 46%; left:10%; z-index : 100;">
+                                                {{this.title}}
+                                            </h1>
+                                            <button
+                                                class="btn text-light btn-primary btn-sm border-0 position-absolute px-5 text-uppercase font-weight-bold"
+                                                style="top: 60%; left:10%; z-index : 100; cursor: default; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; margin: 4px 2px; border-radius: 30px; background-color: #717fe0">
+                                                Shop Now
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {{/each}}
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src='https://code.jquery.com/jquery-3.1.1.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
+<script src='/admin/local_js/validation.js'></script>
+<script src='/admin/local_js/script.js'></script>
+
+
+<style>
+    {
+            {
+             !-- .imagePreview {
+                width: 100%;
+                height: 200px;
+                background-position: center center;
+                background:
+                    url(http://cliquecities.com/assets/no-image-e3699ae23f866f6cbdf8ba2443ee5c4e.jpg);
+                background-color: #fff;
+                background-size: cover;
+                background-repeat:
+                    no-repeat;
+                display: inline-block;
+                box-shadow: 0px 1px 1px 1px rgba(70,
+                        70, 70, 0.2);
+            }
+
+            --
+        }
+    }
+
+    .btn-primary {
+        display: block;
+        border-radius: 0px;
+        box-shadow: 0px 2px 3px 1px rgba(75, 75, 75, 0.2);
+        margin-top: -5px;
+    }
+
+    .imgUp {
+        margin-bottom: 15px;
+    }
+</style>
+
+<style>
+    .profile-pic-wrapper {
+        width: 100%;
+        position: relative;
+        display: flex;
+
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pic-holder {
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pic-holder .pic {
+        $(addButton).closest('#addBannerDiv') width: 100%;
+        -o-object-fit: cover;
+        object-fit: cover;
+        -o-object-position: center;
+        object-position: center;
+    }
+
+    .pic-holder .upload-file-block,
+    .pic-holder .upload-loader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(90, 92, 105, 0.7);
+        color: #f8f9fc;
+        font-size: 12px;
+        font-weight: 600;
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+
+    .pic-holder .upload-file-block {
+        cursor: pointer;
+    }
+
+    .pic-holder:hover .upload-file-block,
+    .uploadProfileInput:focus~.upload-file-block {
+        opacity: 1;
+    }
+
+    .pic-holder.uploadInProgress .upload-file-block {
+        display: none;
+    }
+
+    .pic-holder.uploadInProgress .upload-loader {
+        opacity: 1;
+    }
+
+    /* Snackbar css */
+    .snackbar {
+        visibility: hidden;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+        font-size: 14px;
+        transform: translateX(-50%);
+    }
+
+    .snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    @-webkit-keyframes fadein {
+        from {
+            bottom: 0;
+            opacity: 0;
+        }
+
+        to {
+            bottom: 30px;
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadein {
+        from {
+            bottom: 0;
+            opacity: 0;
+        }
+
+        to {
+            bottom: 30px;
+            opacity: 1;
+        }
+    }
+
+    @-webkit-keyframes fadeout {
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
+
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
+    }
+
+    @keyframes fadeout {
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
+
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
+    }
+</style>
+
+{{!--
+<script>
+    function addNewImageInput(addButton, addOrRemove) {
+
+        if (addOrRemove === 'remove') {
+            if ($('.addBannerDiv').length === 0) {
+                $(".first-add-button").show()
+            }
+            $(addButton).closest('#addBannerDiv').remove()
+        } else {
+
+            $(addButton).closest('#addBannerDiv').before(`<div id="addBannerDiv" class="row .addBannerDiv">
+                                            <div class="col-7">
+                                                <div class='row form-group'>
+                                                    <div class='container p-0'>
+
+
+
+                                                        <div class='col-12
+                                                                             col-lg-12
+                                                                             imgUp position-relative'>
+                                                            <button
+                                                                class="btn badge-pending add-image-button text-light rounded-circle position-absolute shadow"
+                                                                onclick="event.preventDefault(); addNewImageInput(this,'remove')"
+                                                                style="z-index: 110; right:0; top:-10px"><i
+                                                                    class="fa fa-close"></i></button>
+                                                            <button
+                                                                class="btn badge-complete add-image-button text-light rounded-circle position-absolute shadow"
+                                                                onclick="event.preventDefault(); addNewImageInput(this,'add');"
+                                                                style="z-index: 100; right:0; bottom:-10px"><i
+                                                                    class="fa fa-plus"></i></button>
+                                                            <div class="profile-pic-wrapper
+                                                                                    border">
+                                                                <div class="pic-holder">
+                                                                    <!-- uploaded pic shown here -->
+
+
+                                                                    <img id="profilePic" class="pic"
+                                                                        src="/admin/banner-images/banner-thumbnail">
+                                                                    <Input class="uploadProfileInput" type="file"
+                                                                        name="banner_image" id="newProfilePhoto${$('.addBannerDiv').length}"
+                                                                        accept="image/*" style="opacity:
+                                                                                                  0;" / hidden>
+                                                                    <label for="newProfilePhoto${$('.addBannerDiv').length}"
+                                                                        class="upload-file-block">
+                                                                        <div class="text-center">
+                                                                            <div class="mb-2">
+                                                                                <i class="fa fa-camera fa-2x"></i>
+                                                                            </div>
+                                                                            <div class="text-uppercase">
+                                                                                Upload
+                                                                                <br />
+                                                                                Image
+                                                                            </div>
+                                                                        </div>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-5 align-items-center px-4">
+                                                <div class='row form-group'>
+                                                    <div class="col">
+                                                        <label for='product-name-input'
+                                                            class='form-control-label'>Title</label>
+                                                        <input type='text' id='product-name-input' name='productName'
+                                                            placeholder='Enter title' class='form-control'
+                                                            onkeypress="return allowAlphanuemricOnly(event)" />
+                                                    </div>
+                                                </div>
+                                                <div class='row form-group'>
+                                                    <div class="col">
+                                                        <label for='product-name-input'
+                                                            class='form-control-label'>Subtitle</label>
+                                                        <input type='text' id='product-name-input' name='productName'
+                                                            placeholder='Enter title' class='form-control'
+                                                            onkeypress="return allowAlphanuemricOnly(event)" />
+                                                    </div>
+                                                </div>
+                                                <button class='btn
+                                                                      px-5
+                                                                      w-100
+                                                                      mt-2
+                                                                      font-weight-bold
+                                                                      text-light
+                                                                      badge-complete' type='submit'>Add banner</button>
+
+                                            </div>
+
+                                        </div>`)
+            $(addButton).hide()
+        }
+    }
+</script> --}}
+
+<script>
+    $(document).on("change", ".uploadProfileInput", function () {
+        var triggerInput = this;
+        var currentImg = $(this).closest(".pic-holder").find(".pic").attr("src");
+        var holder = $(this).closest(".pic-holder");
+        var wrapper = $(this).closest(".profile-pic-wrapper");
+        $(wrapper).find('[role="alert"]').remove();
+        triggerInput.blur();
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) {
+            return;
+        }
+        if (/^image/.test(files[0].type)) {
+            // only image file
+            var reader = new FileReader(); // instance of the FileReader
+            reader.readAsDataURL(files[0]); // read the local file
+
+            reader.onloadend = function () {
+                $(holder).addClass("uploadInProgress");
+                $(holder).find(".pic").attr("src", this.result);
+                $(holder).append(
+                    '<div class="upload-loader"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div>'
+                );
+
+                // Dummy timeout; call API or AJAX below
+
+                $(holder).removeClass("uploadInProgress");
+                $(holder).find(".upload-loader").remove();
+                // If upload successful
+                if (Math.random() < 0.9) {
+
+
+                } else {
+                    $(holder).find(".pic").attr("src", currentImg);
+                    // Clear input after upload
+
+
+                }
+
+            };
+        } else {
+            $(wrapper).append(
+                '<div class="alert alert-danger d-inline-block p-2 small" role="alert">Please choose the valid image.</div>'
+            );
+
+
+        }
+    });
+
+</script>
+<script>
+
+    $(function () {
+        $(document).on("change", ".uploadFile", function () {
+            let uploadFile = $(this); var files = !!this.files ? this.files : []; if
+                (!files.length || !window.FileReader) return; // no file selected, or noFileReader support 
+            if (/^image/.test(files[0].type)) { // only image file
+                var reader = new FileReader(); // instance of the FileReader
+                reader.readAsDataURL(files[0]); // read the local file 
+                reader.onloadend = function () { // set image data as background of div
+                    //alert(uploadFile.closest(".upimage").find('.imagePreview').length);
+                    uploadFile.closest(".imgUp").find('.imagePreview').css("background-image",
+                        "url(" + this.result + ")");
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,53 @@
+<div class='sufee-login d-flex align-content-center flex-wrap'>
+       <div class='container'>
+              <div class='login-content'>
+                     <div class='login-logo'>
+                            <a class='h1 font-weight-bold text-success'>
+                                   FASHION STUDIO
+                            </a>
+                     </div>
+                     <div class='login-form'>
+                            <form id='admin-login' method="post">
+                                   <div class='form-group'>
+                                          <label>Username</label>
+                                          <input
+                                                 type='text'
+                                                 name='username'
+                                                 class='form-control'
+                                                 placeholder='Enter username'
+                                                 value = "demo_admin@123"
+                                          />
+                                   </div>
+                                   <div class='form-group mb-4'>
+                                          <label>Password</label>
+                                          <input
+                                                 type='password'
+                                                 name='password'
+                                                 class='form-control'
+                                                 placeholder='Enter password'
+                                                 value="Demo@123"
+                                          />
+                                   </div>
+                                   <div class="form-group text-center">
+                                             <p class="text-danger text-uppercase font-weight-bold">{{loginError}}</p>
+                                   </div>
+                                 
+                                   <button
+                                          type='submit'
+                                          class='btn btn-success btn-flat m-b-30 m-t-30'
+                                   >Sign in</button>
+
+                                  
+
+                            </form>
+                     </div>
+              </div>
+       </div>
+</div>
+
+<script src='https://code.jquery.com/jquery-3.1.1.js'></script>
+<script
+       src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'
+></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<script src='/admin/local_js/validation.js'></script>

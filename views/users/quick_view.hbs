@@ -1,0 +1,134 @@
+<div class="container mb-5">
+       <div class="row p-t-100">
+              <div class="col-md-6 col-lg-5 p-b-30">
+                     <div class="p-l-25 p-r-30 p-lr-0-lg">
+                            <div class="wrap-slick3 flex-sb flex-w">
+                                   <div class="wrap-slick3-dots"></div>
+                                   <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+
+                                   <div class="slick3 gallery-lb">
+                                          {{#each product.images}}
+                                          <div class="item-slick3" data-thumb="/admin/product-images/{{this.filename}}">
+                                                 <div class="wrap-pic-w pos-relative">
+                                                        <img class="img" src="/admin/product-images/{{this.filename}}"
+                                                               alt="IMG-PRODUCT" />
+
+                                                        <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
+                                                               href="/admin/product-images/{{this.filename}}">
+                                                               <i class="fa fa-expand"></i>
+                                                        </a>
+                                                 </div>
+                                          </div>
+                                          {{/each}}
+
+                                   </div>
+
+                            </div>
+                     </div>
+              </div>
+
+              <div class="col-md-6 col-lg-7 p-b-30">
+                     <div class="p-r-50 p-t-5 p-lr-0-lg">
+                            <h4 class="mtext-105 cl2 js-name-detail p-b-14">
+                                   {{product.product_name}}
+                            </h4>
+
+                            <span class="mtext-106 cl2">
+                                   Rs.{{product.price}}
+                            </span>
+
+                            <p class="stext-102 cl3 p-t-23">
+                                   {{product.description}}
+                            </p>
+
+                            <!--  -->
+                            <div class="p-t-33">
+                                   <div class="flex-w flex-r-m p-b-10">
+                                          <div class="size-203 flex-c-m respon6">
+                                                 Size
+                                          </div>
+
+                                          <div class="size-204 respon6-next">
+                                                 <div class="rs1-select2 bor8 bg0">
+                                                        <select class="js-select2" form="add-to-bag-form" name="size">
+                                                               {{#each product.sizes}}
+                                                               <option value="{{this.size}}">{{this.size}}</option>
+                                                               {{/each}}
+                                                        </select>
+                                                        <div class="dropDownSelect2"></div>
+                                                 </div>
+                                          </div>
+                                   </div>
+
+
+                                   <div class="flex-w justify-content-center p-b-10">
+                                          <div class="size-204 flex-w flex-m respon6-next">
+                                                 <div class="wrap-num-product mb-4 flex-w m-r-20 m-tb-10">
+                                                        <div
+                                                               class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                                               <i class="fs-16 zmdi zmdi-minus"></i>
+                                                        </div>
+
+                                                        <input class="mtext-104 cl3 txt-center num-product"
+                                                               type="number" form="add-to-bag-form" name="productCount"
+                                                               value="1" />
+
+                                                        <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                                               <i class="fs-16 zmdi zmdi-plus"></i>
+                                                        </div>
+                                                 </div>
+                                                 <div class="d-flex justify-content-between">
+
+                                                        <button type="submit"
+                                                               form="add-to-bag-form"
+                                        
+                                                               class="flex-w align-items-center justify-content-center stext-101 mb-3 cl0 size-101 bg1 bor1 hov-btn1 trans-04 js-addcart-detail">
+                                                               <i class="material-icons mr-2">
+                                                                      shopping_bag
+                                                               </i>
+                                                               Add to bag
+                                                        </button>
+
+
+                                                        <button 
+                                                               class="flex-w align-items-center ml-4 justify-content-center stext-101 cl0 size-101 bg-danger bor1 hov-btn1  trans-04 js-addcart-detail wishlist-button"
+                                                               onclick="addToWishlist('{{product._id}}','quickView')">
+
+                                                               {{#if
+                                                               product.wishlisted.wishlisted}} <span
+                                                                      class="material-icons mr-2">
+                                                                      favorite
+                                                               </span>Wishlisted{{else}} <span
+                                                                      class="material-icons mr-2">
+                                                                      favorite
+                                                               </span>Wishlist{{/if}}
+                                                        </button>
+
+
+
+
+                                                 </div>
+
+                                          </div>
+                                   </div>
+                            </div>
+
+
+                     </div>
+              </div>
+       </div>
+
+
+</div>
+
+<form id="add-to-bag-form" method="post" action="/addToBag">
+       <input type="text" name="productId" value="{{product._id}}" hidden>
+</form>
+
+
+
+<script src='https://code.jquery.com/jquery-3.1.1.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
+<script src="/users/local_js/validate.js"></script>
+<script src="/users/local_js/script.js"></script>

@@ -1,0 +1,353 @@
+<section class="section-slide">
+    <div class="wrap-slick1">
+        <div class="slick1">
+            {{#each banners}}
+
+            <div class="item-slick1" style="background-image: url(/admin/product-images/{{this.image}});">
+                <div class="container h-full">
+                    <div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+                        <div class="layer-slick1 animated  visible-false" data-appear="fadeInDown" data-delay="0">
+                            <span class="ltext-101 cl2 respon2">
+                                {{this.subtitle}}
+                            </span>
+                        </div>
+
+                        <div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="200">
+                            <h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
+                                {{this.title}}
+                            </h2>
+                        </div>
+
+                        <div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="300">
+                            <a href="#explore"
+                                class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+                                Shop Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{/each}}
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<!-- Product -->
+<section class="bg0 p-t-23 p-b-140 mt-5" id="explore">
+    <div class="container">
+        <div class="p-b-10">
+            <h3 class="ltext-103 cl5 mb-4">
+                Explore
+            </h3>
+            <div class="row isotope-grid">
+                {{#each exploreProducts}}
+                <div class="col-sm-6 col-md-2 col-lg-2 p-b-35 isotope-item">
+
+                    <div class="block2">
+                        <a href="/product-view{{this._id}}">
+                            <div class="block2-pic hov-img0">
+                                <img src="/admin/product-images/{{this.images.[0].filename}}" alt="IMG-PRODUCT" />
+
+                            </div>
+                            <a href="/product-view{{this._id}}"></a>
+
+                            <div class="block2-txt flex-w flex-t p-t-14">
+                                <div class="block2-txt-child1 flex-col-l">
+
+                                    <a
+                                        class="font-weight-bold cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.brand}}</a>
+                                    <a href="/product-view{{this._id}}"
+                                        class="cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                        {{this.product_name}}
+                                    </a>
+                                    <a class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.category}}</a>
+
+                                    <span class="stext-105 cl3 font-weight-bold">
+                                        Rs.{{this.price}}
+                                    </span>
+                                </div>
+
+                                <div class="block2-txt-child2 flex-r p-t-3">
+                                    <a onclick="addToWishlist('{{this._id}}','fromProductsView')"
+                                        class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+                                        <img style="cursor: pointer;" class="icon-heart1{{this._id}} dis-block trans-04"
+                                            src="/users/images/icons/icon-heart-01.png" alt="ICON" {{#if
+                                            this.wishlisted.wishlisted}} hidden {{/if}}>
+                                        <img style="cursor: pointer;" class="icon-heart2{{this._id}} dis-block trans-04"
+                                            src="/users/images/icons/icon-heart-02.png" alt="ICON" / {{#unless
+                                            this.wishlisted.wishlisted}} hidden {{/unless}}>
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Block2 -->
+
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="row d-flex" style="overflow-x: scroll;">
+            {{#each coupons}}
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="wrapper d-flex justify-content-center align-items-center">
+
+                    <div class="card coupon-card">
+
+
+                        <div class="coupon-cross-bg">
+
+                        </div>
+
+                        <div class="coupon-content">
+
+                            <div class="coupon-logo text-right">
+
+                            </div>
+
+                            <div class="text-center text-uppercase text-white coupon-off">
+
+
+                                <span>Flat</span>
+                                <h1 class="mt-0">{{this.coupons.discount}}% off</h1>
+
+
+                            </div>
+
+                    
+
+                            <div class="text-center text-uppercase text-white">
+
+                                <h3 class="m-0">Valid for {{this.coupons.validity}} days</h3>
+
+                            </div>
+
+
+                            <div class="px-5 mb-3">
+
+                                <div class="coupon-code text-center mt-4">
+
+                                    <span>Use code : {{this.coupons.couponCode}}</span>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+
+        <div class="p-b-10">
+            {{!-- <h3 class="ltext-103 cl5">
+                Recommended
+            </h3> --}}
+            {{!-- <div class="row isotope-grid">
+                {{#each recommendedProducts}}
+                <div class="col-sm-6 col-md-3 col-lg-3 p-b-35 isotope-item">
+
+                    <div class="block2">
+                        <a href="/product-view{{this._id}}">
+                            <div class="block2-pic hov-img0">
+                                <img src="/admin/product-images/{{this.images.[0].filename}}" alt="IMG-PRODUCT" />
+
+                            </div>
+                            <a href="/product-view{{this._id}}"></a>
+
+                            <div class="block2-txt flex-w flex-t p-t-14">
+                                <div class="block2-txt-child1 flex-col-l">
+
+                                    <a
+                                        class="font-weight-bold cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.brand}}</a>
+                                    <a href="/product-view{{this._id}}"
+                                        class="cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                        {{this.product_name}}
+                                    </a>
+                                    <a class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.category}}</a>
+
+                                    <span class="stext-105 cl3 font-weight-bold">
+                                        Rs.{{this.price}}
+                                    </span>
+                                </div>
+
+                                <div class="block2-txt-child2 flex-r p-t-3">
+                                    <a onclick="addToWishlist('{{this._id}}','fromProductsView')"
+                                        class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+                                        <img style="cursor: pointer;" class="icon-heart1{{this._id}} dis-block trans-04"
+                                            src="/users/images/icons/icon-heart-01.png" alt="ICON" {{#if
+                                            this.wishlisted.wishlisted}} hidden {{/if}}>
+                                        <img style="cursor: pointer;" class="icon-heart2{{this._id}} dis-block trans-04"
+                                            src="/users/images/icons/icon-heart-02.png" alt="ICON" / {{#unless
+                                            this.wishlisted.wishlisted}} hidden {{/unless}}>
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Block2 -->
+
+                </div>
+                {{/each}}
+            </div> --}}
+        </div>
+        <div class="p-b-10 mt-5">
+            <h3 class="ltext-103 cl5 mb-4">
+                New arrivals
+            </h3>
+            <div class="row isotope-grid d-flex">
+                {{#each newProducts}}
+                <div class="col-sm-6 col-md-2 col-lg-2 p-b-35 isotope-item">
+
+                    <div class="block2">
+                        <a href="/product-view{{this._id}}">
+                            <div class="block2-pic hov-img0">
+                                <img src="/admin/product-images/{{this.images.[0].filename}}" alt="IMG-PRODUCT" />
+
+                            </div>
+                            <a href="/product-view{{this._id}}"></a>
+
+                            <div class="block2-txt flex-w flex-t p-t-14">
+                                <div class="block2-txt-child1 flex-col-l">
+
+                                    <a
+                                        class="font-weight-bold cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.brand}}</a>
+                                    <a href="/product-view{{this._id}}"
+                                        class="cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                        {{this.product_name}}
+                                    </a>
+                                    {{!-- <a
+                                        class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.category}}</a>
+                                    --}}
+
+                                    <span class="stext-10 cl3 font-weight-bold text-center">
+                                        Rs.{{this.price}}
+                                    </span>
+                                </div>
+
+                                <div class="block2-txt-child2 flex-r p-t-3">
+                                    <a onclick="addToWishlist('{{this._id}}','fromProductsView')"
+                                        class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+                                        <img style="cursor: pointer;" class="icon-heart1{{this._id}} dis-block trans-04"
+                                            src="/users/images/icons/icon-heart-01.png" alt="ICON" {{#if
+                                            this.wishlisted.wishlisted}} hidden {{/if}}>
+                                        <img style="cursor: pointer;" class="icon-heart2{{this._id}} dis-block trans-04"
+                                            src="/users/images/icons/icon-heart-02.png" alt="ICON" / {{#unless
+                                            this.wishlisted.wishlisted}} hidden {{/unless}}>
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- Block2 -->
+
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
+
+
+
+
+        <!-- Load more -->
+        <div class="flex-c-m flex-w w-full p-t-45">
+            <a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+                Load More
+            </a>
+        </div>
+    </div>
+</section>
+
+
+
+
+<style>
+    .coupon-card {
+
+        position: relative;
+        background-color: #7B1FA2;
+        border: none;
+        padding: 40px;
+
+    }
+
+    .coupon-content {
+
+        z-index: 10;
+    }
+
+    .coupon-logo {
+
+        margin-bottom: 50px;
+    }
+
+
+    .coupn-off {
+
+        line-height: 0px;
+    }
+
+    .coupon-off h1 {
+
+        font-size: 70px;
+    }
+
+    .coupon-off span {
+
+        margin-right: 100px;
+    }
+
+
+    .coupon-plus {
+        font-size: 23px;
+    }
+
+    .coupon-code {
+
+        text-transform: uppercase;
+        padding: 10px;
+        background-color: #fff;
+        color: red;
+        font-size: 20px;
+    }
+
+    .coupon-cross-bg {
+
+        height: 100%;
+        width: 100%;
+        position: absolute;
+
+        background-color: #9C27B0;
+
+        left: 0px;
+        top: 0px;
+        opacity: 0.4;
+        clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
+        z-index: 1;
+    }
+</style>
+
+
+
+
+
+<script src='https://code.jquery.com/jquery-3.1.1.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
+<script src="/users/local_js/validate.js"></script>
+<script src="/users/local_js/script.js"></script>

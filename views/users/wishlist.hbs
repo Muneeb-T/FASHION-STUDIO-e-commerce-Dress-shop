@@ -1,0 +1,78 @@
+<div class="container">
+       <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-100 p-lr-0-lg">
+              <a href="/" class="stext-109 cl8 hov-cl1 trans-04">
+                     Home
+                     <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+              </a>
+
+              <a href="/wishlist" class="stext-109 cl4">
+                     Wishlist
+              </a>
+       </div>
+</div>
+
+<div class="container mb-5 mt-4 reload-parent">
+
+       <div class="row isotope-grid reload-child">
+              {{#each wishlist}}
+              <div class="col-6 col-md-3 col-lg-2 p-b-35 isotope-item" id="wishlistedProduct-{{this._id}}">
+
+
+                     <div class="block2">
+
+                            <a href="/product-view{{this._id}}">
+
+                                   <div class="block2-pic hov-img0 " style="position: relative;">
+                                          <button type="button" onclick="event.preventDefault(); addToWishlist('{{this._id}}','fromWishlistView');" class="bg-light border-2 rounded-circle px-2 py-1 close"
+                                                 aria-label="Close" style="position: absolute; top:2%; left:81%; z-index: 1000;">
+                                                 <span aria-hidden="true">&times;</span>
+                                          </button>
+
+                                          <img src="/admin/product-images/{{this.images.[0].filename}}"
+                                                 alt="IMG-PRODUCT" />
+
+
+
+                                   </div>
+                                   <a href="/product-view{{this._id}}"></a>
+
+                                   <div class="block2-txt flex-w flex-t p-t-14">
+                                          <div class="block2-txt-child1 flex-col-l">
+
+                                                 <a
+                                                        class="font-weight-bold cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.brand}}</a>
+                                                 <a href="/product-view{{this._id}}"
+                                                        class="cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                                        {{this.product_name}}
+                                                 </a>
+                                                 <a
+                                                        class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.category}}</a>
+
+                                                 <span class="stext-105 cl3 font-weight-bold">
+                                                        Rs.{{this.price}}
+                                                 </span>
+                                          </div>
+
+                                          <div class="block2-txt-child2 flex-r p-t-3">
+
+                                          </div>
+
+                                   </div>
+                     </div>
+
+
+                     <!-- Block2 -->
+
+              </div>
+              {{/each}}
+       </div>
+
+</div>
+
+
+
+<script src='https://code.jquery.com/jquery-3.1.1.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
+<script src="/users/local_js/validate.js"></script>
+<script src="/users/local_js/script.js"></script>

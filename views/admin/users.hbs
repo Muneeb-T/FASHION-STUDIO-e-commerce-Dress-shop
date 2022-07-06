@@ -1,0 +1,130 @@
+<link rel='stylesheet' href='/admin/css/lib/datatable/dataTables.bootstrap.min.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
+
+<div class="content">
+    <div class="animanted-fadeIn">
+
+        <div class='orders'>
+            <div class='row'>
+                <div class='col'>
+                    <div class='card'>
+
+
+                        <div class='card-body'>
+                            <div class="row p-3">
+                                <div class="col d-flex justify-content-between">
+                                    <h3 class='text-uppercase'>CUSTOMERS
+                                    </h3>
+
+                                </div>
+                            </div>
+                            <hr class="mt-0">
+                            <div class='table-stats order-table products-content'>
+                                <table class='table products-table products-content-child' id='bootstrap-data-table'>
+                                    <thead>
+                                        <tr>
+
+                                            <th>Profile Picture</th>
+                                            <th>Username</th>
+                                            <th>Email Address</th>
+                                            <th>Phone number</th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {{#each users}}
+                                        <tr id="userRow{{this._id}}">
+                                            <td class='avatar'>
+                                                <div class='round-img'>
+                                                    <a><img class='rounded-circle'
+                                                            src='/users/profile_pictures/thumbnail.jpg' alt='' /></a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {{this.username}}
+                                            </td>
+                                            <td>
+                                                {{this.email}}
+                                            </td>
+                                            <td>
+                                                {{this.phone_number}}
+                                            </td>
+
+
+                                            <td>
+                                                <div class="d-flex">
+                                                    <a id="blockUserButton{{this._id}}" class="btn text-light font-weight-bold badge {{#if this.blocked}}badge-complete{{else}}badge-pending{{/if}}"
+                                                        onclick="blockUser(event,'{{this._id}}')">{{#if
+                                                        this.blocked}}Unblock{{else}}Block{{/if}}</a>
+                                                </div>
+                                            </td>
+
+
+                                        </tr>
+                                        {{/each}}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-stats -->
+                        </div>
+                    </div>
+                    <!-- /.card -->
+
+                    <!-- /.col-lg-8 -->
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src='https://code.jquery.com/jquery-3.1.1.js'></script>
+
+
+
+
+    <script src='/admin/js/lib/data-table/datatables.min.js'></script>
+    <script src='/admin/js/lib/data-table/dataTables.bootstrap.min.js'></script>
+    <script src='/admin/js/lib/data-table/dataTables.buttons.min.js'></script>
+    <script src='/admin/js/lib/data-table/buttons.bootstrap.min.js'></script>
+    <script src='/admin/js/lib/data-table/jszip.min.js'></script>
+    <script src='/admin/js/lib/data-table/vfs_fonts.js'></script>
+    <script src='/admin/js/lib/data-table/buttons.html5.min.js'></script>
+    <script src='/admin/js/lib/data-table/buttons.print.min.js'></script>
+    <script src='/admin/js/lib/data-table/buttons.colVis.min.js'></script>
+    <script src='/admin/js/init/datatables-init.js'></script>
+
+
+    {{!--
+    <script type='text/javascript'>
+
+
+        $(document).ready(function () {
+            var table = $('#bootstrap-data-table').DataTable({
+                responsive: true
+            });
+
+        });
+    </script> --}}
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
+    <script src='/admin/local_js/validation.js'></script>
+    <script src='/admin/local_js/script.js'></script>

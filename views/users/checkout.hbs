@@ -1,0 +1,174 @@
+<div class="container mb-3 p-t-100">
+    <div class="row">
+
+        <div class="col-8 flex-w flex-t
+            p-b-30" style="display: block;">
+            <div class="card shadow p-3">
+                <div class="card-body p-5">
+                    <form id="checkoutForm" action="/placeOrder" method="post">
+                        <div class="p-r-18 p-r-0-sm
+                            w-full-ssm">
+                            <div class="p-3" style="background-color: #717fe0;">
+                                <span class="stext-110 cl2 text-light">
+                                    Delivery address:
+                                </span>
+                            </div>
+
+
+
+                            <div class="p-t-15">
+
+                                <div class="bor8 bg0
+                                    m-b-12">
+                                    <input class="stext-111
+                                        cl8 plh3
+                                        size-111
+                                        p-lr-15" type="text" name="name"
+                                        placeholder="Enter name" />
+                                </div>
+                                <div class="bor8 bg0
+                                    m-b-12">
+                                    <input class="stext-111
+                                        cl8 plh3
+                                        size-111
+                                        p-lr-15" type="text" name="address"
+                                        placeholder="House/building address" />
+                                </div>
+                                <div class="bor8 bg0
+                                    m-b-12">
+                                    <input class="stext-111
+                                        cl8 plh3
+                                        size-111
+                                        p-lr-15" type="text" name="town"
+                                        placeholder="town" />
+                                </div>
+                                <div class="bor8 bg0
+                                    m-b-12">
+                                    <input class="stext-111
+                                        cl8 plh3
+                                        size-111
+                                        p-lr-15" type="text" name="district"
+                                        placeholder="District" />
+                                </div>
+                                <div class="bor8 bg0
+                                    m-b-22">
+                                    <input class="stext-111
+                                        cl8 plh3
+                                        size-111
+                                        p-lr-15" type="text" name="postcode"
+                                        placeholder="Postcode / Zip" />
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="p-r-18 p-t-30 p-r-0-sm w-full-ssm mt-3">
+                            <div class="p-3 w-100" style="background-color:
+                                #717fe0;">
+                                <span class="stext-110 cl2 text-light">
+                                    Payment options:
+                                </span>
+                            </div>
+
+
+                            <div class="p-t-15 ml-4">
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio"
+                                        name="paymentMethod" id="onlinePayment"
+                                        value="onlinePayment" checked>
+                                    <label class="form-check-label" for="cod">
+                                        Online payment
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio"
+                                        name="paymentMethod" id="cod"
+                                        value="cod">
+                                    <label class="form-check-label" for="cod">
+                                        Cash on delivery
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="size-209 p-r-8 p-r-0-sm mt-5">
+                            <div class="flex-w">
+                                <button type="{{#if
+                                    session.userLogin}}submit{{/if}}"
+                                    onclick="{{#unless
+                                    session.userLogin}}event.preventDefault(){{/unless}}"
+                                    data-toggle="{{#unless
+                                    session.userLogin}}modal{{/unless}}"
+                                    data-target="{{#unless
+                                    session.userLogin}}#authModal{{/unless}}"
+                                    class="flex-c-m
+                                    stext-101
+                                    text-light
+                                    size-115
+                                    bg1 bor13
+                                    hov-btn3
+                                    p-lr-15
+                                    trans-04
+                                    pointer">
+                                    Place order
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h5 class="card-title text-dark font-weight-bold">Price
+                        details</h5>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+
+                        <h6 class="card-subtitle mb-2 mt-4 text-muted
+                            font-weight-bold">Price ({{productsCount}} items)
+                        </h6>
+                        <h6 class="card-subtitle mb-2 mt-4 text-muted
+                            font-weight-bold">Rs.{{totalPrice.totalPrice}}
+                        </h6>
+                    </div>
+                    <div class="d-flex justify-content-between">
+
+                        <h6 class="card-subtitle mb-2 mt-4 text-muted
+                            font-weight-bold">Discount</h6>
+                        <h6 class="card-subtitle mb-2 mt-4 text-muted
+                            font-weight-bold">Rs.0</h6>
+                    </div>
+                    <hr class="mb-0">
+                    <div class="d-flex justify-content-between">
+
+                        <h6 class="text-dark mb-2 mt-4 font-weight-bold">Total
+                            payable</h6>
+                        <h6 class="text-dark mb-2 mt-4 font-weight-bold">Rs.2034</h6>
+                    </div>
+                    <p class="text-success mt-3 font-weight-bold">Your total
+                        savings on this order Rs.1000</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+<script src='https://code.jquery.com/jquery-3.1.1.js'></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>;
+<script
+    src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<script
+    src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
+<script src="/users/local_js/validate.js"></script>
+<script src="/users/local_js/script.js"></script>
