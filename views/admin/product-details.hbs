@@ -37,7 +37,8 @@
                                 </div>
                                 <div class='col-12 col-md-9'><input type='text' id='product-name-input'
                                         name='productName' placeholder='Enter product name' class='form-control'
-                                        value="{{product.product_name}}" onkeypress="return allowAlphanuemricOnly(event)" />
+                                        value="{{product.product_name}}"
+                                        onkeypress="return allowAlphanuemricOnly(event)" />
                                 </div>
                             </div>
                             <div class='row form-group'>
@@ -45,7 +46,8 @@
                                         name</label>
                                 </div>
                                 <div class='col-12 col-md-9'><input type='text' id='brand-name-input' name='brandName'
-                                        placeholder='Enter brand name' class='form-control' value="{{product.brand}}" onkeypress="return allowAlphanuemricOnly(event)"/>
+                                        placeholder='Enter brand name' class='form-control' value="{{product.brand}}"
+                                        onkeypress="return allowAlphanuemricOnly(event)" />
                                 </div>
                             </div>
                             <div class='row form-group'>
@@ -85,6 +87,17 @@
                                         class='form-control-label'>Price</label></div>
                                 <div class='col-12 col-md-9'><input type='number' id='price-input' name='price'
                                         placeholder='Enter price' value="{{product.price}}" class='form-control' />
+                                </div>
+                            </div>
+
+                            <div class='row form-group'>
+                                <div class='col col-md-3'><label for='offer-percentage' class='form-control-label'>Offer
+                                        percentage (%)</label></div>
+                                <div class='col-12 col-md-9'><input type='number' id='offer-percentage'
+                                        name='offerPercentage'
+                                        value="{{#if product.offerPercentage}}{{product.offerPercentage}}{{else}}0{{/if}}"
+                                        placeholder='Enter offer percentage (optional)' class='form-control'
+                                        onkeypress="return onlyTwoNumbers(this)" />
                                 </div>
                             </div>
 
@@ -401,22 +414,4 @@
         }
     });
 
-</script>
-<script>
-
-    $(function () {
-        $(document).on("change", ".uploadFile", function () {
-            let uploadFile = $(this); var files = !!this.files ? this.files : []; if
-                (!files.length || !window.FileReader) return; // no file selected, or noFileReader support 
-            if (/^image/.test(files[0].type)) { // only image file
-                var reader = new FileReader(); // instance of the FileReader
-                reader.readAsDataURL(files[0]); // read the local file 
-                reader.onloadend = function () { // set image data as background of div
-                    //alert(uploadFile.closest(".upimage").find('.imagePreview').length);
-                    uploadFile.closest(".imgUp").find('.imagePreview').css("background-image",
-                        "url(" + this.result + ")");
-                }
-            }
-        });
-    });
 </script>

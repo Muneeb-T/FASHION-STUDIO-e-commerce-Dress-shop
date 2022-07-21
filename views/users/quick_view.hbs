@@ -33,9 +33,27 @@
                                    {{product.product_name}}
                             </h4>
 
-                            <span class="mtext-106 cl2">
-                                   Rs.{{product.price}}
-                            </span>
+
+
+                            <div class="d-flex">
+                                   <span class="mtext-106 {{#if product.offerPrice}} text-danger {{/if}} mr-3">
+                                          {{#if product.offerPrice}}
+                                          <del>Rs.{{product.price}}</del>
+                                          {{else}}
+                                          Rs.{{product.price}}
+                                          {{/if}}
+
+                                   </span>
+
+                                   {{#if product.offerPrice}}
+                                   <span class="mtext-106 cl2">
+
+                                          Rs.{{product.offerPrice}}
+
+                                   </span>
+                                   {{/if}}
+                            </div>
+
 
                             <p class="stext-102 cl3 p-t-23">
                                    {{product.description}}
@@ -79,9 +97,7 @@
                                                  </div>
                                                  <div class="d-flex justify-content-between">
 
-                                                        <button type="submit"
-                                                               form="add-to-bag-form"
-                                        
+                                                        <button type="submit" form="add-to-bag-form"
                                                                class="flex-w align-items-center justify-content-center stext-101 mb-3 cl0 size-101 bg1 bor1 hov-btn1 trans-04 js-addcart-detail">
                                                                <i class="material-icons mr-2">
                                                                       shopping_bag
@@ -90,8 +106,7 @@
                                                         </button>
 
 
-                                                        <button 
-                                                               class="flex-w align-items-center ml-4 justify-content-center stext-101 cl0 size-101 bg-danger bor1 hov-btn1  trans-04 js-addcart-detail wishlist-button"
+                                                        <button class="flex-w align-items-center ml-4 justify-content-center stext-101 cl0 size-101 bg-danger bor1 hov-btn1  trans-04 js-addcart-detail wishlist-button"
                                                                onclick="addToWishlist('{{product._id}}','quickView')">
 
                                                                {{#if
@@ -108,6 +123,9 @@
 
 
                                                  </div>
+                                                 <div>
+                                                        <p id="addToCartError" class="text-danger"></p>
+                                                 </div>
 
                                           </div>
                                    </div>
@@ -116,6 +134,141 @@
 
                      </div>
               </div>
+
+
+              <form id="ratingForm">
+                     <div class="container mt-2">
+                            <div class="row">
+                                   <div class="col-12 col-md-6 mb-3">
+                                          <h4 class="mr-4">
+                                                 Customer reviews & ratings
+                                          </h4>
+                                   </div>
+
+
+                            </div>
+                            <hr>
+
+                            <div class="wrapper">
+                                   <div class="master">
+
+                                          <h2>How was your experience about our product?</h2>
+
+                                          <div class="rating-component">
+                                                 <div class="status-msg">
+                                                        <label>
+                                                               <input class="rating_msg" type="hidden" name="rating_msg"
+                                                                      value="" />
+                                                        </label>
+                                                 </div>
+                                                 <div class="stars-box">
+                                                        <i class="star fa fa-star" title="1 star" data-message="Poor"
+                                                               data-value="1"></i>
+                                                        <i class="star fa fa-star" title="2 stars"
+                                                               data-message="Too bad" data-value="2"></i>
+                                                        <i class="star fa fa-star" title="3 stars"
+                                                               data-message="Average quality" data-value="3"></i>
+                                                        <i class="star fa fa-star" title="4 stars" data-message="Nice"
+                                                               data-value="4"></i>
+                                                        <i class="star fa fa-star" title="5 stars"
+                                                               data-message="very good qality" data-value="5"></i>
+                                                 </div>
+                                                 <div class="starrate">
+                                                        <label>
+                                                               <input class="ratevalue" type="hidden" name="rate_value"
+                                                                      form="ratingForm" value="" />
+                                                        </label>
+                                                 </div>
+                                          </div>
+
+                                          <div class="feedback-tags">
+                                                 <div class="tags-container" data-tag-set="1">
+                                                        <div class="question-tag">
+                                                               Why was your experience so bad?
+                                                        </div>
+                                                 </div>
+                                                 <div class="tags-container" data-tag-set="2">
+                                                        <div class="question-tag">
+                                                               Why was your experience so bad?
+                                                        </div>
+
+                                                 </div>
+
+                                                 <div class="tags-container" data-tag-set="3">
+                                                        <div class="question-tag">
+                                                               Why was your average rating experience ?
+                                                        </div>
+                                                 </div>
+                                                 <div class="tags-container" data-tag-set="4">
+                                                        <div class="question-tag">
+                                                               Why was your experience good?
+                                                        </div>
+                                                 </div>
+
+                                                 <div class="tags-container" data-tag-set="5">
+                                                        <div class="make-compliment">
+                                                               <div class="compliment-container">
+                                                                      Give a compliment
+                                                                      <i class="far fa-smile-wink"></i>
+                                                               </div>
+                                                        </div>
+                                                 </div>
+
+                                                 <div class="tags-box">
+                                                        <input type="text" class="tag form-control" name="comment"
+                                                               id="inlineFormInputName"
+                                                               placeholder="please enter your review" form="ratingForm">
+                                                        <input type="hidden" form="ratingForm" name="product_id"
+                                                               value="{{product._id}}" form="ratingForm" />
+                                                 </div>
+
+                                          </div>
+
+                                          <div class="button-box">
+                                                 <input type="button" class=" done btn btn-warning" disabled="disabled"
+                                                        value="Add review" />
+                                          </div>
+
+                                          <div class="submited-box">
+                                                 <div class="loader"></div>
+                                                 <div class="success-message">
+                                                        Thank you!
+                                                 </div>
+                                          </div>
+                                   </div>
+
+                            </div>
+                            <div class="row">
+
+                                   <div class="col-md-4">
+                                          <div class="card p-5 h-100"> <i class="fa fa-quote-left u-color"></i>
+                                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                                        eiusmod
+                                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                                                        minim
+                                                        veniam, quis nostrud exercitation ullamco</p>
+                                                 <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="user-about"> <span
+                                                                      class="font-weight-bold d-block">Alex
+                                                                      Smith</span>
+                                                               <div class="d-flex flex-row mt-1"> <i
+                                                                             class="fa fa-star u-color"></i> <i
+                                                                             class="fa fa-star u-color"></i> <i
+                                                                             class="fa fa-star-o u-color"></i> <i
+                                                                             class="fa fa-star-o u-color"></i> <i
+                                                                             class="fa fa-star-o u-color"></i> </div>
+                                                        </div>
+                                                        <div class="user-image"> <img
+                                                                      src="https://i.imgur.com/UUW3zLx.jpg"
+                                                                      class="rounded-circle" width="70"> </div>
+                                                 </div>
+                                          </div>
+                                   </div>
+
+                            </div>
+                     </div>
+
+              </form>
        </div>
 
 
@@ -126,9 +279,533 @@
 </form>
 
 
+<style>
+       @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+       * {
+              -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+       }
+
+       body {
+              color: #545454;
+              font-family: "Open Sans", sans-serif;
+       }
+
+       .wrapper {
+              margin: 0 auto;
+              max-width: 960px;
+              width: 100%;
+       }
+
+       .master {
+              display: -webkit-box;
+              display: -ms-flexbox;
+              display: flex;
+              -webkit-box-orient: vertical;
+              -webkit-box-direction: normal;
+              -ms-flex-direction: column;
+              flex-direction: column;
+              -webkit-box-pack: start;
+              -ms-flex-pack: start;
+              justify-content: flex-start;
+              -webkit-box-align: center;
+              -ms-flex-align: center;
+              align-items: center;
+              padding-top: 40px;
+       }
+
+       h1 {
+              font-size: 20px;
+              margin-bottom: 20px;
+       }
+
+       h2 {
+              line-height: 160%;
+              margin-bottom: 20px;
+              text-align: center;
+       }
+
+       .rating-component {
+              display: -webkit-box;
+              display: -ms-flexbox;
+              display: flex;
+              -webkit-box-orient: vertical;
+              -webkit-box-direction: normal;
+              -ms-flex-direction: column;
+              flex-direction: column;
+              -webkit-box-pack: center;
+              -ms-flex-pack: center;
+              justify-content: center;
+              margin-bottom: 10px;
+       }
+
+       .rating-component .status-msg {
+              margin-bottom: 10px;
+              text-align: center;
+       }
+
+       .rating-component .status-msg strong {
+              display: block;
+              font-weight: bold;
+              margin-bottom: 10px;
+       }
+
+       .rating-component .stars-box {
+              -ms-flex-item-align: center;
+              align-self: center;
+              margin-bottom: 15px;
+       }
+
+       .rating-component .stars-box .star {
+              color: #ccc;
+              cursor: pointer;
+       }
+
+       .rating-component .stars-box .star.hover {
+              color: #ff5a49;
+       }
+
+       .rating-component .stars-box .star.selected {
+              color: #ff5a49;
+       }
+
+       .feedback-tags {
+              min-height: 119px;
+       }
+
+       .feedback-tags .tags-container {
+              display: none;
+       }
+
+       .feedback-tags .tags-container .question-tag {
+              text-align: center;
+              margin-bottom: 40px;
+       }
+
+       .feedback-tags .tags-box {
+              display: -webkit-box;
+              display: -ms-flexbox;
+              text-align: center;
+              display: flex;
+              -webkit-box-pack: center;
+              -ms-flex-pack: center;
+              justify-content: center;
+              -webkit-box-orient: horizontal;
+              -webkit-box-direction: normal;
+              -ms-flex-direction: row;
+              flex-direction: row;
+              -ms-flex-wrap: wrap;
+              flex-wrap: wrap;
+       }
+
+       .feedback-tags .tags-container .make-compliment {
+              padding-bottom: 20px;
+       }
+
+       .feedback-tags .tags-container .make-compliment .compliment-container {
+              -webkit-box-align: center;
+              -ms-flex-align: center;
+              align-items: center;
+              color: #000;
+              display: -webkit-box;
+              display: -ms-flexbox;
+              display: flex;
+              -webkit-box-orient: vertical;
+              -webkit-box-direction: normal;
+              -ms-flex-direction: column;
+              flex-direction: column;
+              -webkit-box-pack: center;
+              -ms-flex-pack: center;
+              justify-content: center;
+       }
+
+       .feedback-tags .tags-container .make-compliment .compliment-container .fa-smile-wink {
+              color: #ff5a49;
+              cursor: pointer;
+              font-size: 40px;
+              margin-top: 15px;
+              -webkit-animation-name: compliment;
+              animation-name: compliment;
+              -webkit-animation-duration: 2s;
+              animation-duration: 2s;
+              -webkit-animation-iteration-count: 1;
+              animation-iteration-count: 1;
+       }
+
+       .feedback-tags .tags-container .make-compliment .compliment-container .list-of-compliment {
+              display: none;
+              margin-top: 15px;
+       }
+
+       .feedback-tags .tag {
+              border: 1px solid #ff5a49;
+              border-radius: 5px;
+              color: #ff5a49;
+              cursor: pointer;
+              margin-bottom: 10px;
+              margin-left: 10px;
+              padding: 10px;
+       }
+
+       .feedback-tags .tag.choosed {
+              background-color: #ff5a49;
+              color: #fff;
+       }
+
+       .list-of-compliment ul {
+              display: -webkit-box;
+              display: -ms-flexbox;
+              display: flex;
+              -webkit-box-orient: horizontal;
+              -webkit-box-direction: normal;
+              -ms-flex-direction: row;
+              flex-direction: row;
+              -ms-flex-wrap: wrap;
+              flex-wrap: wrap;
+              -webkit-box-pack: center;
+              -ms-flex-pack: center;
+              justify-content: center;
+       }
+
+       .list-of-compliment ul li {
+              -webkit-box-align: center;
+              -ms-flex-align: center;
+              align-items: center;
+              cursor: pointer;
+              display: -webkit-box;
+              display: -ms-flexbox;
+              display: flex;
+              -webkit-box-orient: vertical;
+              -webkit-box-direction: normal;
+              -ms-flex-direction: column;
+              flex-direction: column;
+              -webkit-box-pack: center;
+              -ms-flex-pack: center;
+              justify-content: center;
+              margin-bottom: 10px;
+              margin-left: 20px;
+              min-width: 90px;
+       }
+
+       .list-of-compliment ul li:first-child {
+              margin-left: 0;
+       }
+
+       .list-of-compliment ul li .icon-compliment {
+              -webkit-box-align: center;
+              -ms-flex-align: center;
+              align-items: center;
+              border: 2px solid #ff5a49;
+              border-radius: 50%;
+              display: -webkit-box;
+              display: -ms-flexbox;
+              display: flex;
+              -webkit-box-orient: vertical;
+              -webkit-box-direction: normal;
+              -ms-flex-direction: column;
+              flex-direction: column;
+              -webkit-box-pack: center;
+              -ms-flex-pack: center;
+              justify-content: center;
+              height: 70px;
+              margin-bottom: 15px;
+              overflow: hidden;
+              padding: 0 10px;
+              -webkit-transition: 0.5s;
+              transition: 0.5s;
+              width: 70px;
+       }
+
+       .list-of-compliment ul li .icon-compliment i {
+              color: #ff5a49;
+              font-size: 30px;
+              -webkit-transition: 0.5s;
+              transition: 0.5s;
+       }
+
+       .list-of-compliment ul li.actived .icon-compliment {
+              background-color: #ff5a49;
+              -webkit-transition: 0.5s;
+              transition: 0.5s;
+       }
+
+       .list-of-compliment ul li.actived .icon-compliment i {
+              color: #fff;
+              -webkit-transition: 0.5s;
+              transition: 0.5s;
+       }
+
+       .button-box .done {
+              background-color: #ff5a49;
+              border: 1px solid #ff5a49;
+              border-radius: 3px;
+              color: #fff;
+              cursor: pointer;
+              display: none;
+              min-width: 100px;
+              padding: 10px;
+       }
+
+       .button-box .done:disabled,
+       .button-box .done[disabled] {
+              border: 1px solid #ff9b95;
+              background-color: #ff9b95;
+              color: #fff;
+              cursor: initial;
+       }
+
+       .submited-box {
+              display: none;
+              padding: 20px;
+       }
+
+       .submited-box .loader,
+       .submited-box .success-message {
+              display: none;
+       }
+
+       .submited-box .loader {
+              border: 5px solid transparent;
+              border-top: 5px solid #4dc7b7;
+              border-bottom: 5px solid #ff5a49;
+              border-radius: 50%;
+              width: 60px;
+              height: 60px;
+              -webkit-animation: spin 0.8s linear infinite;
+              animation: spin 0.8s linear infinite;
+       }
+
+       @-webkit-keyframes compliment {
+              1% {
+                     -webkit-transform: rotate(0deg);
+                     transform: rotate(0deg);
+              }
+
+              25% {
+                     -webkit-transform: rotate(-30deg);
+                     transform: rotate(-30deg);
+              }
+
+              50% {
+                     -webkit-transform: rotate(30deg);
+                     transform: rotate(30deg);
+              }
+
+              75% {
+                     -webkit-transform: rotate(-30deg);
+                     transform: rotate(-30deg);
+              }
+
+              100% {
+                     -webkit-transform: rotate(0deg);
+                     transform: rotate(0deg);
+              }
+       }
+
+       @keyframes compliment {
+              1% {
+                     -webkit-transform: rotate(0deg);
+                     transform: rotate(0deg);
+              }
+
+              25% {
+                     -webkit-transform: rotate(-30deg);
+                     transform: rotate(-30deg);
+              }
+
+              50% {
+                     -webkit-transform: rotate(30deg);
+                     transform: rotate(30deg);
+              }
+
+              75% {
+                     -webkit-transform: rotate(-30deg);
+                     transform: rotate(-30deg);
+              }
+
+              100% {
+                     -webkit-transform: rotate(0deg);
+                     transform: rotate(0deg);
+              }
+       }
+
+       @-webkit-keyframes spin {
+              0% {
+                     -webkit-transform: rotate(0deg);
+                     transform: rotate(0deg);
+              }
+
+              100% {
+                     -webkit-transform: rotate(360deg);
+                     transform: rotate(360deg);
+              }
+       }
+
+       @keyframes spin {
+              0% {
+                     -webkit-transform: rotate(0deg);
+                     transform: rotate(0deg);
+              }
+
+              100% {
+                     -webkit-transform: rotate(360deg);
+                     transform: rotate(360deg);
+              }
+       }
+</style>
+<script>
+       (function (e) { var t, o = { className: "autosizejs", append: "", callback: !1, resizeDelay: 10 }, i = '<textarea tabindex="-1" style="position:absolute; top:-999px; left:0; right:auto; bottom:auto; border:0; padding: 0; -moz-box-sizing:content-box; -webkit-box-sizing:content-box; box-sizing:content-box; word-wrap:break-word; height:0 !important; min-height:0 !important; overflow:hidden; transition:none; -webkit-transition:none; -moz-transition:none;"/>', n = ["fontFamily", "fontSize", "fontWeight", "fontStyle", "letterSpacing", "textTransform", "wordSpacing", "textIndent"], s = e(i).data("autosize", !0)[0]; s.style.lineHeight = "99px", "99px" === e(s).css("lineHeight") && n.push("lineHeight"), s.style.lineHeight = "", e.fn.autosize = function (i) { return this.length ? (i = e.extend({}, o, i || {}), s.parentNode !== document.body && e(document.body).append(s), this.each(function () { function o() { var t, o; "getComputedStyle" in window ? (t = window.getComputedStyle(u, null), o = u.getBoundingClientRect().width, e.each(["paddingLeft", "paddingRight", "borderLeftWidth", "borderRightWidth"], function (e, i) { o -= parseInt(t[i], 10) }), s.style.width = o + "px") : s.style.width = Math.max(p.width(), 0) + "px" } function a() { var a = {}; if (t = u, s.className = i.className, d = parseInt(p.css("maxHeight"), 10), e.each(n, function (e, t) { a[t] = p.css(t) }), e(s).css(a), o(), window.chrome) { var r = u.style.width; u.style.width = "0px", u.offsetWidth, u.style.width = r } } function r() { var e, n; t !== u ? a() : o(), s.value = u.value + i.append, s.style.overflowY = u.style.overflowY, n = parseInt(u.style.height, 10), s.scrollTop = 0, s.scrollTop = 9e4, e = s.scrollTop, d && e > d ? (u.style.overflowY = "scroll", e = d) : (u.style.overflowY = "hidden", c > e && (e = c)), e += w, n !== e && (u.style.height = e + "px", f && i.callback.call(u, u)) } function l() { clearTimeout(h), h = setTimeout(function () { var e = p.width(); e !== g && (g = e, r()) }, parseInt(i.resizeDelay, 10)) } var d, c, h, u = this, p = e(u), w = 0, f = e.isFunction(i.callback), z = { height: u.style.height, overflow: u.style.overflow, overflowY: u.style.overflowY, wordWrap: u.style.wordWrap, resize: u.style.resize }, g = p.width(); p.data("autosize") || (p.data("autosize", !0), ("border-box" === p.css("box-sizing") || "border-box" === p.css("-moz-box-sizing") || "border-box" === p.css("-webkit-box-sizing")) && (w = p.outerHeight() - p.height()), c = Math.max(parseInt(p.css("minHeight"), 10) - w || 0, p.height()), p.css({ overflow: "hidden", overflowY: "hidden", wordWrap: "break-word", resize: "none" === p.css("resize") || "vertical" === p.css("resize") ? "none" : "horizontal" }), "onpropertychange" in u ? "oninput" in u ? p.on("input.autosize keyup.autosize", r) : p.on("propertychange.autosize", function () { "value" === event.propertyName && r() }) : p.on("input.autosize", r), i.resizeDelay !== !1 && e(window).on("resize.autosize", l), p.on("autosize.resize", r), p.on("autosize.resizeIncludeStyle", function () { t = null, r() }), p.on("autosize.destroy", function () { t = null, clearTimeout(h), e(window).off("resize", l), p.off("autosize").off(".autosize").css(z).removeData("autosize") }), r()) })) : this } })(window.jQuery || window.$);
+
+       var __slice = [].slice; (function (e, t) { var n; n = function () { function t(t, n) { var r, i, s, o = this; this.options = e.extend({}, this.defaults, n); this.$el = t; s = this.defaults; for (r in s) { i = s[r]; if (this.$el.data(r) != null) { this.options[r] = this.$el.data(r) } } this.createStars(); this.syncRating(); this.$el.on("mouseover.starrr", "span", function (e) { return o.syncRating(o.$el.find("span").index(e.currentTarget) + 1) }); this.$el.on("mouseout.starrr", function () { return o.syncRating() }); this.$el.on("click.starrr", "span", function (e) { return o.setRating(o.$el.find("span").index(e.currentTarget) + 1) }); this.$el.on("starrr:change", this.options.change) } t.prototype.defaults = { rating: void 0, numStars: 5, change: function (e, t) { } }; t.prototype.createStars = function () { var e, t, n; n = []; for (e = 1, t = this.options.numStars; 1 <= t ? e <= t : e >= t; 1 <= t ? e++ : e--) { n.push(this.$el.append("<span class='glyphicon .glyphicon-star-empty'></span>")) } return n }; t.prototype.setRating = function (e) { if (this.options.rating === e) { e = void 0 } this.options.rating = e; this.syncRating(); return this.$el.trigger("starrr:change", e) }; t.prototype.syncRating = function (e) { var t, n, r, i; e || (e = this.options.rating); if (e) { for (t = n = 0, i = e - 1; 0 <= i ? n <= i : n >= i; t = 0 <= i ? ++n : --n) { this.$el.find("span").eq(t).removeClass("glyphicon-star-empty").addClass("glyphicon-star") } } if (e && e < 5) { for (t = r = e; e <= 4 ? r <= 4 : r >= 4; t = e <= 4 ? ++r : --r) { this.$el.find("span").eq(t).removeClass("glyphicon-star").addClass("glyphicon-star-empty") } } if (!e) { return this.$el.find("span").removeClass("glyphicon-star").addClass("glyphicon-star-empty") } }; return t }(); return e.fn.extend({ starrr: function () { var t, r; r = arguments[0], t = 2 <= arguments.length ? __slice.call(arguments, 1) : []; return this.each(function () { var i; i = e(this).data("star-rating"); if (!i) { e(this).data("star-rating", i = new n(e(this), r)) } if (typeof r === "string") { return i[r].apply(i, t) } }) } }) })(window.jQuery, window); $(function () { return $(".starrr").starrr() })
+
+       $(function () {
+
+              $('#new-review').autosize({ append: "\n" });
+
+              var reviewBox = $('#post-review-box');
+              var newReview = $('#new-review');
+              var openReviewBtn = $('#open-review-box');
+              var closeReviewBtn = $('#close-review-box');
+              var ratingsField = $('#ratings-hidden');
+
+              openReviewBtn.click(function (e) {
+                     reviewBox.slideDown(400, function () {
+                            $('#new-review').trigger('autosize.resize');
+                            newReview.focus();
+                     });
+                     openReviewBtn.fadeOut(100);
+                     closeReviewBtn.show();
+              });
+
+              closeReviewBtn.click(function (e) {
+                     e.preventDefault();
+                     reviewBox.slideUp(300, function () {
+                            newReview.focus();
+                            openReviewBtn.fadeIn(200);
+                     });
+                     closeReviewBtn.hide();
+
+              });
+
+              $('.starrr').on('starrr:change', function (e, value) {
+                     ratingsField.val(value);
+              });
+       });       
+</script>
+
 
 <script src='https://code.jquery.com/jquery-3.1.1.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
 <script src="/users/local_js/validate.js"></script>
 <script src="/users/local_js/script.js"></script>
+
+
+<script>
+       $(".rating-component .star").on("mouseover", function () {
+              var onStar = parseInt($(this).data("value"), 10); //
+              $(this).parent().children("i.star").each(function (e) {
+                     if (e < onStar) {
+                            $(this).addClass("hover");
+                     } else {
+                            $(this).removeClass("hover");
+                     }
+              });
+       }).on("mouseout", function () {
+              $(this).parent().children("i.star").each(function (e) {
+                     $(this).removeClass("hover");
+              });
+       });
+
+       $(".rating-component .stars-box .star").on("click", function () {
+              var onStar = parseInt($(this).data("value"), 10);
+              var stars = $(this).parent().children("i.star");
+              var ratingMessage = $(this).data("message");
+
+              var msg = "";
+              if (onStar > 1) {
+                     msg = onStar;
+              } else {
+                     msg = onStar;
+              }
+              $('.rating-component .starrate .ratevalue').val(msg);
+
+
+
+              $(".fa-smile-wink").show();
+
+              $(".button-box .done").show();
+
+              if (onStar === 5) {
+                     $(".button-box .done").removeAttr("disabled");
+              } else {
+                     $(".button-box .done").attr("disabled", "true");
+              }
+
+              for (i = 0; i < stars.length; i++) {
+                     $(stars[i]).removeClass("selected");
+              }
+
+              for (i = 0; i < onStar; i++) {
+                     $(stars[i]).addClass("selected");
+              }
+
+              $(".status-msg .rating_msg").val(ratingMessage);
+              $(".status-msg").html(ratingMessage);
+              $("[data-tag-set]").hide();
+              $("[data-tag-set=" + onStar + "]").show();
+       });
+
+       $(".feedback-tags  ").on("click", function () {
+              var choosedTagsLength = $(this).parent("div.tags-box").find("input").length;
+              choosedTagsLength = choosedTagsLength + 1;
+
+              if ($(this).hasClass("choosed")) {
+                     $(this).removeClass("choosed");
+                     choosedTagsLength = choosedTagsLength - 2;
+              } else {
+                     $(this).addClass("choosed");
+                     $(".button-box .done").removeAttr("disabled");
+              }
+
+              console.log(choosedTagsLength);
+
+              if (choosedTagsLength <= 0) {
+                     $(".button-box .done").attr("enabled", "false");
+              }
+       });
+
+
+
+       $(".compliment-container .fa-smile-wink").on("click", function () {
+              $(this).fadeOut("slow", function () {
+                     $(".list-of-compliment").fadeIn();
+              });
+       });
+
+
+
+       $(".done").on("click", function () {
+              $(".rating-component").hide();
+              $(".feedback-tags").hide();
+              $(".button-box").hide();
+              $(".submited-box").show();
+              $(".submited-box .loader").show();
+
+              $.ajax({
+                     url: '/reviewProduct',
+                     type: "post",
+                     data: $("#ratingForm").serialize(),
+                     success: () => {
+                            $(".submited-box .loader").hide();
+                            $(".submited-box .success-message").show();
+                     }
+              })
+
+
+
+
+       });
+
+</script>

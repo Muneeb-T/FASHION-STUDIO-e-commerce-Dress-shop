@@ -1,235 +1,194 @@
-
 <div class="container mb-4 p-t-100">
        <div class="main-body">
               <div class="row gutters-sm">
                      <div class="col-md-4 mb-3">
                             <div class="card">
-                                   <div class="card-body">
-                                          <div
-                                                 class="d-flex flex-column align-items-center text-center"
-                                          >
-                                                 <img
-                                                        src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                                                        alt="Admin"
-                                                        class="rounded-circle"
-                                                        width="150"
-                                                 />
+                                   <div class="card-body p-5">
+                                          <div class="d-flex flex-column align-items-center">
+                                                 <div class="profile-pic-wrapper">
+
+                                                        <form id="updateProfilePictureForm" method="post"
+                                                               enctype="multipart/form-data">
+                                                               <div class="pic-holder mx-auto">
+                                                                      <!-- uploaded pic shown here -->
+                                                                      <img id="profilePic" class="pic"
+                                                                             src="{{#if userDetails.profilePicture}} /admin/product-images/{{userDetails.profilePicture}} {{else}}/users/images/icons/profile_picture_placeholder.png{{/if}}">
+
+                                                                      <Input class="uploadProfileInput" type="file"
+                                                                             name="profile_pic" id="newProfilePhoto"
+                                                                             accept="image/*" style="opacity: 0;" />
+                                                                      <label for="newProfilePhoto"
+                                                                             class="upload-file-block">
+                                                                             <div class="text-center">
+                                                                                    <div class="mb-2">
+                                                                                           <i
+                                                                                                  class="fa fa-camera fa-2x"></i>
+                                                                                    </div>
+                                                                                    <div class="text-uppercase">
+                                                                                           Update
+                                                                                    </div>
+                                                                             </div>
+                                                                      </label>
+                                                               </div>
+
+
+
+
+                                                               <button id="updateButton" type="button"
+                                                                      class="btn btn-sm stext-70 font-weight-bold cl0 bg1 bor1 hov-btn1 p-lr-15 trans-04"
+                                                                      onclick="event.preventDefault(); updateProfilePicture();"
+                                                                      hidden>Update</button>
+                                                               <button id="cancelButton" type="button"
+                                                                      class="btn btn-sm stext-70 font-weight-bold cl0 btn-danger bor1 hov-btn1 p-lr-15 trans-04"
+                                                                      onclick="event.preventDefault(); cancelUpdateProfilePicture();"
+                                                                      hidden>Cancel</button>
+                                                        </form>
+                                                        </hr>
+
+                                                 </div>
                                                  <div class="mt-3">
-                                                        <h4>John Doe</h4>
+
+                                                        <h4 class="font-weight-bold" id="profileUsername">
+                                                               {{userDetails.username}}</h4>
                                                  </div>
                                           </div>
                                    </div>
                             </div>
                             <div class="card mt-3">
-                                   <ul class="list-group list-group-flush">
+                                   <ul class="list-group list-group-flush font-weight-bold ">
                                           <li
-                                                 class="list-group-item d-flex justify-content-between align-items-center flex-wrap"
-                                          >
-                                                 <h6 class="mb-0"><svg
-                                                               xmlns="http://www.w3.org/2000/svg"
-                                                               width="24"
-                                                               height="24"
-                                                               viewBox="0 0 24 24"
-                                                               fill="none"
-                                                               stroke="currentColor"
-                                                               stroke-width="2"
-                                                               stroke-linecap="round"
-                                                               stroke-linejoin="round"
-                                                               class="feather feather-globe mr-2 icon-inline"
-                                                        ><circle
-                                                                      cx="12"
-                                                                      cy="12"
-                                                                      r="10"
-                                                               ></circle><line
-                                                                      x1="2"
-                                                                      y1="12"
-                                                                      x2="22"
-                                                                      y2="12"
-                                                               ></line><path
-                                                                      d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
-                                                               ></path></svg>Website</h6>
-                                                 <span
-                                                        class="text-secondary"
-                                                 >https://bootdey.com</span>
+                                                 class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                                                 <a href="/orders" class="mb-0 d-flex align-items-center"><span
+                                                               class="material-icons mr-3">
+                                                               playlist_add_check
+                                                        </span>My Orders</a>
+
                                           </li>
                                           <li
-                                                 class="list-group-item d-flex justify-content-between align-items-center flex-wrap"
-                                          >
-                                                 <h6 class="mb-0"><svg
-                                                               xmlns="http://www.w3.org/2000/svg"
-                                                               width="24"
-                                                               height="24"
-                                                               viewBox="0 0 24 24"
-                                                               fill="none"
-                                                               stroke="currentColor"
-                                                               stroke-width="2"
-                                                               stroke-linecap="round"
-                                                               stroke-linejoin="round"
-                                                               class="feather feather-github mr-2 icon-inline"
-                                                        ><path
-                                                                      d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
-                                                               ></path></svg>Github</h6>
-                                                 <span
-                                                        class="text-secondary"
-                                                 >bootdey</span>
+                                                 class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                                                 <a href="/wishlist" class="mb-0 d-flex align-items-center"><span
+                                                               class="material-icons mr-3">
+                                                               favorite
+                                                        </span>My Wishlist</a>
                                           </li>
                                           <li
-                                                 class="list-group-item d-flex justify-content-between align-items-center flex-wrap"
-                                          >
-                                                 <h6 class="mb-0"><svg
-                                                               xmlns="http://www.w3.org/2000/svg"
-                                                               width="24"
-                                                               height="24"
-                                                               viewBox="0 0 24 24"
-                                                               fill="none"
-                                                               stroke="currentColor"
-                                                               stroke-width="2"
-                                                               stroke-linecap="round"
-                                                               stroke-linejoin="round"
-                                                               class="feather feather-twitter mr-2 icon-inline text-info"
-                                                        ><path
-                                                                      d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"
-                                                               ></path></svg>Twitter</h6>
-                                                 <span
-                                                        class="text-secondary"
-                                                 >@bootdey</span>
+                                                 class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                                                 <a href="/address" class="mb-0 d-flex align-items-center"><span
+                                                               class="material-icons mr-3">
+                                                               contact_mail
+                                                        </span>Address</a>
                                           </li>
                                           <li
-                                                 class="list-group-item d-flex justify-content-between align-items-center flex-wrap"
-                                          >
-                                                 <h6 class="mb-0"><svg
-                                                               xmlns="http://www.w3.org/2000/svg"
-                                                               width="24"
-                                                               height="24"
-                                                               viewBox="0 0 24 24"
-                                                               fill="none"
-                                                               stroke="currentColor"
-                                                               stroke-width="2"
-                                                               stroke-linecap="round"
-                                                               stroke-linejoin="round"
-                                                               class="feather feather-instagram mr-2 icon-inline text-danger"
-                                                        ><rect
-                                                                      x="2"
-                                                                      y="2"
-                                                                      width="20"
-                                                                      height="20"
-                                                                      rx="5"
-                                                                      ry="5"
-                                                               ></rect><path
-                                                                      d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"
-                                                               ></path><line
-                                                                      x1="17.5"
-                                                                      y1="6.5"
-                                                                      x2="17.51"
-                                                                      y2="6.5"
-                                                               ></line></svg>Instagram</h6>
-                                                 <span
-                                                        class="text-secondary"
-                                                 >bootdey</span>
+                                                 class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                                                 <a href="/logout" class="mb-0 d-flex align-items-center"><span
+                                                               class="material-icons  mr-3">
+                                                               logout
+                                                        </span>Logout</a>
                                           </li>
-                                          <li
-                                                 class="list-group-item d-flex justify-content-between align-items-center flex-wrap"
-                                          >
-                                                 <h6 class="mb-0"><svg
-                                                               xmlns="http://www.w3.org/2000/svg"
-                                                               width="24"
-                                                               height="24"
-                                                               viewBox="0 0 24 24"
-                                                               fill="none"
-                                                               stroke="currentColor"
-                                                               stroke-width="2"
-                                                               stroke-linecap="round"
-                                                               stroke-linejoin="round"
-                                                               class="feather feather-facebook mr-2 icon-inline text-primary"
-                                                        ><path
-                                                                      d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
-                                                               ></path></svg>Facebook</h6>
-                                                 <span
-                                                        class="text-secondary"
-                                                 >bootdey</span>
-                                          </li>
+                                          <li </li>
                                    </ul>
                             </div>
                      </div>
                      <div class="col-md-8">
                             <div class="card mb-3">
                                    <div class="card-body">
-                                          <div class="row">
-                                                 <div class="col-sm-3">
-                                                        <h6 class="mb-0">Full
-                                                               Name</h6>
+                                          <div class="row d-flex align-items-center">
+                                                 <div class="col-4 ">
+                                                        <h6 class="mb-0"><i class="fa fa-user mr-3"
+                                                                      aria-hidden="true"></i>Username</h6>
                                                  </div>
-                                                 <div
-                                                        class="col-sm-9 text-secondary"
-                                                 >
-                                                        Kenneth Valdez
+                                                 <div class="col-6 text-secondary">
+                                                        <form id="updateUsernameForm">
+                                                               <input type="text" id="updateUsername" name="username"
+                                                                      class="form-control"
+                                                                      value="{{userDetails.username}}" disabled>
+                                                        </form>
+
                                                  </div>
-                                          </div>
-                                          <hr />
-                                          <div class="row">
-                                                 <div class="col-sm-3">
-                                                        <h6
-                                                               class="mb-0"
-                                                        >Email</h6>
-                                                 </div>
-                                                 <div
-                                                        class="col-sm-9 text-secondary"
-                                                 >
-                                                        fip@jukmuh.al
-                                                 </div>
-                                          </div>
-                                          <hr />
-                                          <div class="row">
-                                                 <div class="col-sm-3">
-                                                        <h6
-                                                               class="mb-0"
-                                                        >Phone</h6>
-                                                 </div>
-                                                 <div
-                                                        class="col-sm-9 text-secondary"
-                                                 >
-                                                        (239) 816-9029
+                                                 <div class="col-2">
+                                                        <button id="updateUsernameEditButton"
+                                                               onclick="event.preventDefault(); updateUsername();"><i
+                                                                      class="fa fa-pencil-square-o font-weight-bold text-primary"
+                                                                      aria-hidden="true"></i></button>
+                                                        <button id="saveUsernameEditButton" hidden><i
+                                                                      class="fa fa-save font-weight-bold text-success"
+                                                                      aria-hidden="true"></i></button>
+                                                        <button class="cancelProfileUpdate"
+                                                               onclick="cancelUpdate('Username')" hidden><i
+                                                                      class="fa fa-close ml-2 font-weight-bold text-danger"
+                                                                      aria-hidden="true"></i></button>
+
                                                  </div>
                                           </div>
                                           <hr />
-                                          <div class="row">
-                                                 <div class="col-sm-3">
-                                                        <h6
-                                                               class="mb-0"
-                                                        >Mobile</h6>
+                                          <div class="row d-flex align-items-center">
+                                                 <div class="col-4">
+                                                        <h6 class="mb-0"><i class="fa fa-envelope mr-3"
+                                                                      aria-hidden="true"></i>Email</h6>
                                                  </div>
-                                                 <div
-                                                        class="col-sm-9 text-secondary"
-                                                 >
-                                                        (320) 380-4539
+                                                 <div class="col-6 text-secondary">
+                                                        <form id="updateEmailForm">
+                                                               <input type="text" id="updateEmail" name="email"
+                                                                      class="form-control" value="{{userDetails.email}}"
+                                                                      disabled>
+                                                        </form>
+                                                        <p class="text-danger" id="updateEmailError"></p>
+
+                                                 </div>
+                                                 <div class="col-2">
+                                                        <button id="updateEmailEditButton"
+                                                               onclick="event.preventDefault(); updateEmail();"><i
+                                                                      class="fa fa-pencil-square-o font-weight-bold text-primary"
+                                                                      aria-hidden="true"></i></button>
+                                                        <button id="saveEmailEditButton" hidden><i
+                                                                      class="fa fa-save font-weight-bold text-success"
+                                                                      aria-hidden="true"></i></button>
+                                                        <button class="cancelProfileUpdate"
+                                                               onclick="cancelUpdate('Email')" hidden><i
+                                                                      class="fa fa-close ml-2 font-weight-bold text-danger"
+                                                                      aria-hidden="true"></i></button>
                                                  </div>
                                           </div>
                                           <hr />
-                                          <div class="row">
-                                                 <div class="col-sm-3">
-                                                        <h6
-                                                               class="mb-0"
-                                                        >Address</h6>
+                                          <div class="row d-flex align-items-center">
+                                                 <div class="col-4">
+                                                        <h6 class="mb-0"><i class="fa fa-phone mr-3"
+                                                                      aria-hidden="true"></i>Phone number</h6>
                                                  </div>
-                                                 <div
-                                                        class="col-sm-9 text-secondary"
-                                                 >
-                                                        Bay Area, San Francisco,
-                                                        CA
+                                                 <div class="col-6  text-secondary">
+                                                        <form id="updatePhonenumberForm">
+                                                               <input type="text" id="updatePhonenumber"
+                                                                      name="phone_number" class="form-control"
+                                                                      value="{{userDetails.phone_number}}" disabled>
+                                                        </form>
+                                                        <p class="text-danger" id="updatePhonenumberError"></p>
+
+                                                 </div>
+                                                 <div class="col-2">
+                                                        <button id="updatePhonenumberEditButton"
+                                                               onclick="event.preventDefault(); updatePhonenumber();"><i
+                                                                      class="fa fa-pencil-square-o font-weight-bold text-primary"
+                                                                      aria-hidden="true"></i></button>
+                                                        <button id="savePhonenumberEditButton" hidden><i
+                                                                      class="fa fa-save font-weight-bold text-success"
+                                                                      aria-hidden="true"></i></button>
+                                                        <button class="cancelProfileUpdate"
+                                                               onclick="cancelUpdate('Phonenumber')" hidden><i
+                                                                      class="fa fa-close ml-2 font-weight-bold text-danger"
+                                                                      aria-hidden="true"></i></button>
                                                  </div>
                                           </div>
-                                          <hr />
-                                          <div class="row">
-                                                 <div class="col-sm-12">
-                                                        <a
-                                                               class="btn btn-info"
-                                                               target="__blank"
-                                                               href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills"
-                                                        >Edit</a>
-                                                 </div>
+                                          <hr class="mb-0" />
+                                          <div class="text-center mt-0">
+                                                 <button class="btn font-weight-bold btn-danger mt-3"
+                                                        onclick="updatePassword()">Update
+                                                        password</button>
                                           </div>
+
                                    </div>
+
                             </div>
+
 
                      </div>
               </div>
@@ -243,3 +202,191 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
 <script src="/users/local_js/validate.js"></script>
 <script src="/users/local_js/script.js"></script>
+
+<style>
+       .profile-pic-wrapper {
+
+              width: 100%;
+              position: relative;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+       }
+
+       .pic-holder {
+              text-align: center;
+              position: relative;
+              border-radius: 50%;
+              width: 120px;
+              height: 120px;
+              overflow: hidden;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              margin-bottom: 20px;
+       }
+
+       .pic-holder .pic {
+              height: 100%;
+              width: 100%;
+              -o-object-fit: cover;
+              object-fit: cover;
+              -o-object-position: center;
+              object-position: center;
+       }
+
+       .pic-holder .upload-file-block,
+       .pic-holder .upload-loader {
+              position: absolute;
+              top: 0;
+              left: 0;
+              height: 100%;
+              width: 100%;
+              background-color: rgba(90, 92, 105, 0.7);
+              color: #f8f9fc;
+              font-size: 12px;
+              font-weight: 600;
+              opacity: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: all 0.2s;
+       }
+
+       .pic-holder .upload-file-block {
+              cursor: pointer;
+       }
+
+       .pic-holder:hover .upload-file-block,
+       .uploadProfileInput:focus~.upload-file-block {
+              opacity: 1;
+       }
+
+       .pic-holder.uploadInProgress .upload-file-block {
+              display: none;
+       }
+
+       .pic-holder.uploadInProgress .upload-loader {
+              opacity: 1;
+       }
+
+       /* Snackbar css */
+       .snackbar {
+              visibility: hidden;
+              min-width: 250px;
+              background-color: #333;
+              color: #fff;
+              text-align: center;
+              border-radius: 2px;
+              padding: 16px;
+              position: fixed;
+              z-index: 1;
+              left: 50%;
+              bottom: 30px;
+              font-size: 14px;
+              transform: translateX(-50%);
+       }
+
+       .snackbar.show {
+              visibility: visible;
+              -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+              animation: fadein 0.5s, fadeout 0.5s 2.5s;
+       }
+
+       @-webkit-keyframes fadein {
+              from {
+                     bottom: 0;
+                     opacity: 0;
+              }
+
+              to {
+                     bottom: 30px;
+                     opacity: 1;
+              }
+       }
+
+       @keyframes fadein {
+              from {
+                     bottom: 0;
+                     opacity: 0;
+              }
+
+              to {
+                     bottom: 30px;
+                     opacity: 1;
+              }
+       }
+
+       @-webkit-keyframes fadeout {
+              from {
+                     bottom: 30px;
+                     opacity: 1;
+              }
+
+              to {
+                     bottom: 0;
+                     opacity: 0;
+              }
+       }
+
+       @keyframes fadeout {
+              from {
+                     bottom: 30px;
+                     opacity: 1;
+              }
+
+              to {
+                     bottom: 0;
+                     opacity: 0;
+              }
+       }
+</style>
+
+
+
+<script>
+       $(document).on("change", ".uploadProfileInput", function () {
+              var triggerInput = this;
+              var currentImg = $(this).closest(".pic-holder").find(".pic").attr("src");
+              var holder = $(this).closest(".pic-holder");
+              var wrapper = $(this).closest(".profile-pic-wrapper");
+              $(wrapper).find('[role="alert"]').remove();
+              triggerInput.blur();
+              var files = !!this.files ? this.files : [];
+              if (!files.length || !window.FileReader) {
+                     return;
+              }
+              if (/^image/.test(files[0].type)) {
+                     // only image file
+                     var reader = new FileReader(); // instance of the FileReader
+                     reader.readAsDataURL(files[0]); // read the local file
+
+                     reader.onloadend = function () {
+                            $(holder).addClass("uploadInProgress");
+                            $(holder).find(".pic").attr("src", this.result);
+
+                            // Dummy timeout; call API or AJAX below
+
+                            $(holder).removeClass("uploadInProgress");
+                            $(holder).find(".upload-loader").remove();
+                            // If upload successful
+                            if (Math.random() < 0.9) {
+                                   $("#updateButton,#cancelButton").attr('hidden', false)
+                            } else {
+                                   $(holder).find(".pic").attr("src", currentImg);
+                            }
+
+                     };
+              } else {
+                     console.log("Error occured")
+              }
+       });
+
+       function cancelUpdateProfilePicture() {
+              $("#updateProfilePictureForm")[0].reset()
+              $("#updateButton,#cancelButton").attr('hidden', true)
+              $("#profilePic").attr('src', '{{#if userDetails.profilePicture}} /admin/product-images/{{userDetails.profilePicture}} {{else}}/users/images/icons/profile_picture_placeholder.png{{/if}}')
+       }
+
+</script>

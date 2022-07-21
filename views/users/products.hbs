@@ -8,13 +8,6 @@
                             <i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
                             Filter
                      </div>
-
-                     {{!-- {{! <div
-                            class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
-                            <i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
-                            <i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-                            Search
-                     </div> }} --}}
               </div>
 
               <!-- Search product -->
@@ -37,7 +30,7 @@
                      <div class="panel-filter w-full">
                             <form id="filterProductsForm">
                                    <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
-                                          <div class=" p-r-15 p-b-27">
+                                          <div class="p-r-15 p-b-27 col-12">
                                                  <div class="mtext-102 cl2 p-b-15">
                                                         Sort By
                                                  </div>
@@ -54,25 +47,6 @@
                                                                       onchange="saveFilterByPriceRadio(0);  submitFilterProductsForm(this.form);"
                                                                       class="dis-none">
                                                         </li>
-                                                        {{!--
-                                                        <li class="p-b-6">
-                                                               <a href="#" class="filter-link stext-106 trans-04">
-                                                                      Popularity
-                                                               </a>
-                                                        </li>
-
-                                                        <li class="p-b-6">
-                                                               <a href="#" class="filter-link stext-106 trans-04">
-                                                                      Average rating
-                                                               </a>
-                                                        </li>
-
-                                                        <li class="p-b-6">
-                                                               <a href="#"
-                                                                      class="filter-link stext-106 trans-04 filter-link-active">
-                                                                      Newness
-                                                               </a>
-                                                        </li> --}}
 
                                                         <li class="p-b-6">
                                                                <button onclick="changeFilterPriceValue(event,1)"
@@ -101,12 +75,10 @@
                                                  </ul>
                                           </div>
 
-                                          <div class=" p-r-15 p-b-27">
+                                          <div class=" p-r-15 p-b-27 col-12">
                                                  <div class="mtext-102 cl2 p-b-15 d-flex justify-content-between">
                                                         <a>Categories</a>
-                                                        {{!-- <button class="filter-link filter-link-active"
-                                                               onclick="uncheckFilterCheckboxes(); this.form.submit();">Clear</button>
-                                                        --}}
+
                                                  </div>
 
 
@@ -135,7 +107,7 @@
                                           </div>
 
 
-                                          <div class=" p-r-15 p-b-27">
+                                          <div class=" p-r-15 p-b-27 col-12">
                                                  <div class="mtext-102 cl2 p-b-15">
                                                         Price
                                                  </div>
@@ -216,107 +188,7 @@
                                                  </ul>
                                           </div>
 
-                                          {{!-- <div class="p-r-15 p-b-27">
-                                                 <div class="mtext-102 cl2 p-b-15">
-                                                        Color
-                                                 </div>
 
-                                                 <ul>
-                                                        <li class="p-b-6">
-                                                               <span class="fs-15 lh-12 m-r-6" style="color: #222;">
-                                                                      <i class="zmdi zmdi-circle"></i>
-                                                               </span>
-
-                                                               <a href="#" class="filter-link stext-106 trans-04">
-                                                                      Black
-                                                               </a>
-                                                        </li>
-
-                                                        <li class="p-b-6">
-                                                               <span class="fs-15 lh-12 m-r-6" style="color: #4272d7;">
-                                                                      <i class="zmdi zmdi-circle"></i>
-                                                               </span>
-
-                                                               <a href="#"
-                                                                      class="filter-link stext-106 trans-04 filter-link-active">
-                                                                      Blue
-                                                               </a>
-                                                        </li>
-
-                                                        <li class="p-b-6">
-                                                               <span class="fs-15 lh-12 m-r-6" style="color: #b3b3b3;">
-                                                                      <i class="zmdi zmdi-circle"></i>
-                                                               </span>
-
-                                                               <a href="#" class="filter-link stext-106 trans-04">
-                                                                      Grey
-                                                               </a>
-                                                        </li>
-
-                                                        <li class="p-b-6">
-                                                               <span class="fs-15 lh-12 m-r-6" style="color: #00ad5f;">
-                                                                      <i class="zmdi zmdi-circle"></i>
-                                                               </span>
-
-                                                               <a href="#" class="filter-link stext-106 trans-04">
-                                                                      Green
-                                                               </a>
-                                                        </li>
-
-                                                        <li class="p-b-6">
-                                                               <span class="fs-15 lh-12 m-r-6" style="color: #fa4251;">
-                                                                      <i class="zmdi zmdi-circle"></i>
-                                                               </span>
-
-                                                               <a href="#" class="filter-link stext-106 trans-04">
-                                                                      Red
-                                                               </a>
-                                                        </li>
-
-                                                        <li class="p-b-6">
-                                                               <span class="fs-15 lh-12 m-r-6" style="color: #aaa;">
-                                                                      <i class="zmdi zmdi-circle-o"></i>
-                                                               </span>
-
-                                                               <a href="#" class="filter-link stext-106 trans-04">
-                                                                      White
-                                                               </a>
-                                                        </li>
-                                                 </ul>
-                                          </div>
-
-                                          <div class="p-b-27">
-                                                 <div class="mtext-102 cl2 p-b-15">
-                                                        Tags
-                                                 </div>
-
-                                                 <div class="flex-w p-t-4 m-r--5">
-                                                        <a href="#"
-                                                               class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                                               Fashion
-                                                        </a>
-
-                                                        <a href="#"
-                                                               class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                                               Lifestyle
-                                                        </a>
-
-                                                        <a href="#"
-                                                               class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                                               Denim
-                                                        </a>
-
-                                                        <a href="#"
-                                                               class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                                               Streetstyle
-                                                        </a>
-
-                                                        <a href="#"
-                                                               class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                                               Crafts
-                                                        </a>
-                                                 </div>
-                                          </div> --}}
                                    </div>
                             </form>
                      </div>
@@ -324,6 +196,7 @@
 
               <div class="col-12 col-md-8 col-lg-9 reload-parent">
                      <div class="row isotope-grid reload-child">
+                            {{#if products}}
                             {{#each products}}
 
                             <div class="col-sm-6 col-md-3 col-lg-3 p-b-35 isotope-item">
@@ -335,43 +208,56 @@
                                                                alt="IMG-PRODUCT" />
 
                                                  </div>
-                                                 <a href="/product-view{{this._id}}"></a>
+                                          </a>
 
-                                                 <div class="block2-txt flex-w flex-t p-t-14">
-                                                        <div class="block2-txt-child1 flex-col-l">
+                                          <div class="block2-txt flex-w flex-t p-t-14">
+                                                 <div class="block2-txt-child1 flex-col-l">
 
-                                                               <a
-                                                                      class="font-weight-bold cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.brand}}</a>
-                                                               <a href="/product-view{{this._id}}"
-                                                                      class="cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                                      {{this.product_name}}
-                                                               </a>
-                                                               <a
-                                                                      class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.category}}</a>
-
-                                                               <span class="stext-105 cl3 font-weight-bold">
+                                                        <a
+                                                               class="font-weight-bold cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.brand}}</a>
+                                                        <a href="/product-view{{this._id}}"
+                                                               class="cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                                               {{this.product_name}}
+                                                        </a>
+                                                        <a
+                                                               class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.category}}</a>
+                                                        <div class="d-flex">
+                                                               <span
+                                                                      class="stext-105  font-weight-bold  {{#if this.offerPrice}} text-danger {{/if}} mr-3">
+                                                                      {{#if this.offerPrice}}
+                                                                      <del>Rs.{{this.price}}</del>
+                                                                      {{else}}
                                                                       Rs.{{this.price}}
+                                                                      {{/if}}
+
                                                                </span>
+                                                               {{#if this.offerPrice}}
+                                                               <span class="stext-105 cl3 font-weight-bold">
+
+                                                                      Rs.{{this.offerPrice}}
+
+                                                               </span>
+                                                               {{/if}}
                                                         </div>
 
-                                                        <div class="block2-txt-child2 flex-r p-t-3">
-                                                               <a onclick="addToWishlist('{{this._id}}','fromProductsView')"
-                                                                      class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                                                      <img style="cursor: pointer;"
-                                                                             class="icon-heart1{{this._id}} dis-block trans-04"
-                                                                             src="/users/images/icons/icon-heart-01.png"
-                                                                             alt="ICON" {{#if
-                                                                             this.wishlisted.wishlisted}} hidden
-                                                                             {{/if}}>
-                                                                      <img style="cursor: pointer;"
-                                                                             class="icon-heart2{{this._id}} dis-block trans-04"
-                                                                             src="/users/images/icons/icon-heart-02.png"
-                                                                             alt="ICON" / {{#unless
-                                                                             this.wishlisted.wishlisted}} hidden
-                                                                             {{/unless}}>
-                                                               </a>
-                                                        </div>
                                                  </div>
+
+                                                 <div class="block2-txt-child2 flex-r p-t-3">
+                                                        <a onclick="addToWishlist('{{this._id}}','fromProductsView')"
+                                                               class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+                                                               <img style="cursor: pointer;"
+                                                                      class="icon-heart1{{this._id}} dis-block trans-04"
+                                                                      src="/users/images/icons/icon-heart-01.png"
+                                                                      alt="ICON" {{#if this.wishlisted.wishlisted}}
+                                                                      hidden {{/if}}>
+                                                               <img style="cursor: pointer;"
+                                                                      class="icon-heart2{{this._id}} dis-block trans-04"
+                                                                      src="/users/images/icons/icon-heart-02.png"
+                                                                      alt="ICON" / {{#unless
+                                                                      this.wishlisted.wishlisted}} hidden {{/unless}}>
+                                                        </a>
+                                                 </div>
+                                          </div>
                                    </div>
 
                                    <!-- Block2 -->
@@ -379,6 +265,28 @@
                             </div>
 
                             {{/each}}
+                            {{else}}
+                            <div class="col p-b-35 isotope-item">
+
+
+                                   <div class="card border-0" style="height: 70vh;">
+
+
+                                          <div class="card-body cart d-flex align-items-center justify-content-center">
+                                                 <div class="text-center">
+                                                        <img src="/users/images/icons/no-results.png" width="70"
+                                                               height="70" class="img-fluid mb-4 mr-3">
+                                                        <h3><strong>Sorry! We couldn't find anything</strong>
+                                                        </h3>
+                                                 </div>
+                                          </div>
+
+                                   </div>
+
+
+                            </div>
+
+                            {{/if}}
                      </div>
               </div>
        </div>

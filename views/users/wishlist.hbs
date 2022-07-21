@@ -1,18 +1,5 @@
-<div class="container">
-       <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-100 p-lr-0-lg">
-              <a href="/" class="stext-109 cl8 hov-cl1 trans-04">
-                     Home
-                     <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
-              </a>
-
-              <a href="/wishlist" class="stext-109 cl4">
-                     Wishlist
-              </a>
-       </div>
-</div>
-
-<div class="container mb-5 mt-4 reload-parent">
-
+<div class="container mb-5 p-t-100 reload-parent">
+       {{#if wishlist}}
        <div class="row isotope-grid reload-child">
               {{#each wishlist}}
               <div class="col-6 col-md-3 col-lg-2 p-b-35 isotope-item" id="wishlistedProduct-{{this._id}}">
@@ -23,8 +10,11 @@
                             <a href="/product-view{{this._id}}">
 
                                    <div class="block2-pic hov-img0 " style="position: relative;">
-                                          <button type="button" onclick="event.preventDefault(); addToWishlist('{{this._id}}','fromWishlistView');" class="bg-light border-2 rounded-circle px-2 py-1 close"
-                                                 aria-label="Close" style="position: absolute; top:2%; left:81%; z-index: 1000;">
+                                          <button type="button"
+                                                 onclick="event.preventDefault(); addToWishlist('{{this._id}}','fromWishlistView');"
+                                                 class="bg-light border-2 rounded-circle px-2 py-1 close"
+                                                 aria-label="Close"
+                                                 style="position: absolute; top:2%; left:81%; z-index: 1000;">
                                                  <span aria-hidden="true">&times;</span>
                                           </button>
 
@@ -48,9 +38,24 @@
                                                  <a
                                                         class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.category}}</a>
 
-                                                 <span class="stext-105 cl3 font-weight-bold">
-                                                        Rs.{{this.price}}
-                                                 </span>
+                                                 <div class="d-flex">
+                                                        <span
+                                                               class="stext-105  font-weight-bold  {{#if this.offerPrice}} text-danger {{/if}} mr-3">
+                                                               {{#if this.offerPrice}}
+                                                               <del>Rs.{{this.price}}</del>
+                                                               {{else}}
+                                                               Rs.{{this.price}}
+                                                               {{/if}}
+
+                                                        </span>
+                                                        {{#if this.offerPrice}}
+                                                        <span class="stext-105 cl3 font-weight-bold">
+
+                                                               Rs.{{this.offerPrice}}
+
+                                                        </span>
+                                                        {{/if}}
+                                                 </div>
                                           </div>
 
                                           <div class="block2-txt-child2 flex-r p-t-3">
@@ -66,6 +71,34 @@
               </div>
               {{/each}}
        </div>
+       {{else}}
+
+       <div class="container-fluid  mb-4">
+              <div class="row">
+
+                     <div class="col-md-12">
+
+
+                            <div class="card-body cart">
+                                   <div class="col-sm-12 empty-cart-cls text-center">
+                                          <img src="https://img.icons8.com/nolan/64/wish-list.png" width="100"
+                                                 height="100" class="img-fluid mb-4 mr-3">
+                                          <h3><strong>Oops! Your Wishlist is Empty</strong></h3>
+                                          <h5 class="mt-2">Seems like you don't have wishes here.Make a wish</h5>
+                                          <a href="/" class="btn m-3 stext-101 cl0 bg1 bor1 hov-btn1 p-lr-15 trans-04"
+                                                 data-abc="true">Continue Shopping</a>
+
+
+                                   </div>
+                            </div>
+
+                     </div>
+
+              </div>
+
+       </div>
+
+       {{/if}}
 
 </div>
 

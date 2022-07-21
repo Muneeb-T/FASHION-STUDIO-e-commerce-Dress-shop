@@ -40,7 +40,10 @@ $(document).ready(() => {
                             url: actionUrl,
                             data: formData,
                             success: (response) => {
-                                   if (response.login) {
+                                   if (response.error500) {
+                                          window.location.href =
+                                                 '/admin/error500';
+                                   } else if (response.login) {
                                           window.location.href =
                                                  '/admin/dashboard';
                                    } else {
@@ -119,6 +122,10 @@ $(document).ready(() => {
                             url: actionUrl,
                             data: formData,
                             success: (response) => {
+                                   if (response.error500) {
+                                          window.location.href =
+                                                 '/admin/error500';
+                                   }
                                    if (response.addCateogrySuccess) {
                                           Swal.fire(
                                                  'Success',
@@ -165,6 +172,10 @@ $(document).ready(() => {
                             processData: false,
                             data: formData,
                             success: (response) => {
+                                   if (response.error500) {
+                                          window.location.href =
+                                                 '/admin/error500';
+                                   }
                                    if (response.productAddSuccess) {
                                           Swal.fire(
                                                  'Success',
@@ -312,6 +323,10 @@ $(document).ready(() => {
                             processData: false,
                             data: formData,
                             success: (response) => {
+                                   if (response.error500) {
+                                          window.location.href =
+                                                 '/admin/error500';
+                                   }
                                    if (response.productEditSuccess) {
                                           Swal.fire(
                                                  'Success',
@@ -546,6 +561,10 @@ $('#addBannerForm').validate({
                                    processData: false,
                                    data: formData,
                                    success: (response) => {
+                                          if (response.error500) {
+                                                 window.location.href =
+                                                        '/admin/error500';
+                                          }
                                           if (response.bannerAddSuccess) {
                                                  $('.reload-parent').load(
                                                         `${window.location.href} .reload-child > *`,
@@ -606,6 +625,9 @@ $('#add-coupon-form').validate({
               minimumPurchaseAmount: {
                      required: true,
               },
+              limit: {
+                     required: true,
+              },
        },
        messages: {
               couponCode: {
@@ -621,6 +643,9 @@ $('#add-coupon-form').validate({
               minimumPurchaseAmount: {
                      required: 'Enter minimum purchase amount',
               },
+              limit: {
+                     required: 'Enter limit',
+              },
        },
        submitHandler: (form) => {
               const formData = $(form).serialize();
@@ -630,6 +655,9 @@ $('#add-coupon-form').validate({
                      url: actionUrl,
                      data: formData,
                      success: (response) => {
+                            if (response.error500) {
+                                   window.location.href = '/admin/error500';
+                            }
                             if (response.couponAddSuccess) {
                                    Swal.fire(
                                           'Success',

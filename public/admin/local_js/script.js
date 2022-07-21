@@ -16,17 +16,6 @@ function editCategory(categoryId) {
               );
        }
        if (!disabled) {
-              //   $('#edit-category-form').validate({
-              //          debug: false,
-              //          errorClass: 'authError text-danger',
-              //          errorElement: 'small',
-              //          rules: {
-              //                 category: {
-              //                        required: true,
-              //                 },
-              //          },
-
-              //   });
               const value = $(`#category-name-input-${categoryId}`).val();
               if (value === '') {
                      $(`#edit-category-error-${categoryId}`).text(
@@ -68,6 +57,10 @@ function editCategory(categoryId) {
                                           ).val(),
                                    }, // serializes the form's elements.
                                    success(data) {
+                                          if (data.error500) {
+                                                 window.location.href =
+                                                        '/admin/error500';
+                                          }
                                           if (data.updationSuccess) {
                                                  Swal.fire(
                                                         'Saved!',
@@ -212,6 +205,10 @@ function deleteProduct(e, productId, view) {
                             type: 'get',
                             url: `/admin/delete-product/${productId}`,
                             success(response) {
+                                   if (response.error500) {
+                                          window.location.href =
+                                                 '/admin/error500';
+                                   }
                                    if (response.deleted) {
                                           Swal.fire(
                                                  view === 'restore'
@@ -222,11 +219,12 @@ function deleteProduct(e, productId, view) {
                                           );
 
                                           if (view === 'single-view') {
-                                                 location.href = '/admin/products/all';
+                                                 location.href =
+                                                        '/admin/products/all';
                                           }
                                           if (
-                                                 view === 'table'
-                                                 || view === 'restore'
+                                                 view === 'table' ||
+                                                 view === 'restore'
                                           ) {
                                                  $(
                                                         `#product-row-${productId}`,
@@ -257,6 +255,10 @@ function deleteCategory(e, categoryId, isRestore) {
                             type: 'get',
                             url: `/admin/delete-category/${categoryId}`,
                             success(response) {
+                                   if (response.error500) {
+                                          window.location.href =
+                                                 '/admin/error500';
+                                   }
                                    if (response.deleted) {
                                           Swal.fire(
                                                  isRestore === 'true'
@@ -287,9 +289,9 @@ function allowOnlyLetters(e, input) {
               return true;
        }
        if (
-              (charCode > 64 && charCode < 91)
-              || (charCode > 96 && charCode < 123)
-              || charCode === 32
+              (charCode > 64 && charCode < 91) ||
+              (charCode > 96 && charCode < 123) ||
+              charCode === 32
        ) {
               return true;
        }
@@ -307,10 +309,10 @@ function allowAlphanuemricOnly(e, input) {
               return true;
        }
        if (
-              !(keyCode === 32) // space
-              && !(keyCode > 47 && keyCode < 58) // numeric (0-9)
-              && !(keyCode > 64 && keyCode < 91) // upper alpha (A-Z)
-              && !(keyCode > 96 && keyCode < 123)
+              !(keyCode === 32) && // space
+              !(keyCode > 47 && keyCode < 58) && // numeric (0-9)
+              !(keyCode > 64 && keyCode < 91) && // upper alpha (A-Z)
+              !(keyCode > 96 && keyCode < 123)
        ) {
               return false;
        }
@@ -320,8 +322,8 @@ function allowAlphanuemricOnly(e, input) {
 
 $('input[type=number]').keypress((evt) => {
        if (
-              (evt.which !== 8 && evt.which !== 0 && evt.which < 48)
-              || evt.which > 57
+              (evt.which !== 8 && evt.which !== 0 && evt.which < 48) ||
+              evt.which > 57
        ) {
               return false;
        }
@@ -348,6 +350,10 @@ function blockUser(event, userId) {
                             data: { userId },
                             url: '/admin/blockUser',
                             success: (response) => {
+                                   if (response.error500) {
+                                          window.location.href =
+                                                 '/admin/error500';
+                                   }
                                    if (response.blockOrUnblockSuccess) {
                                           $(
                                                  `#blockUserButton${userId}`,
@@ -393,6 +399,9 @@ function updateBanner(bannerId, updation, title, subtitle, image) {
                                    data: { bannerId, updation },
                                    url: '/admin/updateBanner',
                                    success: (response) => {
+                                          if (response.error500) {
+                                                 window.location.href = '/admin/error500';
+                                          }
                                           if (response.updationSuccess) {
                                                  toastMixin.fire({
                                                         animation: true,
@@ -451,6 +460,9 @@ function deleteCoupon(event, couponId) {
                             data: { couponId },
                             url: '/admin/deleteCoupon',
                             success: (response) => {
+                                   if (response.error500) {
+                                          window.location.href = '/admin/error500';
+                                   }
                                    if (response.couponDelete) {
                                           toastMixin.fire({
                                                  animation: true,
@@ -470,3 +482,39 @@ function onlyTwoNumbers(input) {
        }
 }
 
+function changeOrderStatus(orderId) {
+       Swal.fire({
+              title: 'Are you sure?',
+              text: 'Do you really want to change order status ?',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes , change it',
+       }).then((result) => {
+              if (result.isConfirmed) {
+                     const status = $(`#order-status${orderId}`).val();
+                     $.ajax({
+                            type: 'post',
+                            data: { orderId, status },
+                            url: '/admin/changeOrderStatus',
+                            success: (response) => {
+                                   if (response.error500) {
+                                          window.location.href = '/admin/error500';
+                                   }
+                                   if (response.orderStatusChangeSuccess) {
+                                          Swal.fire(
+                                                 'Success',
+                                                 'Status changed successfully',
+                                                 'success',
+                                          ).then(() => {
+                                                 window.location.reload();
+                                          });
+                                   }
+                            },
+                     });
+              } else {
+                     return false;
+              }
+       });
+}

@@ -2,10 +2,10 @@
 
 
 
-<div class="content">
+<div class="content" id="bannersRow">
     <div class="animanted-fadeIn">
         <div class='orders'>
-            <div class='row'>
+            <div class='row' >
                 <div class='col'>
                     <div class='card'>
 
@@ -112,6 +112,7 @@
                             </div>
                             <div class="reload-parent">
                                 <div class="row pt-0 p-3 reload-child">
+                                    {{#if banners}}
 
                                     {{#each banners}}
                                     <div class="col-12" id="bannerView{{this._id}}">
@@ -146,6 +147,16 @@
                                     </div>
 
                                     {{/each}}
+                                    {{else}}
+                                    <div class='card p-4'>
+                                          <div class="card-body card-block">
+                                                 <h3 class="text-danger mb-3 font-weight-bold">
+                                                    No active banners
+                                                 </h3>
+                                                 <a class="btn btn-success" href="#bannersRow">Add new Banner</a>
+                                          </div>
+                                   </div>
+                                    {{/if}}
                                 </div>
                             </div>
 
@@ -333,103 +344,6 @@
     }
 </style>
 
-{{!--
-<script>
-    function addNewImageInput(addButton, addOrRemove) {
-
-        if (addOrRemove === 'remove') {
-            if ($('.addBannerDiv').length === 0) {
-                $(".first-add-button").show()
-            }
-            $(addButton).closest('#addBannerDiv').remove()
-        } else {
-
-            $(addButton).closest('#addBannerDiv').before(`<div id="addBannerDiv" class="row .addBannerDiv">
-                                            <div class="col-7">
-                                                <div class='row form-group'>
-                                                    <div class='container p-0'>
-
-
-
-                                                        <div class='col-12
-                                                                             col-lg-12
-                                                                             imgUp position-relative'>
-                                                            <button
-                                                                class="btn badge-pending add-image-button text-light rounded-circle position-absolute shadow"
-                                                                onclick="event.preventDefault(); addNewImageInput(this,'remove')"
-                                                                style="z-index: 110; right:0; top:-10px"><i
-                                                                    class="fa fa-close"></i></button>
-                                                            <button
-                                                                class="btn badge-complete add-image-button text-light rounded-circle position-absolute shadow"
-                                                                onclick="event.preventDefault(); addNewImageInput(this,'add');"
-                                                                style="z-index: 100; right:0; bottom:-10px"><i
-                                                                    class="fa fa-plus"></i></button>
-                                                            <div class="profile-pic-wrapper
-                                                                                    border">
-                                                                <div class="pic-holder">
-                                                                    <!-- uploaded pic shown here -->
-
-
-                                                                    <img id="profilePic" class="pic"
-                                                                        src="/admin/banner-images/banner-thumbnail">
-                                                                    <Input class="uploadProfileInput" type="file"
-                                                                        name="banner_image" id="newProfilePhoto${$('.addBannerDiv').length}"
-                                                                        accept="image/*" style="opacity:
-                                                                                                  0;" / hidden>
-                                                                    <label for="newProfilePhoto${$('.addBannerDiv').length}"
-                                                                        class="upload-file-block">
-                                                                        <div class="text-center">
-                                                                            <div class="mb-2">
-                                                                                <i class="fa fa-camera fa-2x"></i>
-                                                                            </div>
-                                                                            <div class="text-uppercase">
-                                                                                Upload
-                                                                                <br />
-                                                                                Image
-                                                                            </div>
-                                                                        </div>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-5 align-items-center px-4">
-                                                <div class='row form-group'>
-                                                    <div class="col">
-                                                        <label for='product-name-input'
-                                                            class='form-control-label'>Title</label>
-                                                        <input type='text' id='product-name-input' name='productName'
-                                                            placeholder='Enter title' class='form-control'
-                                                            onkeypress="return allowAlphanuemricOnly(event)" />
-                                                    </div>
-                                                </div>
-                                                <div class='row form-group'>
-                                                    <div class="col">
-                                                        <label for='product-name-input'
-                                                            class='form-control-label'>Subtitle</label>
-                                                        <input type='text' id='product-name-input' name='productName'
-                                                            placeholder='Enter title' class='form-control'
-                                                            onkeypress="return allowAlphanuemricOnly(event)" />
-                                                    </div>
-                                                </div>
-                                                <button class='btn
-                                                                      px-5
-                                                                      w-100
-                                                                      mt-2
-                                                                      font-weight-bold
-                                                                      text-light
-                                                                      badge-complete' type='submit'>Add banner</button>
-
-                                            </div>
-
-                                        </div>`)
-            $(addButton).hide()
-        }
-    }
-</script> --}}
 
 <script>
     $(document).on("change", ".uploadProfileInput", function () {
@@ -480,22 +394,4 @@
         }
     });
 
-</script>
-<script>
-
-    $(function () {
-        $(document).on("change", ".uploadFile", function () {
-            let uploadFile = $(this); var files = !!this.files ? this.files : []; if
-                (!files.length || !window.FileReader) return; // no file selected, or noFileReader support 
-            if (/^image/.test(files[0].type)) { // only image file
-                var reader = new FileReader(); // instance of the FileReader
-                reader.readAsDataURL(files[0]); // read the local file 
-                reader.onloadend = function () { // set image data as background of div
-                    //alert(uploadFile.closest(".upimage").find('.imagePreview').length);
-                    uploadFile.closest(".imgUp").find('.imagePreview').css("background-image",
-                        "url(" + this.result + ")");
-                }
-            }
-        });
-    });
 </script>

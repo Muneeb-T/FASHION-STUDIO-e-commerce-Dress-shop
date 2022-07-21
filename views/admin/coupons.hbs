@@ -2,7 +2,7 @@
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 
 
-<div class="content">
+<div class="content"  id="addCoupon">
     <div class="animanted-fadeIn">
 
         <div class='orders'>
@@ -77,6 +77,16 @@
                                                     class='form-control' />
                                             </div>
                                         </div>
+
+                                        <div class='row form-group'>
+                                            <div class='col col-md-3'><label for='coupon-limit'
+                                                    class='form-control-label'>Limit</label>
+                                            </div>
+                                            <div class='col-12 col-md-9'><input type='number' id='coupon-limit'
+                                                    name='limit' placeholder='Enter coupon limit'
+                                                    class='form-control' />
+                                            </div>
+                                        </div>
                                         <div class='row form-group
                                 text-center mt-5'>
                                             <div class='col'>
@@ -103,6 +113,7 @@
                                 </div>
                             </div>
                             <hr class="mt-0">
+                            {{#if coupons}}
                             <div class='table-stats order-table products-content'>
                                 <table class='table products-table products-content-child' id='bootstrap-data-table'>
                                     <thead>
@@ -114,6 +125,7 @@
                                             <th>Minimum purchase amount</th>
                                             <th>Added date</th>
                                             <th>Expiry date</th>
+                                            <th>Limit</th>
                                             <th>Action</th>
 
 
@@ -130,7 +142,7 @@
                                                 {{this.coupons.discount}}
                                             </td>
                                             <td>
-                                                {{this.coupons.validity}}
+                                                {{this.coupons.validity}} Days
                                             </td>
                                             <td>
                                                 {{this.coupons.minimumPurchaseAmount}}
@@ -139,10 +151,12 @@
                                             <td>
                                                 {{this.coupons.addedDate}}
                                             </td>
-                                             <td>
+                                            <td>
                                                 {{this.coupons.expiryDate}}
                                             </td>
-
+                                            <td>
+                                                {{this.coupons.limit}}
+                                            </td>
                                             <td>
                                                 <div class="d-flex">
                                                     {{!-- <a href=""
@@ -161,6 +175,15 @@
                                     </tbody>
                                 </table>
                             </div>
+                            {{else}}
+                            <div class='card p-4'>
+                                <div class="card-body card-block">
+                                    <h3 class="text-danger mb-3 font-weight-bold">No active coupons
+                                    </h3>
+                                    <a class="btn btn-success" href="#addCoupon">Add new coupon</a>
+                                </div>
+                            </div>
+                            {{/if}}
                             <!-- /.table-stats -->
                         </div>
                     </div>
@@ -193,19 +216,6 @@
     <script src='/admin/js/lib/data-table/buttons.print.min.js'></script>
     <script src='/admin/js/lib/data-table/buttons.colVis.min.js'></script>
     <script src='/admin/js/init/datatables-init.js'></script>
-
-
-    {{!--
-    <script type='text/javascript'>
-
-
-        $(document).ready(function () {
-            var table = $('#bootstrap-data-table').DataTable({
-                responsive: true
-            });
-
-        });
-    </script> --}}
 
 
 

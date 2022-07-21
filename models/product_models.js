@@ -80,6 +80,21 @@ module.exports.productModal = (productDetails, files) => {
               brand: productDetails.brandName,
               type: productDetails.type,
               price: Number(productDetails.price),
+              offerPercentage:
+                     Number(productDetails.offerPercentage) > 0
+                            ? Number(productDetails.offerPercentage)
+                            : null,
+              offerPrice:
+                     Number(productDetails.offerPercentage) > 0
+                            ? parseInt(
+                                     Number(productDetails.price) -
+                                            (Number(productDetails.price) *
+                                                   Number(
+                                                          productDetails.offerPercentage,
+                                                   )) /
+                                                   100,
+                              )
+                            : null,
               description: productDetails.description,
               category: ObjectId(productDetails.category),
               stock,

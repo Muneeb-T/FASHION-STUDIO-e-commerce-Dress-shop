@@ -1,0 +1,348 @@
+<link rel='stylesheet' href='/admin/css/lib/datatable/dataTables.bootstrap.min.css' />
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
+
+<div class="content">
+    <div class="animanted-fadeIn">
+
+        <div class='orders'>
+            <div class='row'>
+                <div class='col'>
+                    <div class='card'>
+
+
+                        <div class='card-body'>
+                            <div class="row p-3">
+                                <div class="col d-flex justify-content-between">
+                                    <h3 class='text-uppercase'>ORDER DETAILS
+                                    </h3>
+                                </div>
+                            </div>
+                            <hr class="mt-0">
+                            <div class="row">
+                                <div class="col">
+                                    <div class=" border-0"
+                                        style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+
+                                        <div class="row p-3">
+
+                                            <div class="col">
+                                                <p class="font-weight-bold text-dark mb-0 p-3">
+                                                    Order details:
+                                                    <br>
+                                                    <span class="font-weight-light text-muted">
+                                                        Order ID : <span
+                                                            class="text-uppercase">{{orderDetails._id}}</span> <br>
+                                                        Place on : {{orderDetails.orderDate}} <br>
+                                                        User ID : {{orderDetails.user}} <br>
+                                                        Username : {{orderDetails.username.username}}<br>
+                                                        Current status : {{orderDetails.orderStatus}} <br>
+
+                                                    </span>
+                                                </p>
+                                            </div>
+
+                                            <div class="col-auto d-flex justify-content-center p-3">
+                                                <p class="font-weight-bold text-dark mb-0">
+                                                    Delivery address:
+                                                    <br>
+                                                    <span class="font-weight-light text-muted">
+                                                        {{orderDetails.address.name}},
+                                                        {{orderDetails.address.houseName}} <br>
+                                                        {{orderDetails.address.town}} <br>
+                                                        {{orderDetails.address.district}} <br>
+                                                        {{orderDetails.address.state}},
+                                                        {{orderDetails.address.pincode}} <br>
+                                                        Email : {{orderDetails.address.email}} <br>
+                                                        Phone : {{orderDetails.address.phoneNumber}}
+                                                    </span>
+                                                </p>
+
+                                            </div>
+
+                                            <div class="col-auto">
+                                                <div class="d-flex justify-content-end p-3">
+                                                    <p class="font-weight-bold text-dark mb-0">
+                                                        Price details:
+                                                        <br>
+                                                        <span class="font-weight-light text-muted">
+                                                            Payment method :{{orderDetails.paymentMethod}} <br>
+                                                            Total Price : Rs.{{orderDetails.totalPrice}} <br>
+                                                            Discount : Rs.{{orderDetails.discount}} <br>
+                                                            Amount payable : Rs.{{orderDetails.amountPayable}} <br>
+
+                                                        </span>
+                                                    </p>
+
+                                                </div>
+
+
+                                            </div>
+
+
+                                        </div>
+                                        <h5
+                                            class="d-flex m-3 text-dark align-items-center justify-content-end text-white mb-0">
+                                            Total
+                                            paid : <span class="h3 mb-0 ml-2">Rs.{{orderDetails.amountPayable}}</span>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-3">
+
+                                <div class="col">
+                                    <h4 class='text-uppercase mb-4'>Products</h4>
+
+
+                                    <div style="border-radius: 10px;">
+
+
+                                        <div class="card-body p-0">
+
+                                            {{#each orderedProducts}}
+                                            <div class="card">
+
+                                                <div class="card-body p-5 border">
+                                                    <div class="float-end">
+
+                                                        <div class="media flex-column flex-sm-row">
+                                                            <div class="media-body">
+                                                                <h5 class="bold mb-2 mtext-105 cl2 js-name-detail">
+                                                                    {{this.product.product_name}}</h5>
+                                                                <h6 class="bold mb-2 mtext-90">Brand :
+                                                                    {{this.product.brand}}
+                                                                </h6>
+                                                                <h6 class="bold mb-2 mtext-90">Category :
+                                                                    {{this.product.category.name}}
+                                                                </h6>
+                                                                <p class="text-muted text-capitalize"> Type:
+                                                                    {{this.product.type}}</p>
+                                                                <p class="text-muted"> Quantity: {{this.quantity}}</p>
+                                                                <p class="text-muted"> Size: {{this.size}}</p>
+                                                                <h4 class="mt-3 mb-4 bold"> Rs.{{this.totalPrice}} </h4>
+                                                                {{#if this.isCanceled}}
+                                                                <div class="flex-col my-auto">
+                                                                    <p class="text-danger mr-3 font-weight-bold">Order
+                                                                        Canceled
+                                                                    </p>
+                                                                </div>
+                                                                {{/if}}
+                                                            </div><img class="align-self-center img-fluid"
+                                                                src="/admin/product-images/{{this.product.image}}"
+                                                                width="100" height="100">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <hr class="m-0">
+
+                                            </div>
+                                            {{/each}}
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<style>
+    body {
+        letter-spacing: 0.8px;
+    }
+
+    .container-fluid {
+        margin-top: 80px !important;
+        margin-bottom: 80px !important;
+    }
+
+    p {
+        font-size: 14px;
+        margin-bottom: 7px;
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+
+    .bold {
+        font-weight: 600;
+    }
+
+    .small {
+        font-size: 12px !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    .Today {
+        color: rgb(83, 83, 83);
+    }
+
+    .btn-outline-primary {
+        background-color: #fff !important;
+        color: #4bb8a9 !important;
+        border: 1.3px solid #4bb8a9;
+        font-size: 12px;
+        border-radius: 0.4em !important;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #4bb8a9 !important;
+        color: #fff !important;
+        border: 1.3px solid #4bb8a9;
+    }
+
+    .btn-outline-primary:focus,
+    .btn-outline-primary:active {
+        outline: none !important;
+        box-shadow: none !important;
+        border-color: #42A5F5 !important;
+    }
+
+    #progressbar {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: #455A64;
+        padding-left: 0px;
+        margin-top: 30px
+    }
+
+    #progressbar li {
+        list-style-type: none;
+        font-size: 13px;
+        width: 25%;
+        float: left;
+        position: relative;
+        font-weight: 400;
+        color: #455A64 !important;
+
+    }
+
+    #progressbar #step1:before {
+        content: "1";
+        color: #fff;
+        width: 29px;
+        margin-left: 15px !important;
+        padding-left: 11px !important;
+    }
+
+
+    #progressbar #step2:before {
+        content: "2";
+        color: #fff;
+        width: 29px;
+
+    }
+
+    #progressbar #step3:before {
+        content: "3";
+        color: #fff;
+        width: 29px;
+
+    }
+
+    #progressbar #step4:before {
+        content: "4";
+        color: #fff;
+        width: 29px;
+        margin-right: 15px !important;
+        padding-right: 11px !important;
+    }
+
+    #progressbar li:before {
+        line-height: 29px;
+        display: block;
+        font-size: 12px;
+        background: #455A64;
+        border-radius: 50%;
+        margin: auto;
+    }
+
+    #progressbar li:after {
+        content: '';
+        width: 121%;
+        height: 2px;
+        background: #455A64;
+        position: absolute;
+        left: 0%;
+        right: 0%;
+        top: 15px;
+        z-index: -1;
+    }
+
+    #progressbar li:nth-child(2):after {
+        left: 50%;
+
+    }
+
+    #progressbar li:nth-child(1):after {
+        left: 25%;
+        width: 121%;
+    }
+
+    #progressbar li:nth-child(3):after {
+        left: 25%;
+        width: 121%;
+    }
+
+    #progressbar li:nth-child(4):after {
+        left: 25% !important;
+        width: 50% !important;
+    }
+
+    #progressbar li.active:before,
+    #progressbar li.active:after {
+        background: #717fe0
+    }
+
+    .card {
+        background-color: #fff;
+        z-index: 0;
+    }
+
+    small {
+        font-size: 12px !important;
+    }
+
+    .a {
+        justify-content: space-between !important;
+    }
+
+    .border-line {
+        border-right: 1px solid rgb(226, 206, 226)
+    }
+
+    .card-footer img {
+        opacity: 0.3;
+    }
+
+    .card-footer h5 {
+        font-size: 1.1em;
+        color: #8C9EFF;
+        cursor: pointer;
+    }
+</style>
+
+
+
+
+
+
+<script src='https://code.jquery.com/jquery-3.1.1.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
+<script src='/admin/local_js/validation.js'></script>
+<script src='/admin/local_js/script.js'></script>

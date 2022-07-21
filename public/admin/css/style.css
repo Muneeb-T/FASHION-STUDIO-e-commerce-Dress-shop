@@ -3319,4 +3319,9 @@ div.dataTables_wrapper div.dataTables_filter label,
 }
 
 
-table
+.legendLabel{ 
+       text-transform: capitalize;
+       width : 70px;
+}
+
+

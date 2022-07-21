@@ -105,7 +105,7 @@ router.post(
        userControllers.blockUser,
 );
 
-router.get('/banners', adminController.banners);
+router.get('/banners', middlewares.verfiyAdminLogin, adminController.banners);
 
 router.post(
        '/addBanners',
@@ -134,7 +134,7 @@ router.get('/orders', middlewares.verfiyAdminLogin, adminController.orders);
 router.get(
        '/orderedProducts/:id',
        middlewares.verfiyAdminLogin,
-       adminController.viewOrderedProducts,
+       adminController.orderDetails,
 );
 
 router.get(
@@ -148,5 +148,11 @@ router.post(
        middlewares.verfiyAdminLogin,
        adminController.deleteCoupon,
 );
+
+router.post('/changeOrderStatus', orderControllers.changeOrderStatus);
+
+router.get('/error500', (req, res) => {
+       res.render('error/error500', { layout: 'error_layout', status: '500' });
+});
 
 module.exports = router;

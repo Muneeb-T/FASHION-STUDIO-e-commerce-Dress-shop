@@ -1,0 +1,404 @@
+<div class="container mb-4 p-t-100">
+    <div class="main-body">
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body p-5">
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="profile-pic-wrapper">
+
+                                <form id="updateProfilePictureForm" method="post" enctype="multipart/form-data">
+                                    <div class="pic-holder mx-auto">
+                                        <!-- uploaded pic shown here -->
+                                        <img id="profilePic" class="pic"
+                                            src="{{#if userDetails.profilePicture}} /admin/product-images/{{userDetails.profilePicture}} {{else}}/users/images/icons/profile_picture_placeholder.png{{/if}}">
+
+                                        <Input class="uploadProfileInput" type="file" name="profile_pic"
+                                            id="newProfilePhoto" accept="image/*" style="opacity: 0;" />
+                                        <label for="newProfilePhoto" class="upload-file-block">
+                                            <div class="text-center">
+                                                <div class="mb-2">
+                                                    <i class="fa fa-camera fa-2x"></i>
+                                                </div>
+                                                <div class="text-uppercase">
+                                                    Update
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+
+
+
+
+                                    <button id="updateButton" type="button"
+                                        class="btn btn-sm stext-70 font-weight-bold cl0 bg1 bor1 hov-btn1 p-lr-15 trans-04"
+                                        onclick="event.preventDefault(); updateProfilePicture();" hidden>Update</button>
+                                    <button id="cancelButton" type="button"
+                                        class="btn btn-sm stext-70 font-weight-bold cl0 btn-danger bor1 hov-btn1 p-lr-15 trans-04"
+                                        onclick="event.preventDefault(); cancelUpdateProfilePicture();"
+                                        hidden>Cancel</button>
+                                </form>
+                                </hr>
+
+                            </div>
+                            <div class="mt-3">
+
+                                <h4 class="font-weight-bold" id="profileUsername">
+                                    {{userDetails.username}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush font-weight-bold ">
+                        <li class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                            <a href="/orders" class="mb-0 d-flex align-items-center"><span class="material-icons mr-3">
+                                    playlist_add_check
+                                </span>My Orders</a>
+
+                        </li>
+                        <li class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                            <a href="/wishlist" class="mb-0 d-flex align-items-center"><span
+                                    class="material-icons mr-3">
+                                    favorite
+                                </span>My Wishlist</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                            <a href="/address" class="mb-0 d-flex align-items-center"><span class="material-icons mr-3">
+                                    contact_mail
+                                </span>Address</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                            <a href="/logout" class="mb-0 d-flex align-items-center"><span class="material-icons  mr-3">
+                                    logout
+                                </span>Logout</a>
+                        </li>
+                        <li </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body p-3">
+                        <form id="addNewAddressForm" action="/addNewAddress" method="post">
+                            <div class=" p-r-0-sm
+                            w-full-ssm">
+                                <div class="p-3" style="background-color: #717fe0;">
+                                    <span class="stext-110 cl2 text-light">
+                                        Add new address
+                                    </span>
+                                </div>
+
+
+
+                                <div class="p-t-15">
+
+                                    <div class="bor8 bg0
+                                    m-b-12">
+                                        <input class="stext-111
+                                        cl8 plh3
+                                        size-111
+                                        p-lr-15" type="text" name="name" placeholder="Enter name" />
+                                    </div>
+                                    <div class="bor8 bg0
+                                    m-b-12">
+                                        <input class="stext-111
+                                        cl8 plh3
+                                        size-111
+                                        p-lr-15" type="text" name="houseName" placeholder="House name" />
+                                    </div>
+                                    <div class="bor8 bg0
+                                    m-b-12">
+                                        <input class="stext-111
+                                        cl8 plh3
+                                        size-111
+                                        p-lr-15" type="text" name="town" placeholder="town" />
+                                    </div>
+                                    <div class="bor8 bg0
+                                    m-b-12">
+                                        <input class="stext-111
+                                        cl8 plh3
+                                        size-111
+                                        p-lr-15" type="text" name="district" placeholder="District" />
+                                    </div>
+                                    <div class="bor8 bg0
+                                    m-b-12">
+                                        <input class="stext-111
+                                        cl8 plh3
+                                        size-111
+                                        p-lr-15" type="text" name="state" placeholder="State" />
+                                    </div>
+                                    <div class="bor8 bg0
+                                    m-b-22">
+                                        <input class="stext-111
+                                        cl8 plh3
+                                        size-111
+                                        p-lr-15" type="text" name="pincode" placeholder="Pincode" />
+                                    </div>
+                                    <div class="bor8 bg0
+                                    m-b-22">
+                                        <input class="stext-111
+                                        cl8 plh3
+                                        size-111
+                                        p-lr-15" type="number" name="phoneNumber" placeholder="Phone number" />
+                                    </div>
+                                    <div class="bor8 bg0
+                                    m-b-22">
+                                        <input class="stext-111
+                                        cl8 plh3
+                                        size-111
+                                        p-lr-15" type="email" name="email" placeholder="Email address" />
+                                    </div>
+                                    <div class="text-center
+                                    m-b-22">
+                                    <a href="/address" class="btn btn-sm btn-danger shadow">CANCEL</a>
+                                       <button type="submit" class="btn btn-sm btn-primary shadow">SUBMIT</button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </form>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script src='https://code.jquery.com/jquery-3.1.1.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
+<script src="/users/local_js/validate.js"></script>
+<script src="/users/local_js/script.js"></script>
+
+<style>
+    .profile-pic-wrapper {
+
+        width: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pic-holder {
+        text-align: center;
+        position: relative;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .pic-holder .pic {
+        height: 100%;
+        width: 100%;
+        -o-object-fit: cover;
+        object-fit: cover;
+        -o-object-position: center;
+        object-position: center;
+    }
+
+    .pic-holder .upload-file-block,
+    .pic-holder .upload-loader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(90, 92, 105, 0.7);
+        color: #f8f9fc;
+        font-size: 12px;
+        font-weight: 600;
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+
+    .pic-holder .upload-file-block {
+        cursor: pointer;
+    }
+
+    .pic-holder:hover .upload-file-block,
+    .uploadProfileInput:focus~.upload-file-block {
+        opacity: 1;
+    }
+
+    .pic-holder.uploadInProgress .upload-file-block {
+        display: none;
+    }
+
+    .pic-holder.uploadInProgress .upload-loader {
+        opacity: 1;
+    }
+
+    /* Snackbar css */
+    .snackbar {
+        visibility: hidden;
+        min-width: 250px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+        font-size: 14px;
+        transform: translateX(-50%);
+    }
+
+    .snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    @-webkit-keyframes fadein {
+        from {
+            bottom: 0;
+            opacity: 0;
+        }
+
+        to {
+            bottom: 30px;
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadein {
+        from {
+            bottom: 0;
+            opacity: 0;
+        }
+
+        to {
+            bottom: 30px;
+            opacity: 1;
+        }
+    }
+
+    @-webkit-keyframes fadeout {
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
+
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
+    }
+
+    @keyframes fadeout {
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
+
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
+    }
+</style>
+
+
+
+<script>
+    $(document).on("change", ".uploadProfileInput", function () {
+        var triggerInput = this;
+        var currentImg = $(this).closest(".pic-holder").find(".pic").attr("src");
+        var holder = $(this).closest(".pic-holder");
+        var wrapper = $(this).closest(".profile-pic-wrapper");
+        $(wrapper).find('[role="alert"]').remove();
+        triggerInput.blur();
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) {
+            return;
+        }
+        if (/^image/.test(files[0].type)) {
+            // only image file
+            var reader = new FileReader(); // instance of the FileReader
+            reader.readAsDataURL(files[0]); // read the local file
+
+            reader.onloadend = function () {
+                $(holder).addClass("uploadInProgress");
+                $(holder).find(".pic").attr("src", this.result);
+
+                // Dummy timeout; call API or AJAX below
+
+                $(holder).removeClass("uploadInProgress");
+                $(holder).find(".upload-loader").remove();
+                // If upload successful
+                if (Math.random() < 0.9) {
+                    $("#updateButton,#cancelButton").attr('hidden', false)
+                } else {
+                    $(holder).find(".pic").attr("src", currentImg);
+                }
+
+            };
+        } else {
+            console.log("Error occured")
+        }
+    });
+
+    function cancelUpdateProfilePicture() {
+        $("#updateProfilePictureForm")[0].reset()
+        $("#updateButton,#cancelButton").attr('hidden', true)
+        $("#profilePic").attr('src', '{{#if userDetails.profilePicture}} /admin/product-images/{{userDetails.profilePicture}} {{else}}/users/images/icons/profile_picture_placeholder.png{{/if}}')
+    }
+
+</script>
+
+
+
+<script>
+    $('#addNewAddressForm').validate({
+        debug: false,
+        errorClass: 'authError text-danger text-uppercase stext-111',
+        highlight(element) {
+            $(element).removeClass('text-uppercase');
+        },
+        errorPlacement(error, element) {
+              error.insertAfter(element.parent('div'));
+       },
+        rules: {
+            name: { required: true },
+            houseName: { required: true },
+            town: { required: true },
+            district: { required: true },
+            state: { required: true },
+            pincode: { required: true },
+            email: { required: true },
+            phoneNumber: { required: true }
+        },
+        messages: {
+            name: { required: "Enter name" },
+            houseName: { required: "Enter house name" },
+            town: { required: "Enter town" },
+            district: { required: "Enter district" },
+            state: { required: "Enter state" },
+            pincode: { required: 'Enter pincode' },
+            email: { required: "Enter email address" },
+            phoneNumber: { required: "Enter phone number" }
+        },
+       
+    });
+
+</script>

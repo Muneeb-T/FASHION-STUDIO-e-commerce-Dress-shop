@@ -1,5 +1,4 @@
 /* eslint-disable indent */
-const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -8,7 +7,6 @@ const hbs = require('express-handlebars');
 const flash = require('req-flash');
 const session = require('express-session');
 const nocache = require('nocache');
-const { ObjectId } = require('mongodb');
 const middlewares = require('./controllers/middlewares');
 
 const database = require('./db_config/connection');
@@ -28,17 +26,24 @@ app.engine(
               layoutsDir: `${__dirname}/views/layouts/`,
               partialsDir: `${__dirname}/views/partials/`,
               helpers: {
+                     inc(value, options) {
+                            return parseInt(value) + 1;
+                     },
                      ifeq(a, b, options) {
-                            if (a === b) {
-                                   return options.fn(this);
+                            if (a && b) {
+                                   if (a.toString() === b.toString()) {
+                                          return options.fn(this);
+                                   }
+                                   return options.inverse(this);
                             }
-                            return options.inverse(this);
                      },
                      ifnoteq(a, b, options) {
-                            if (a !== b) {
-                                   return options.fn(this);
+                            if (a && b) {
+                                   if (a.toString() !== b.toString()) {
+                                          return options.fn(this);
+                                   }
+                                   return options.inverse(this);
                             }
-                            return options.inverse(this);
                      },
               },
        }),
@@ -78,18 +83,13 @@ app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use((_req, _res, next) => {
-       next(createError(404));
+       _res.render('error/error404', { layout: 'error_layout', status: '404' });
 });
 
 // error handler
-app.use((err, req, res) => {
-       // set locals, only providing error in development
-       res.locals.message = err.message;
-       res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-       // render the error page
-       res.status(err.status || 500);
-       res.render('error');
+app.use((err, req, res, next) => {
+       console.log(err)
+       res.render('error/error500', { layout: 'error_layout', status: '500' });
 });
 
 module.exports = app;

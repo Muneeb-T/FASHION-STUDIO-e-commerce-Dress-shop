@@ -7,10 +7,14 @@ const db = require('../db_config/connection');
 const collections = require('../db_config/collections');
 
 module.exports.verfiyAdminLogin = (req, res, next) => {
-       if (req.session.adminLogin) {
-              next();
-       } else {
-              res.redirect('/admin');
+       try {
+              if (req.session.adminLogin) {
+                     next();
+              } else {
+                     res.redirect('/admin');
+              }
+       } catch (error) {
+              next(error);
        }
 };
 
@@ -34,29 +38,38 @@ module.exports.storage = multer.diskStorage({
 });
 
 module.exports.registerGuestUser = async (req, res, next) => {
-       if (!req.session.user) {
-              const guestId = new ObjectId();
-              const userObject = {
-                     _id: guestId,
-                     guest: true,
-                     username: `Guest-${guestId}`,
-                     cartCount: 0,
-                     wishlistCount: 0,
-                     wishlist: [],
-                     cart: {
-                            products: [],
-                     },
-              };
-              // await db
-              //        .get()
-              //        .collection(collections.USERS_COLLECTION)
-              //        .insertOne({
-              //               _id: guestId,
-              //               username: `Guest-${guestId}`,
-              //               wishlist: [],
-              //        });
-              req.session.guest = true;
-              req.session.user = userObject;
+       try {
+              if (!req.session.user) {
+                     const guestId = new ObjectId();
+                     const userObject = {
+                            _id: guestId,
+                            guest: true,
+                            username: `Guest-${guestId}`,
+                            cartCount: 0,
+                            wishlistCount: 0,
+                            wishlist: [],
+                            cart: {
+                                   products: [],
+                            },
+                     };
+
+                     req.session.guest = true;
+                     req.session.user = userObject;
+              }
+              next();
+       } catch (error) {
+              next(error);
        }
-       next();
+};
+
+module.exports.verfiyUserLogin = (req, res, next) => {
+       try {
+              if (req.session.userLogin) {
+                     next();
+              } else {
+                     res.redirect('/');
+              }
+       } catch (error) {
+              next(error);
+       }
 };

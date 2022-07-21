@@ -20,6 +20,7 @@
                                 </div>
                             </div>
                             <hr class="mt-0">
+                            {{#if users}}
                             <div class='table-stats order-table products-content'>
                                 <table class='table products-table products-content-child' id='bootstrap-data-table'>
                                     <thead>
@@ -56,7 +57,8 @@
 
                                             <td>
                                                 <div class="d-flex">
-                                                    <a id="blockUserButton{{this._id}}" class="btn text-light font-weight-bold badge {{#if this.blocked}}badge-complete{{else}}badge-pending{{/if}}"
+                                                    <a id="blockUserButton{{this._id}}"
+                                                        class="btn text-light font-weight-bold badge {{#if this.blocked}}badge-complete{{else}}badge-pending{{/if}}"
                                                         onclick="blockUser(event,'{{this._id}}')">{{#if
                                                         this.blocked}}Unblock{{else}}Block{{/if}}</a>
                                                 </div>
@@ -69,6 +71,14 @@
                                     </tbody>
                                 </table>
                             </div>
+                            {{else}}
+                            <div class='card p-4'>
+                                <div class="card-body card-block">
+                                    <h3 class="text-danger mb-3 font-weight-bold">No active users
+                                    </h3>
+                                </div>
+                            </div>
+                            {{/if}}
                             <!-- /.table-stats -->
                         </div>
                     </div>
@@ -105,17 +115,6 @@
     <script src='/admin/js/init/datatables-init.js'></script>
 
 
-    {{!--
-    <script type='text/javascript'>
-
-
-        $(document).ready(function () {
-            var table = $('#bootstrap-data-table').DataTable({
-                responsive: true
-            });
-
-        });
-    </script> --}}
 
 
 

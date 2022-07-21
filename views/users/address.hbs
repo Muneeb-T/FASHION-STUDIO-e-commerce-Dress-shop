@@ -1,0 +1,334 @@
+<div class="container mb-4 p-t-100">
+    <div class="main-body">
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body p-5">
+                        <div class="d-flex flex-column align-items-center">
+                            <div class="profile-pic-wrapper">
+
+                                <form id="updateProfilePictureForm" method="post" enctype="multipart/form-data">
+                                    <div class="pic-holder mx-auto">
+                                        <!-- uploaded pic shown here -->
+                                        <img id="profilePic" class="pic"
+                                            src="{{#if userDetails.profilePicture}} /admin/product-images/{{userDetails.profilePicture}} {{else}}/users/images/icons/profile_picture_placeholder.png{{/if}}">
+
+                                        <Input class="uploadProfileInput" type="file" name="profile_pic"
+                                            id="newProfilePhoto" accept="image/*" style="opacity: 0;" />
+                                        <label for="newProfilePhoto" class="upload-file-block">
+                                            <div class="text-center">
+                                                <div class="mb-2">
+                                                    <i class="fa fa-camera fa-2x"></i>
+                                                </div>
+                                                <div class="text-uppercase">
+                                                    Update
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+
+
+
+
+                                    <button id="updateButton" type="button"
+                                        class="btn btn-sm stext-70 font-weight-bold cl0 bg1 bor1 hov-btn1 p-lr-15 trans-04"
+                                        onclick="event.preventDefault(); updateProfilePicture();" hidden>Update</button>
+                                    <button id="cancelButton" type="button"
+                                        class="btn btn-sm stext-70 font-weight-bold cl0 btn-danger bor1 hov-btn1 p-lr-15 trans-04"
+                                        onclick="event.preventDefault(); cancelUpdateProfilePicture();"
+                                        hidden>Cancel</button>
+                                </form>
+                                </hr>
+
+                            </div>
+                            <div class="mt-3">
+
+                                <h4 class="font-weight-bold" id="profileUsername">
+                                    {{userDetails.username}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <ul class="list-group list-group-flush font-weight-bold ">
+                        <li class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                            <a href="/orders" class="mb-0 d-flex align-items-center"><span class="material-icons mr-3">
+                                    playlist_add_check
+                                </span>My Orders</a>
+
+                        </li>
+                        <li class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                            <a href="/wishlist" class="mb-0 d-flex align-items-center"><span
+                                    class="material-icons mr-3">
+                                    favorite
+                                </span>My Wishlist</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                            <a href="/address" class="mb-0 d-flex align-items-center"><span class="material-icons mr-3">
+                                    contact_mail
+                                </span>Address</a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-center align-items-center flex-wrap">
+                            <a href="/logout" class="mb-0 d-flex align-items-center"><span class="material-icons  mr-3">
+                                    logout
+                                </span>Logout</a>
+                        </li>
+                        <li </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="p-3" style="background-color: #717fe0;">
+                            <span class="stext-110 cl2 text-light">
+                                Address book
+                            </span>
+                            <a href="/addAddress" class="btn float-right btn-sm btn-light">+ ADD NEW ADDRESS</a>
+                        </div>
+                        {{#if addressList}}
+                        {{#each addressList}}
+                        <div class="row" id="addressDiv{{this._id}}">
+
+                            <div class="col  m-3 p-3 font-weight-bold">
+
+
+                                <div class="row">
+
+                                    <div class="col">
+                                        <p>{{this.name}}, {{this.houseName}},<br> {{this.town}},{{this.district}},
+                                            <br>{{this.state}}, {{this.pincode}}
+                                        </p>
+
+                                        <p>Email : {{this.email}}</p>
+
+                                        <p>Phone : {{this.phoneNumber}}</p>
+                                    </div>
+                                </div>
+                                <div class="mt-3  mb-0">
+                                    <a href="/editAddress/{{this._id}}" class="btn btn-sm btn-primary">Edit</a>
+                                    <a onclick="deleteAddress('{{this._id}}')"
+                                        class="btn btn-sm btn-danger text-light">Delete</a>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                        {{/each}}
+                        {{else}}
+                        <div class="card-body cart my-5">
+                            <div class="col-sm-12 empty-cart-cls text-center">
+                                {{!-- <img src="https://img.icons8.com/color/48/000000/order-history.png" width="100"
+                                    height="100" class="img-fluid mb-4 mr-3"> --}}
+                                <h3><strong>Oops! Address not available.</strong></h3>
+                                <h5 class="mt-2">Please add new address</h5>
+                                <a href="/addAddress" class="btn m-3 stext-101 cl0 bg1 bor1 hov-btn1 p-lr-15 trans-04"
+                                    data-abc="true">Add new address</a>
+                            </div>
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script src='https://code.jquery.com/jquery-3.1.1.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
+<script src="/users/local_js/validate.js"></script>
+<script src="/users/local_js/script.js"></script>
+
+
+
+<style>
+    .profile-pic-wrapper {
+
+        width: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pic-holder {
+        text-align: center;
+        position: relative;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .pic-holder .pic {
+        height: 100%;
+        width: 100%;
+        -o-object-fit: cover;
+        object-fit: cover;
+        -o-object-position: center;
+        object-position: center;
+    }
+
+    .pic-holder .upload-file-block,
+    .pic-holder .upload-loader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(90, 92, 105, 0.7);
+        color: #f8f9fc;
+        font-size: 12px;
+        font-weight: 600;
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+
+    .pic-holder .upload-file-block {
+        cursor: pointer;
+    }
+
+    .pic-holder:hover .upload-file-block,
+    .uploadProfileInput:focus~.upload-file-block {
+        opacity: 1;
+    }
+
+    .pic-holder.uploadInProgress .upload-file-block {
+        display: none;
+    }
+
+    .pic-holder.uploadInProgress .upload-loader {
+        opacity: 1;
+    }
+
+    /* Snackbar css */
+    .snackbar {
+        visibility: hidden;
+        min-width: 250px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+        font-size: 14px;
+        transform: translateX(-50%);
+    }
+
+    .snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    @-webkit-keyframes fadein {
+        from {
+            bottom: 0;
+            opacity: 0;
+        }
+
+        to {
+            bottom: 30px;
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadein {
+        from {
+            bottom: 0;
+            opacity: 0;
+        }
+
+        to {
+            bottom: 30px;
+            opacity: 1;
+        }
+    }
+
+    @-webkit-keyframes fadeout {
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
+
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
+    }
+
+    @keyframes fadeout {
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
+
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
+    }
+</style>
+
+
+
+<script>
+    $(document).on("change", ".uploadProfileInput", function () {
+        var triggerInput = this;
+        var currentImg = $(this).closest(".pic-holder").find(".pic").attr("src");
+        var holder = $(this).closest(".pic-holder");
+        var wrapper = $(this).closest(".profile-pic-wrapper");
+        $(wrapper).find('[role="alert"]').remove();
+        triggerInput.blur();
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) {
+            return;
+        }
+        if (/^image/.test(files[0].type)) {
+            // only image file
+            var reader = new FileReader(); // instance of the FileReader
+            reader.readAsDataURL(files[0]); // read the local file
+
+            reader.onloadend = function () {
+                $(holder).addClass("uploadInProgress");
+                $(holder).find(".pic").attr("src", this.result);
+
+                // Dummy timeout; call API or AJAX below
+
+                $(holder).removeClass("uploadInProgress");
+                $(holder).find(".upload-loader").remove();
+                // If upload successful
+                if (Math.random() < 0.9) {
+                    $("#updateButton,#cancelButton").attr('hidden', false)
+                } else {
+                    $(holder).find(".pic").attr("src", currentImg);
+                }
+
+            };
+        } else {
+            console.log("Error occured")
+        }
+    });
+
+    function cancelUpdateProfilePicture() {
+        $("#updateProfilePictureForm")[0].reset()
+        $("#updateButton,#cancelButton").attr('hidden', true)
+        $("#profilePic").attr('src', '{{#if userDetails.profilePicture}} /admin/product-images/{{userDetails.profilePicture}} {{else}}/users/images/icons/profile_picture_placeholder.png{{/if}}')
+    }
+
+</script>

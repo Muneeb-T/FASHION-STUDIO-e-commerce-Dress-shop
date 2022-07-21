@@ -25,6 +25,7 @@
                                 </div>
                             </div>
                             <hr class="mt-0">
+                            {{#if products}}
                             <div class='table-stats order-table products-content'>
                                 <table class='table products-table products-content-child' id='bootstrap-data-table'>
                                     <thead>
@@ -75,14 +76,14 @@
 
                                             <td>
                                                 <div class="d-flex">
-                                                     <a href="/admin/product/{{this._id}}"
-                                                    class="text-light font-weight-bold badge badge-complete mr-2"
-                                                    id="product-edit-button-{{this._id}}">View / Edit</a>
-                                                <a {{!-- href="/admin/delete-product/{{this._id}}" --}}
-                                                    class="text-light font-weight-bold badge badge-pending"
-                                                    onclick="deleteProduct(event,'{{this._id}}','table')">Delete</a>
+                                                    <a href="/admin/product/{{this._id}}"
+                                                        class="text-light font-weight-bold badge badge-complete mr-2"
+                                                        id="product-edit-button-{{this._id}}">View / Edit</a>
+                                                    <a {{!-- href="/admin/delete-product/{{this._id}}" --}}
+                                                        class="text-light font-weight-bold badge badge-pending"
+                                                        onclick="deleteProduct(event,'{{this._id}}','table')">Delete</a>
                                                 </div>
-                                               
+
                                             </td>
 
 
@@ -92,6 +93,15 @@
                                     </tbody>
                                 </table>
                             </div>
+                            {{else}}
+                            <div class='card p-4'>
+                                <div class="card-body card-block">
+                                    <h3 class="text-danger mb-3 font-weight-bold">No products availabe
+                                    </h3>
+                                    <a class="btn btn-success" href="/admin/add-product">Add new product</a>
+                                </div>
+                            </div>
+                            {{/if}}
                             <!-- /.table-stats -->
                         </div>
                     </div>
@@ -126,19 +136,6 @@
     <script src='/admin/js/lib/data-table/buttons.print.min.js'></script>
     <script src='/admin/js/lib/data-table/buttons.colVis.min.js'></script>
     <script src='/admin/js/init/datatables-init.js'></script>
-
-
-{{!-- 
-    <script type='text/javascript'>
-
-
-        $(document).ready(function () {
-            var table = $('#bootstrap-data-table').DataTable({
-                responsive: true
-            });
-
-        });
-    </script> --}}
 
 
 

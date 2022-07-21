@@ -40,6 +40,9 @@ $('#user-signup-form').validate({
                      url: '/signup',
                      data: `${formData}`,
                      success: (response) => {
+                            if (response.error500) {
+                                   window.location.href = '/error500';
+                            }
                             if (response.otpSent) {
                                    $('#authModal').modal('hide');
                                    $('#otpPhoneNumber').text(
@@ -48,12 +51,16 @@ $('#user-signup-form').validate({
                                           ).val(),
                                    );
                                    $('#otpModal').modal('show');
+                                   $('#otp-form').attr(
+                                          'action',
+                                          '/verifyOtpAndSignup',
+                                   );
                             }
                             if (response.exist) {
                                    $('#signupError').text(response.message);
                             }
                             if (response.otpError) {
-                                   $('#otpError').text(otpError.message);
+                                   $('#signupError').text(response.message);
                             }
                      },
               });
@@ -127,6 +134,9 @@ $('#user-login-form').validate({
                      url: '/login',
                      data: `${formData}`,
                      success: (response) => {
+                            if (response.error500) {
+                                   window.location.href = '/error500';
+                            }
                             if (response.loginSuccess) {
                                    window.location.reload();
                             }
@@ -147,7 +157,7 @@ $('#user-login-form').validate({
                      required: true,
                      minlength: 8,
                      allowedChars: true,
-                     containDigits: true,
+                     // containDigits: true,
                      rangelength: [8, 30],
               },
        },
@@ -173,54 +183,184 @@ $('#otp-form').validate({
        highlight(element) {
               $(element).removeClass('text-uppercase');
        },
-       errorPlacement(error, element) {
-              error.insertAfter(element.parent('div'));
-       },
        submitHandler(form) {
               const formData = $(form).serialize();
+              const actionUrl = $(form).attr('action');
               $.ajax({
                      type: 'POST',
-                     url: '/verifySmsOtp',
+                     url: actionUrl,
                      data: formData,
                      success: (response) => {
+                            if (response.error500) {
+                                   window.location.href = '/error500';
+                            }
                             if (response.verifcationFailed) {
                                    $('#otpError').text('Invalid OTP.Try again');
                             }
-                            if (response.signupSuccess) {
+                            if (
+                                   response.signupSuccess ||
+                                   response.loginSuccess
+                            ) {
                                    location.reload();
+                            }
+                            if (response.phoneNumberUpdateSuccess) {
+                                   $('#otpModal').modal('hide');
+                                   Swal.fire(
+                                          'Success',
+                                          'Phone number updated successfully',
+                                          'success',
+                                   );
+
+                                   $('#updatePhonenumber').prop(
+                                          'disabled',
+                                          true,
+                                   );
+
+                                   $('#headerPhoneNumber').text(
+                                          `${response.phone_number}`,
+                                   );
+                                   $('#savePhonenumberEditButton').prop(
+                                          'hidden',
+                                          true,
+                                   );
+                                   $('.cancelProfileUpdate').hide();
+                                   $('#updatePhonenumberEditButton').prop(
+                                          'hidden',
+                                          false,
+                                   );
                             }
                      },
               });
        },
 });
 
-$('#applyCouponForm').validate({
+$('#otp-form-with-password-update').validate({
        debug: false,
        errorClass: 'authError text-danger text-uppercase stext-111 text-center',
        highlight(element) {
               $(element).removeClass('text-uppercase');
        },
-       errorPlacement(error, element) {
-              error.insertAfter(element.parent('div'));
-       },
-       submitHandler(form) {
-              const formData = `${$(form).serialize()}`;
-              $.ajax({
-                     type: 'POST',
-                     url: '/applyCoupon',
-                     data: `${formData}`,
-                     success: (response) => {},
-              });
-       },
        rules: {
-              couponCode: {
+              otp: {
                      required: true,
+              },
+              newPassword: {
+                     required: true,
+                     minlength: 8,
+                     allowedChars: true,
+                     alphanumeric: true,
+                     containDigits: true,
+                     rangelength: [8, 30],
+              },
+              confirmPassword: {
+                     required: true,
+                     minlength: 8,
+                     allowedChars: true,
+                     alphanumeric: true,
+                     containDigits: true,
+                     rangelength: [8, 30],
+                     equalTo: '#newPassword',
               },
        },
        messages: {
-              couponCode: {
-                     required: 'Enter username',
+              otp: {
+                     required: '*',
               },
+              newPassword: {
+                     required: 'Enter password',
+                     allowedChars:
+                            'Allowed characters : A-Z a-z 0-9 @ * _ - . !',
+                     containDigits: 'Password must contain al least one digit',
+                     rangelength: 'Length: 8 - 30 characters',
+                     alphanumeric: 'Must contain characters',
+              },
+              confirmPassword: {
+                     required: 'Enter password',
+                     allowedChars:
+                            'Allowed characters : A-Z a-z 0-9 @ * _ - . !',
+                     containDigits: 'Password must contain al least one digit',
+                     rangelength: 'Length: 8 - 30 characters',
+                     alphanumeric: 'Must contain characters',
+                     equalTo: 'Enter same password',
+              },
+       },
+       submitHandler(form) {
+              const formData = $(form).serialize();
+              const actionUrl = $(form).attr('action');
+              $.ajax({
+                     type: 'POST',
+                     url: actionUrl,
+                     data: formData,
+                     success: (response) => {
+                            if (response.error500) {
+                                   window.location.href = '/error500';
+                            }
+                            if (response.verifcationFailed) {
+                                   $('#otpWithPasswordUpdateError').text(
+                                          'Invalid OTP.Try again',
+                                   );
+                            }
+
+                            if (response.passwordUpdateSuccess) {
+                                   $('#otpModalWithPasswordUpdation').modal(
+                                          'hide',
+                                   );
+                                   Swal.fire(
+                                          'Success',
+                                          'Password updated successfully',
+                                          'success',
+                                   );
+                            }
+                     },
+              });
+       },
+});
+
+$('#emailOtpForm').validate({
+       debug: false,
+       errorClass: 'authError text-danger text-uppercase stext-111 text-center',
+       highlight(element) {
+              $(element).removeClass('text-uppercase');
+       },
+       submitHandler(form) {
+              const formData = $(form).serialize();
+              const actionUrl = $(form).attr('action');
+              $.ajax({
+                     type: 'POST',
+                     url: actionUrl,
+                     data: formData,
+                     success: (response) => {
+                            if (response.error500) {
+                                   window.location.href = '/error500';
+                            }
+                            if (response.verificationFailed) {
+                                   $('#emailOtpError').text(
+                                          'Invalid OTP.Try again',
+                                   );
+                            }
+
+                            if (response.emailUpdateSuccess) {
+                                   $('#emailOtpModal').modal('hide');
+                                   Swal.fire(
+                                          'Success',
+                                          'Email address updated successfully',
+                                          'success',
+                                   );
+
+                                   $('#updateEmail').prop('disabled', true);
+
+                                   $('#saveEmailEditButton').prop(
+                                          'hidden',
+                                          true,
+                                   );
+                                   $('.cancelProfileUpdate').hide();
+                                   $('#updateEmailEditButton').prop(
+                                          'hidden',
+                                          false,
+                                   );
+                            }
+                     },
+              });
        },
 });
 
@@ -233,6 +373,9 @@ function verifyPayment(payment, order) {
                      order,
               },
               success: (response) => {
+                     if (response.error500) {
+                            window.location.href = '/error500';
+                     }
                      if (response.paymentSuccess) {
                             location.href = '/orderSuccess';
                      } else {
@@ -290,7 +433,15 @@ $('#checkoutForm').validate({
               $(element).removeClass('text-uppercase');
        },
        errorPlacement(error, element) {
-              error.insertAfter(element.parent('div'));
+              error.insertBefore(element.parent('div').parent('div'));
+       },
+       rules: {
+              address: { required: true },
+              paymentMethod: { required: true },
+       },
+       messages: {
+              address: { required: 'Select address' },
+              paymentMethod: { required: 'Select payment method' },
        },
        submitHandler(form) {
               const formData = $(form).serialize();
@@ -299,6 +450,9 @@ $('#checkoutForm').validate({
                      url: '/placeOrder',
                      data: `${formData}`,
                      success: (response) => {
+                            if (response.error500) {
+                                   window.location.href = '/error500';
+                            }
                             if (response.cod) {
                                    location.href = '/orderSuccess';
                             }
@@ -306,6 +460,65 @@ $('#checkoutForm').validate({
                                    razorpayPayment(
                                           response.razorpayOrder,
                                           response.userDetails,
+                                   );
+                            }
+                     },
+              });
+       },
+});
+
+$('#user-otp-login-form').validate({
+       debug: false,
+       errorClass: 'authError text-danger text-uppercase stext-111 text-center',
+       highlight(element) {
+              $(element).removeClass('text-uppercase');
+       },
+       errorPlacement(error, element) {
+              error.insertAfter(element.parent('div'));
+       },
+       rules: {
+              phoneNumber: {
+                     required: true,
+                     minlength: 10,
+                     maxlength: 10,
+              },
+       },
+       messages: {
+              phoneNumber: {
+                     required: 'Enter phone number',
+                     minlength: 'Must contain 10 digits',
+                     maxlength: 'Only 10 digits allowed',
+              },
+       },
+       submitHandler: (form) => {
+              const formData = `${$(form).serialize()}`;
+              $.ajax({
+                     type: 'POST',
+                     url: '/sendLoginOtp',
+                     data: `${formData}`,
+                     success: (response) => {
+                            if (response.error500) {
+                                   window.location.href = '/error500';
+                            }
+                            if (response.otpSent) {
+                                   $('#otpPhoneNumber').text(
+                                          `${response.phoneNumber}`,
+                                   );
+                                   $('#loginWithOtp').modal('hide');
+                                   $('#otpModal').modal('show');
+                                   $('#otp-form').attr(
+                                          'action',
+                                          '/verifyOtpAndLogin',
+                                   );
+                            }
+                            if (response.userNotExist) {
+                                   $('#loginWithOtpError').text(
+                                          'Invalid phone number',
+                                   );
+                            }
+                            if (response.otpError) {
+                                   $('#loginWithOtpError').text(
+                                          response.message,
                                    );
                             }
                      },

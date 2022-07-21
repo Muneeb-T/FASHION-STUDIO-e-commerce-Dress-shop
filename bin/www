@@ -1,13 +1,13 @@
 #!/usr/bin/env node
+/* eslint-disable indent */
 
 /**
  * Module dependencies.
  */
 
-const app = require('../app');
 const debug = require('debug')('shopping-website:server');
 const http = require('http');
-
+const app = require('../app');
 /**
  * Get port from environment and store in Express.
  */

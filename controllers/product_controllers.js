@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable radix */
 /* eslint-disable no-throw-literal */
 /* eslint-disable indent */
@@ -26,7 +27,10 @@ module.exports.addCategory = async (req, res) => {
 
               if (categoryExist) {
                      if (categoryExist.deleted === false) {
-                            throw 'Category already exist';
+                            throw {
+                                   categoryAddError: true,
+                                   message: 'Category already exist',
+                            };
                      } else {
                             await db
                                    .get()
@@ -53,20 +57,31 @@ module.exports.addCategory = async (req, res) => {
               }
               res.json({ addCateogrySuccess: true });
        } catch (error) {
-              res.json({ addCateogrySuccess: false, message: error });
+              if (error.categoryAddError) {
+                     res.json({
+                            addCateogrySuccess: false,
+                            message: error.message,
+                     });
+              } else {
+                     res.json({ error500: true });
+              }
        }
 };
 
 module.exports.deleteCategory = async (req, res) => {
-       const categoryId = req.params.id;
+       try {
+              const categoryId = req.params.id;
 
-       await db
-              .get()
-              .collection(collections.CATEGORY_COLLECTION)
-              .updateOne({ _id: ObjectId(categoryId) }, [
-                     { $set: { deleted: { $eq: [false, '$deleted'] } } },
-              ]);
-       res.json({ deleted: true });
+              await db
+                     .get()
+                     .collection(collections.CATEGORY_COLLECTION)
+                     .updateOne({ _id: ObjectId(categoryId) }, [
+                            { $set: { deleted: { $eq: [false, '$deleted'] } } },
+                     ]);
+              res.json({ deleted: true });
+       } catch (error) {
+              res.json({ error500: true });
+       }
 };
 
 module.exports.editCategory = async (req, res) => {
@@ -78,7 +93,7 @@ module.exports.editCategory = async (req, res) => {
                      .collection(collections.CATEGORY_COLLECTION)
                      .find({ $or: [{ _id: ObjectId(categoryId) }, { name }] })
                      .toArray();
-              if (categoryExist.length !== 1) throw new Error();
+              if (categoryExist.length !== 1) throw { updationError: true };
               await db
                      .get()
                      .collection(collections.CATEGORY_COLLECTION)
@@ -89,19 +104,27 @@ module.exports.editCategory = async (req, res) => {
 
               res.json({ updationSuccess: true });
        } catch (error) {
-              res.json({ updationSuccess: false });
+              if (error.updationError) {
+                     res.json({ updationSuccess: false });
+              } else {
+                     res.json({ error500: true });
+              }
        }
 };
 
 module.exports.addProduct = async (req, res) => {
-       const product = productModal(req.body, req.files);
-       product.addedDate = new Date();
+       try {
+              const product = productModal(req.body, req.files);
+              product.addedDate = new Date();
 
-       await db
-              .get()
-              .collection(collections.PRODUCT_COLLECTION)
-              .insertOne(product);
-       res.json({ productAddSuccess: true });
+              await db
+                     .get()
+                     .collection(collections.PRODUCT_COLLECTION)
+                     .insertOne(product);
+              res.json({ productAddSuccess: true });
+       } catch (error) {
+              res.json({ error500: true });
+       }
 };
 
 module.exports.allProducts = async (categoryId) => {
@@ -158,126 +181,146 @@ module.exports.allProducts = async (categoryId) => {
        return products;
 };
 
-module.exports.deleteProduct = async (req, res) => {
-       const productId = req.params.id;
-       await db
-              .get()
-              .collection(collections.PRODUCT_COLLECTION)
-              .updateOne(
-                     {
-                            _id: ObjectId(productId),
-                     },
-                     [{ $set: { deleted: { $eq: [false, '$deleted'] } } }],
-              );
-       res.json({ deleted: true });
-       // res.redirect('/admin/products/all');
-};
-
-module.exports.getProductDetails = async (req, res) => {
-       const productId = req.params.id;
-       const categories = await this.allCategories('all');
-       console.log(categories);
-
-       const [product] = [
+module.exports.deleteProduct = async (req, res, next) => {
+       try {
+              const productId = req.params.id;
               await db
                      .get()
                      .collection(collections.PRODUCT_COLLECTION)
-                     .aggregate([
+                     .updateOne(
                             {
-                                   $match: { _id: ObjectId(productId) },
+                                   _id: ObjectId(productId),
                             },
-                            {
-                                   $lookup: {
-                                          from: collections.CATEGORY_COLLECTION,
-                                          localField: 'category',
-                                          foreignField: '_id',
-                                          pipeline: [
-                                                 {
-                                                        $project: {
-                                                               name: 1,
-                                                        },
+                            [
+                                   {
+                                          $set: {
+                                                 deleted: {
+                                                        $eq: [
+                                                               false,
+                                                               '$deleted',
+                                                        ],
                                                  },
-                                          ],
-                                          as: 'category',
+                                          },
                                    },
-                            },
-                            {
-                                   $unwind: '$category',
-                            },
-                     ])
-                     .toArray(),
-       ][0];
-       console.log(product);
+                            ],
+                     );
+              res.json({ deleted: true });
+       } catch (error) {
+              res.json({ error500: true });
+       }
+};
 
-       res.render('admin/product-details', {
-              layout: 'admin_layout',
-              admin: true,
-              productViewOrEditPage: true,
-              product,
-              categories,
-       });
+module.exports.getProductDetails = async (req, res, next) => {
+       try {
+              const productId = req.params.id;
+              const categories = await this.allCategories('all');
+              console.log(categories);
+
+              const [product] = [
+                     await db
+                            .get()
+                            .collection(collections.PRODUCT_COLLECTION)
+                            .aggregate([
+                                   {
+                                          $match: { _id: ObjectId(productId) },
+                                   },
+                                   {
+                                          $lookup: {
+                                                 from: collections.CATEGORY_COLLECTION,
+                                                 localField: 'category',
+                                                 foreignField: '_id',
+                                                 pipeline: [
+                                                        {
+                                                               $project: {
+                                                                      name: 1,
+                                                               },
+                                                        },
+                                                 ],
+                                                 as: 'category',
+                                          },
+                                   },
+                                   {
+                                          $unwind: '$category',
+                                   },
+                            ])
+                            .toArray(),
+              ][0];
+              console.log(product);
+
+              res.render('admin/product-details', {
+                     layout: 'admin_layout',
+                     admin: true,
+                     productViewOrEditPage: true,
+                     product,
+                     categories,
+              });
+       } catch (error) {
+              next(error);
+       }
 };
 
 module.exports.editProduct = async (req, res) => {
-       const productId = ObjectId(req.params.id);
+       try {
+              const productId = ObjectId(req.params.id);
 
-       const product = productModal(req.body);
-       let imagesIds = req.body.updateImageIds;
-       if (!Array.isArray(imagesIds)) {
-              imagesIds = [imagesIds];
-       }
-
-       console.log(req.body);
-
-       imagesIds = imagesIds.filter((val) => val !== '');
-       imagesIds = imagesIds.map((id) => ObjectId(id));
-
-       const images = [];
-       if (req.files) {
-              if (req.files.length > 0) {
-                     req.files.forEach((element, index) => {
-                            images.push({
-                                   _id: imagesIds[index],
-                                   filename: element.filename,
-                            });
-                     });
+              const product = productModal(req.body);
+              let imagesIds = req.body.updateImageIds;
+              if (!Array.isArray(imagesIds)) {
+                     imagesIds = [imagesIds];
               }
+
+              imagesIds = imagesIds.filter((val) => val !== '');
+              imagesIds = imagesIds.map((id) => ObjectId(id));
+
+              const images = [];
+              if (req.files) {
+                     if (req.files.length > 0) {
+                            req.files.forEach((element, index) => {
+                                   images.push({
+                                          _id: imagesIds[index],
+                                          filename: element.filename,
+                                   });
+                            });
+                     }
+              }
+
+              await db
+                     .get()
+                     .collection(collections.PRODUCT_COLLECTION)
+                     .updateOne(
+                            {
+                                   _id: ObjectId(productId),
+                            },
+
+                            {
+                                   $set: {
+                                          ...product,
+                                   },
+
+                                   $pull: {
+                                          images: { _id: { $in: imagesIds } },
+                                   },
+                            },
+                     );
+
+              await db
+                     .get()
+                     .collection(collections.PRODUCT_COLLECTION)
+                     .updateOne(
+                            {
+                                   _id: ObjectId(productId),
+                            },
+                            {
+                                   $push: {
+                                          images: { $each: images },
+                                   },
+                            },
+                     );
+
+              res.json({ productEditSuccess: true });
+       } catch (error) {
+              res.json({ error500: true });
        }
-
-       await db
-              .get()
-              .collection(collections.PRODUCT_COLLECTION)
-              .updateOne(
-                     {
-                            _id: ObjectId(productId),
-                     },
-
-                     {
-                            $set: {
-                                   ...product,
-                            },
-
-                            $pull: {
-                                   images: { _id: { $in: imagesIds } },
-                            },
-                     },
-              );
-
-       await db
-              .get()
-              .collection(collections.PRODUCT_COLLECTION)
-              .updateOne(
-                     {
-                            _id: ObjectId(productId),
-                     },
-                     {
-                            $push: {
-                                   images: { $each: images },
-                            },
-                     },
-              );
-
-       res.json({ productEditSuccess: true });
 };
 
 // users
@@ -300,13 +343,32 @@ module.exports.getProducts = async (
                               },
                        };
 
+       if (filterQuery.searchKey) {
+              if (!filter.$match.$or) filter.$match.$or = [];
+              filter.$match.$or.push(
+                     {
+                            product_name: {
+                                   $regex: filterQuery.searchKey,
+                                   $options: 'i',
+                            },
+                     },
+                     {
+                            brand: {
+                                   $regex: filterQuery.searchKey,
+                                   $options: 'i',
+                            },
+                     },
+              );
+       }
        if (filterQuery.categories) {
               if (!Array.isArray(filterQuery.categories)) {
                      filterQuery.categories = [filterQuery.categories];
               }
               filterQuery.categories.forEach((category) => {
                      if (!filter.$match.$or) filter.$match.$or = [];
-                     filter.$match.$or.push({ category: ObjectId(category) });
+                     filter.$match.$or.push({
+                            category: ObjectId(category),
+                     });
               });
        }
 
@@ -353,6 +415,7 @@ module.exports.getProducts = async (
                             brand: 1,
                             category: '$category.name',
                             price: 1,
+                            offerPrice: 1,
                             images: 1,
                      },
               },
@@ -418,8 +481,7 @@ module.exports.getProducts = async (
                      $sample: { size: 10 },
               });
        }
-       // if (filterQuery.recommended) {
-       // }
+
        if (filterQuery.newProducts) {
               aggregate.splice(
                      1,
@@ -438,7 +500,6 @@ module.exports.getProducts = async (
               .collection(collections.PRODUCT_COLLECTION)
               .aggregate(aggregate)
               .toArray();
-       console.log(products);
        return products;
 };
 
@@ -482,6 +543,7 @@ module.exports.getSingleProductDetails = async (
                             brand: 1,
                             type: 1,
                             price: 1,
+                            offerPrice: 1,
                             description: 1,
                             category: 1,
                             images: 1,
@@ -553,54 +615,62 @@ module.exports.getSingleProductDetails = async (
                      .aggregate(aggregate)
                      .toArray(),
        ][0];
-       console.log(product);
+
        return product;
 };
 
-module.exports.addToWishlist = async (req, res) => {
-       const { product } = req.body;
-       const { _id, guest } = req.session.user;
+module.exports.addToWishlist = async (req, res, next) => {
+       try {
+              const { product } = req.body;
+              const { _id, guest } = req.session.user;
 
-       if (guest) {
-              const { wishlist } = req.session.user;
-              const ifExist = wishlist.indexOf(product);
-              if (ifExist === -1) {
-                     req.session.user.wishlist.push(product);
-                     req.session.user.wishlistCount += 1;
-                     res.json({ inc: 1 });
+              if (guest) {
+                     const { wishlist } = req.session.user;
+                     const ifExist = wishlist.indexOf(product);
+                     if (ifExist === -1) {
+                            req.session.user.wishlist.push(product);
+                            req.session.user.wishlistCount += 1;
+                            res.json({ inc: 1 });
+                     } else {
+                            req.session.user.wishlist.pop(ObjectId(product));
+                            req.session.user.wishlistCount += -1;
+                            res.json({ inc: -1 });
+                     }
               } else {
-                     req.session.user.wishlist.pop(ObjectId(product));
-                     req.session.user.wishlistCount += -1;
-                     res.json({ inc: -1 });
-              }
-       } else {
-              const update = await db
-                     .get()
-                     .collection(collections.USERS_COLLECTION)
-                     .updateOne(
-                            { _id: ObjectId(_id) },
-                            {
-                                   $addToSet: { wishlist: ObjectId(product) },
-                            },
-                     );
-              if (update.modifiedCount === 0) {
-                     await db
+                     const update = await db
                             .get()
                             .collection(collections.USERS_COLLECTION)
                             .updateOne(
                                    { _id: ObjectId(_id) },
                                    {
-                                          $pull: {
+                                          $addToSet: {
                                                  wishlist: ObjectId(product),
                                           },
                                    },
                             );
-                     req.session.user.wishlistCount += -1;
-                     res.json({ inc: -1 });
-              } else {
-                     req.session.user.wishlistCount += 1;
-                     res.json({ inc: 1 });
+                     if (update.modifiedCount === 0) {
+                            await db
+                                   .get()
+                                   .collection(collections.USERS_COLLECTION)
+                                   .updateOne(
+                                          { _id: ObjectId(_id) },
+                                          {
+                                                 $pull: {
+                                                        wishlist: ObjectId(
+                                                               product,
+                                                        ),
+                                                 },
+                                          },
+                                   );
+                            req.session.user.wishlistCount += -1;
+                            res.json({ inc: -1 });
+                     } else {
+                            req.session.user.wishlistCount += 1;
+                            res.json({ inc: 1 });
+                     }
               }
+       } catch (error) {
+              res.json({ error500: true });
        }
 };
 
@@ -625,6 +695,7 @@ module.exports.getWishlist = async function (userId, guest, guestWishlist) {
                                           product_name: 1,
                                           brand: 1,
                                           price: 1,
+                                          offerPrice: 1,
                                           images: 1,
                                    },
                             },
@@ -657,6 +728,7 @@ module.exports.getWishlist = async function (userId, guest, guestWishlist) {
                                                         product_name: 1,
                                                         brand: 1,
                                                         price: 1,
+                                                        offerPrice: 1,
                                                         images: 1,
                                                  },
                                           },
@@ -670,47 +742,133 @@ module.exports.getWishlist = async function (userId, guest, guestWishlist) {
 };
 
 module.exports.addToBag = async (req, res) => {
-       const { productCount, productId } = req.body;
-       const { size } = req.body;
-       const user = req.session.user._id;
-       const count = parseInt(productCount);
+       try {
+              const { productCount, productId } = req.body;
+              const { size } = req.body;
+              const user = req.session.user._id;
+              const count = parseInt(productCount);
 
-       const { guest, cart } = req.session.user;
+              const { guest, cart } = req.session.user;
 
-       const response = { success: true };
+              const response = { success: true };
 
-       if (guest) {
-              const itemExist = cart.products.findIndex(
-                     (cartItem) =>
-                            cartItem._id === productId &&
-                            cartItem.size === size,
-              );
-
-              if (itemExist === -1) {
-                     req.session.user.cart.products.push({
-                            _id: productId,
-                            size,
-                            count,
-                     });
-                     req.session.user.cartCount += 1;
-                     response.added = true;
-              } else {
-                     req.session.user.cart.products[itemExist].count += 1;
-              }
-       } else {
-              const cartExist = await db
+              const checkStock = await db
                      .get()
-                     .collection(collections.CART_COLLECTION)
-                     .findOne({ user: ObjectId(user) });
-              if (cartExist) {
-                     const update = await cartFunctions.cartExist(
-                            user,
-                            size,
-                            count,
-                            productId,
+                     .collection(collections.PRODUCT_COLLECTION)
+                     .aggregate([
+                            {
+                                   $match: { _id: ObjectId(productId) },
+                            },
+                            {
+                                   $project: {
+                                          stock: {
+                                                 $filter: {
+                                                        input: '$stock',
+                                                        as: 'stock',
+                                                        cond: {
+                                                               $eq: [
+                                                                      '$$stock.size',
+                                                                      size,
+                                                               ],
+                                                        },
+                                                 },
+                                          },
+                                   },
+                            },
+                            {
+                                   $project: {
+                                          _id: 0,
+                                          stock: {
+                                                 $arrayElemAt: ['$stock', 0],
+                                          },
+                                   },
+                            },
+                            {
+                                   $project: {
+                                          stock: '$stock.stock',
+                                   },
+                            },
+                     ])
+                     .toArray();
+
+              if (guest) {
+                     const itemExist = cart.products.findIndex(
+                            (cartItem) =>
+                                   cartItem._id.toString() ===
+                                          productId.toString() &&
+                                   cartItem.size === size,
                      );
-                     if (update.modifiedCount === 0) {
-                            await cartFunctions.cartExistProductNotExist(
+
+                     if (itemExist === -1) {
+                            if (parseInt(productCount) > checkStock[0].stock) {
+                                   response.outOfStock = true;
+                            } else {
+                                   req.session.user.cart.products.push({
+                                          _id: productId,
+                                          size,
+                                          count,
+                                   });
+                                   req.session.user.cartCount += 1;
+                                   response.added = true;
+                            }
+                     } else if (
+                            parseInt(productCount) +
+                                   req.session.user.cart.products[itemExist]
+                                          .count >
+                            checkStock[0].stock
+                     ) {
+                            response.outOfStock = true;
+                     } else {
+                            req.session.user.cart.products[itemExist].count +=
+                                   parseInt(productCount);
+                     }
+              } else {
+                     const cartExist = await db
+                            .get()
+                            .collection(collections.CART_COLLECTION)
+                            .findOne({ user: ObjectId(user) });
+
+                     if (cartExist) {
+                            const itemExist = cartExist.products.findIndex(
+                                   (cartItem) =>
+                                          cartItem._id.toString() ===
+                                                 productId.toString() &&
+                                          cartItem.size === size,
+                            );
+                            if (itemExist === -1) {
+                                   if (
+                                          parseInt(productCount) >
+                                          checkStock[0].stock
+                                   ) {
+                                          response.outOfStock = true;
+                                   } else {
+                                          await cartFunctions.cartExistProductNotExist(
+                                                 user,
+                                                 size,
+                                                 count,
+                                                 productId,
+                                          );
+                                          req.session.user.cartCount += 1;
+                                          response.added = true;
+                                   }
+                            } else if (
+                                   parseInt(productCount) +
+                                          cartExist.products[itemExist].count >
+                                   checkStock[0].stock
+                            ) {
+                                   response.outOfStock = true;
+                            } else {
+                                   const update = await cartFunctions.cartExist(
+                                          user,
+                                          size,
+                                          count,
+                                          productId,
+                                   );
+                            }
+                     } else if (parseInt(productCount) > checkStock[0].stock) {
+                            response.outOfStock = true;
+                     } else {
+                            await cartFunctions.cartNotExist(
                                    user,
                                    size,
                                    count,
@@ -719,19 +877,12 @@ module.exports.addToBag = async (req, res) => {
                             req.session.user.cartCount += 1;
                             response.added = true;
                      }
-              } else {
-                     await cartFunctions.cartNotExist(
-                            user,
-                            size,
-                            count,
-                            productId,
-                     );
-                     req.session.user.cartCount += 1;
-                     response.added = true;
               }
-       }
 
-       res.json(response);
+              res.json(response);
+       } catch (error) {
+              res.json({ error500: true });
+       }
 };
 
 module.exports.cartDetails = async (userId, guest, guestCart) => {
@@ -754,7 +905,18 @@ module.exports.cartDetails = async (userId, guest, guestCart) => {
                                           product_name: 1,
                                           brand: 1,
                                           type: 1,
-                                          price: 1,
+                                          price: {
+                                                 $cond: {
+                                                        if: {
+                                                               $eq: [
+                                                                      '$offerPrice',
+                                                                      null,
+                                                               ],
+                                                        },
+                                                        then: '$price',
+                                                        else: '$offerPrice',
+                                                 },
+                                          },
                                           category: 1,
                                           image: {
                                                  $arrayElemAt: ['$images', 0],
@@ -807,7 +969,11 @@ module.exports.cartDetails = async (userId, guest, guestCart) => {
                      0,
               );
 
-              const cartSubtotal = { totalPrice };
+              const cartSubtotal = {
+                     totalPrice,
+                     discount: 0,
+                     amountPayable: totalPrice,
+              };
               return [cartItems, cartSubtotal];
        }
        const aggregate = [
@@ -822,6 +988,7 @@ module.exports.cartDetails = async (userId, guest, guestCart) => {
                             product: '$products._id',
                             size: '$products.size',
                             count: '$products.count',
+                            couponApplied: 1,
                      },
               },
               {
@@ -835,7 +1002,18 @@ module.exports.cartDetails = async (userId, guest, guestCart) => {
                                                  product_name: 1,
                                                  brand: 1,
                                                  type: 1,
-                                                 price: 1,
+                                                 price: {
+                                                        $cond: {
+                                                               if: {
+                                                                      $eq: [
+                                                                             '$offerPrice',
+                                                                             null,
+                                                                      ],
+                                                               },
+                                                               then: '$price',
+                                                               else: '$offerPrice',
+                                                        },
+                                                 },
                                                  category: 1,
                                                  image: {
                                                         $arrayElemAt: [
@@ -865,6 +1043,7 @@ module.exports.cartDetails = async (userId, guest, guestCart) => {
                      $project: {
                             size: 1,
                             count: 1,
+                            couponApplied: 1,
                             bagItem: { $arrayElemAt: ['$bagItem', 0] },
                      },
               },
@@ -895,18 +1074,195 @@ module.exports.cartDetails = async (userId, guest, guestCart) => {
               .aggregate(aggregate)
               .toArray();
 
-       console.log(cartDetails);
-
-       aggregate.push({
-              $group: {
-                     _id: null,
-                     totalPrice: {
-                            $sum: {
-                                   $multiply: ['$count', '$bagItem.price'],
+       if (cartDetails && cartDetails[0]) {
+              if (cartDetails[0].couponApplied) {
+                     const expiryDate = await db
+                            .get()
+                            .collection(collections.ADMIN_COLLECTION)
+                            .aggregate([
+                                   {
+                                          $project: {
+                                                 coupons: 1,
+                                          },
+                                   },
+                                   {
+                                          $unwind: '$coupons',
+                                   },
+                                   {
+                                          $match: {
+                                                 'coupons._id': ObjectId(
+                                                        cartDetails[0]
+                                                               .couponApplied,
+                                                 ),
+                                          },
+                                   },
+                                   {
+                                          $project: {
+                                                 expiryDate:
+                                                        '$coupons.expiryDate',
+                                          },
+                                   },
+                            ])
+                            .toArray();
+                     if (expiryDate && expiryDate[0]) {
+                            if (
+                                   new Date(expiryDate[0].expiryDate) <
+                                   new Date()
+                            ) {
+                                   await db
+                                          .get()
+                                          .collection(
+                                                 collections.CART_COLLECTION,
+                                          )
+                                          .updateOne(
+                                                 { user: ObjectId(userId) },
+                                                 {
+                                                        $unset: {
+                                                               couponApplied:
+                                                                      '',
+                                                        },
+                                                 },
+                                          );
+                                   delete cartDetails[0].couponApplied;
+                            }
+                     }
+              }
+              if (cartDetails[0].couponApplied) {
+                     aggregate.push(
+                            {
+                                   $lookup: {
+                                          from: 'admin',
+                                          let: {
+                                                 couponApplied:
+                                                        '$couponApplied',
+                                          },
+                                          pipeline: [
+                                                 {
+                                                        $project: {
+                                                               coupons: {
+                                                                      $filter: {
+                                                                             input: '$coupons',
+                                                                             cond: {
+                                                                                    $eq: [
+                                                                                           '$$this._id',
+                                                                                           '$$couponApplied',
+                                                                                    ],
+                                                                             },
+                                                                      },
+                                                               },
+                                                        },
+                                                 },
+                                                 {
+                                                        $unwind: '$coupons',
+                                                 },
+                                          ],
+                                          as: 'coupon_details',
+                                   },
                             },
-                     },
-              },
-       });
+                            {
+                                   $project: {
+                                          size: 1,
+                                          count: 1,
+                                          bagItem: 1,
+                                          total: 1,
+                                          coupon_details: {
+                                                 $arrayElemAt: [
+                                                        '$coupon_details',
+                                                        0,
+                                                 ],
+                                          },
+                                   },
+                            },
+                            {
+                                   $project: {
+                                          coupon_details:
+                                                 '$coupon_details.coupons',
+                                          size: 1,
+                                          count: 1,
+                                          bagItem: 1,
+                                          total: 1,
+                                   },
+                            },
+                            {
+                                   $group: {
+                                          _id: null,
+                                          totalPrice: {
+                                                 $sum: {
+                                                        $multiply: [
+                                                               '$count',
+                                                               '$bagItem.price',
+                                                        ],
+                                                 },
+                                          },
+                                          coupon_details: {
+                                                 $first: '$coupon_details',
+                                          },
+                                   },
+                            },
+                            {
+                                   $addFields: {
+                                          discount: {
+                                                 $toInt: {
+                                                        $multiply: [
+                                                               {
+                                                                      $divide: [
+                                                                             '$coupon_details.discount',
+                                                                             100,
+                                                                      ],
+                                                               },
+                                                               '$totalPrice',
+                                                        ],
+                                                 },
+                                          },
+                                   },
+                            },
+                            {
+                                   $addFields: {
+                                          amountPayable: {
+                                                 $toInt: {
+                                                        $subtract: [
+                                                               '$totalPrice',
+                                                               '$discount',
+                                                        ],
+                                                 },
+                                          },
+                                   },
+                            },
+                            {
+                                   $project: {
+                                          appliedCoupon: '$coupon_details._id',
+                                          discount: 1,
+                                          amountPayable: 1,
+                                          totalPrice: 1,
+                                          _id: 0,
+                                   },
+                            },
+                     );
+              } else {
+                     aggregate.push(
+                            {
+                                   $group: {
+                                          _id: null,
+                                          totalPrice: {
+                                                 $sum: {
+                                                        $multiply: [
+                                                               '$count',
+                                                               '$bagItem.price',
+                                                        ],
+                                                 },
+                                          },
+                                   },
+                            },
+                            {
+                                   $addFields: {
+                                          discount: 0,
+                                          amountPayable: '$totalPrice',
+                                   },
+                            },
+                     );
+              }
+       }
+
        const [cartSubtotal] = [
               await db
                      .get()
@@ -919,142 +1275,311 @@ module.exports.cartDetails = async (userId, guest, guestCart) => {
 };
 
 module.exports.updateCart = async (req, res) => {
-       console.log(req.body);
+       try {
+              const { credential, size, productId, inc } = req.body;
+              const user = req.session.user._id;
+              const { guest, cart } = req.session.user;
 
-       const { credential, size, productId, inc } = req.body;
-       const user = req.session.user._id;
-       const { guest, cart } = req.session.user;
-
-       const responseObject = {
-              updationSuccess: true,
-       };
-
-       const arrayFilters = {
-              arrayFilters: [
-                     {
-                            'i._id': {
-                                   $eq: ObjectId(productId),
+              const existingCount = await db
+                     .get()
+                     .collection(collections.CART_COLLECTION)
+                     .aggregate([
+                            {
+                                   $match: {
+                                          user: ObjectId(user),
+                                   },
                             },
-                            'i.size': { $eq: size },
-                     },
-              ],
-       };
+                            {
+                                   $project: {
+                                          product: {
+                                                 $filter: {
+                                                        input: '$products',
+                                                        as: 'product',
+                                                        cond: {
+                                                               $and: [
+                                                                      {
+                                                                             $eq: [
+                                                                                    '$$product.size',
+                                                                                    size,
+                                                                             ],
+                                                                      },
+                                                                      {
+                                                                             $eq: [
+                                                                                    '$$product._id',
+                                                                                    ObjectId(
+                                                                                           productId,
+                                                                                    ),
+                                                                             ],
+                                                                      },
+                                                               ],
+                                                        },
+                                                 },
+                                          },
+                                   },
+                            },
+                            {
+                                   $project: {
+                                          _id: 0,
+                                          product: {
+                                                 $arrayElemAt: ['$product', 0],
+                                          },
+                                   },
+                            },
+                            {
+                                   $project: {
+                                          count: '$product.count',
+                                   },
+                            },
+                     ])
+                     .toArray();
 
-       const object = [{ user: ObjectId(user) }];
-       if (credential === 'count') {
-              if (!guest) {
-                     object.splice(1, 0, {
-                            $inc: { 'products.$[i].count': parseInt(inc) },
-                     });
-                     object.push(arrayFilters);
-                     await updateCart(object);
-              } else {
-                     console.log(cart);
-                     for (const [i, product] of cart.products.entries()) {
+              const checkStock = await db
+                     .get()
+                     .collection(collections.PRODUCT_COLLECTION)
+                     .aggregate([
+                            {
+                                   $match: { _id: ObjectId(productId) },
+                            },
+                            {
+                                   $project: {
+                                          stock: {
+                                                 $filter: {
+                                                        input: '$stock',
+                                                        as: 'stock',
+                                                        cond: {
+                                                               $eq: [
+                                                                      '$$stock.size',
+                                                                      size,
+                                                               ],
+                                                        },
+                                                 },
+                                          },
+                                   },
+                            },
+                            {
+                                   $project: {
+                                          _id: 0,
+                                          stock: {
+                                                 $arrayElemAt: ['$stock', 0],
+                                          },
+                                   },
+                            },
+                            {
+                                   $project: {
+                                          stock: '$stock.stock',
+                                   },
+                            },
+                     ])
+                     .toArray();
+
+              const responseObject = {
+                     updationSuccess: true,
+              };
+
+              const arrayFilters = {
+                     arrayFilters: [
+                            {
+                                   'i._id': {
+                                          $eq: ObjectId(productId),
+                                   },
+                                   'i.size': { $eq: size },
+                            },
+                     ],
+              };
+
+              const object = [{ user: ObjectId(user) }];
+              if (credential === 'count') {
+                     if (!guest) {
                             if (
-                                   ObjectId(product._id).toString() ===
-                                          ObjectId(productId).toString() &&
-                                   product.size === size
+                                   existingCount[0].count + parseInt(inc) >
+                                   checkStock[0].stock
                             ) {
-                                   req.session.user.cart.products[i].count +=
-                                          parseInt(inc);
+                                   responseObject.updationSuccess = false;
+                                   responseObject.outOfStock = true;
+                            } else {
+                                   object.splice(1, 0, {
+                                          $inc: {
+                                                 'products.$[i].count':
+                                                        parseInt(inc),
+                                          },
+                                   });
+                                   object.push(arrayFilters);
+                                   await updateCart(object);
+                            }
+                     } else {
+                            for (const [
+                                   i,
+                                   product,
+                            ] of cart.products.entries()) {
+                                   if (
+                                          ObjectId(product._id).toString() ===
+                                                 ObjectId(
+                                                        productId,
+                                                 ).toString() &&
+                                          product.size === size
+                                   ) {
+                                          if (
+                                                 product.count + parseInt(inc) >
+                                                 checkStock[0].stock
+                                          ) {
+                                                 responseObject.updationSuccess = false;
+                                                 responseObject.outOfStock = true;
+                                                 break;
+                                          } else {
+                                                 req.session.user.cart.products[
+                                                        i
+                                                 ].count += parseInt(inc);
 
-                                   break;
+                                                 break;
+                                          }
+                                   }
                             }
                      }
               }
-       }
 
-       if (credential === 'size') {
-              if (!guest) {
-                     const productWithSizeExist = await db
-                            .get()
-                            .collection(collections.CART_COLLECTION)
-                            .aggregate([
-                                   {
-                                          $match: {
-                                                 user: ObjectId(user),
+              if (credential === 'size') {
+                     if (!guest) {
+                            const productWithSizeExist = await db
+                                   .get()
+                                   .collection(collections.CART_COLLECTION)
+                                   .aggregate([
+                                          {
+                                                 $match: {
+                                                        user: ObjectId(user),
+                                                 },
                                           },
-                                   },
-                                   {
-                                          $unwind: '$products',
-                                   },
-                                   {
-                                          $match: {
-                                                 $and: [
-                                                        {
-                                                               'products.size':
-                                                                      inc,
+                                          {
+                                                 $unwind: '$products',
+                                          },
+                                          {
+                                                 $match: {
+                                                        $and: [
+                                                               {
+                                                                      'products.size':
+                                                                             inc,
+                                                               },
+                                                               {
+                                                                      'products._id':
+                                                                             ObjectId(
+                                                                                    productId,
+                                                                             ),
+                                                               },
+                                                        ],
+                                                 },
+                                          },
+                                          {
+                                                 $project: {
+                                                        _id: 0,
+                                                        size: '$products.size',
+                                                        count: '$products.count',
+                                                 },
+                                          },
+                                   ])
+                                   .toArray();
+
+                            if (productWithSizeExist.length !== 0) {
+                                   if (
+                                          productWithSizeExist[0].count +
+                                                 existingCount[0].count <=
+                                          checkStock[0].stock
+                                   ) {
+                                          object[1] = {
+                                                 $pull: {
+                                                        products: {
+                                                               _id: ObjectId(
+                                                                      productId,
+                                                               ),
+                                                               size: productWithSizeExist[0]
+                                                                      .size,
                                                         },
-                                                        {
-                                                               'products._id':
-                                                                      ObjectId(
-                                                                             productId,
-                                                                      ),
+                                                 },
+                                          };
+                                          await updateCart(object);
+
+                                          object[1] = {
+                                                 $set: {
+                                                        'products.$[i].size':
+                                                               inc,
+                                                 },
+                                                 $inc: {
+                                                        'products.$[i].count':
+                                                               productWithSizeExist[0]
+                                                                      .count,
+                                                 },
+                                          };
+
+                                          object.push(arrayFilters);
+                                          await updateCart(object);
+                                          req.session.user.cartCount -= 1;
+                                          responseObject.changeCount = true;
+                                   }
+                            } else {
+                                   const stock = await db
+                                          .get()
+                                          .collection(
+                                                 collections.PRODUCT_COLLECTION,
+                                          )
+                                          .aggregate([
+                                                 {
+                                                        $match: {
+                                                               _id: ObjectId(
+                                                                      productId,
+                                                               ),
                                                         },
-                                                 ],
-                                          },
-                                   },
-                                   {
-                                          $project: {
-                                                 _id: 0,
-                                                 size: '$products.size',
-                                                 count: '$products.count',
-                                          },
-                                   },
-                            ])
-                            .toArray();
+                                                 },
+                                                 {
+                                                        $project: {
+                                                               stock: {
+                                                                      $filter: {
+                                                                             input: '$stock',
+                                                                             as: 'stock',
+                                                                             cond: {
+                                                                                    $eq: [
+                                                                                           '$$stock.size',
+                                                                                           inc,
+                                                                                    ],
+                                                                             },
+                                                                      },
+                                                               },
+                                                        },
+                                                 },
+                                                 {
+                                                        $project: {
+                                                               _id: 0,
+                                                               stock: {
+                                                                      $arrayElemAt:
+                                                                             [
+                                                                                    '$stock',
+                                                                                    0,
+                                                                             ],
+                                                               },
+                                                        },
+                                                 },
+                                                 {
+                                                        $project: {
+                                                               stock: '$stock.stock',
+                                                        },
+                                                 },
+                                          ])
+                                          .toArray();
 
-                     if (productWithSizeExist.length !== 0) {
-                            object[1] = {
-                                   $pull: {
-                                          products: {
-                                                 _id: ObjectId(productId),
-                                                 size: productWithSizeExist[0]
-                                                        .size,
-                                          },
-                                   },
-                            };
-                            await updateCart(object);
+                                   if (
+                                          existingCount[0].count <=
+                                          stock[0].stock
+                                   ) {
+                                          object[1] = {
+                                                 $set: {
+                                                        'products.$[i].size':
+                                                               inc,
+                                                 },
+                                          };
 
-                            object[1] = {
-                                   $set: {
-                                          'products.$[i].size': inc,
-                                   },
-                                   $inc: {
-                                          'products.$[i].count':
-                                                 productWithSizeExist[0].count,
-                                   },
-                            };
-
-                            object.push(arrayFilters);
-                            await updateCart(object);
-                            req.session.user.cartCount -= 1;
-                            responseObject.changeCount = true;
+                                          object.push(arrayFilters);
+                                          await updateCart(object);
+                                   }
+                            }
                      } else {
-                            object[1] = {
-                                   $set: {
-                                          'products.$[i].size': inc,
-                                   },
-                            };
-                            object.push(arrayFilters);
-                            await updateCart(object);
-                     }
-              } else {
-                     const productIndex = cart.products.findIndex(
-                            (product) =>
-                                   ObjectId(product._id).toString() ===
-                                          ObjectId(productId).toString() &&
-                                   product.size === size,
-                     );
-
-                     if (productIndex !== -1) {
-                            const existingProduct = cart.products[productIndex];
-                            req.session.user.cart.products.splice(
-                                   productIndex,
-                                   1,
-                            );
-                            const updateIndex = cart.products.findIndex(
+                            const productIndex = cart.products.findIndex(
                                    (product) =>
                                           ObjectId(product._id).toString() ===
                                                  ObjectId(
@@ -1062,11 +1587,7 @@ module.exports.updateCart = async (req, res) => {
                                                  ).toString() &&
                                           product.size === inc,
                             );
-                            req.session.user.cart.products[updateIndex].count +=
-                                   existingProduct.count;
-                            req.session.user.cartCount -= 1;
-                            responseObject.changeCount = true;
-                     } else {
+
                             const updateIndex = cart.products.findIndex(
                                    (product) =>
                                           ObjectId(product._id).toString() ===
@@ -1075,46 +1596,109 @@ module.exports.updateCart = async (req, res) => {
                                                  ).toString() &&
                                           product.size === size,
                             );
-                            req.session.user.cart.products[updateIndex].size =
-                                   inc;
+
+                            if (productIndex !== -1) {
+                                   const existingProduct =
+                                          cart.products[productIndex];
+                                   const updatingProduct =
+                                          cart.products[updateIndex];
+
+                                   if (
+                                          existingProduct.count +
+                                                 updatingProduct.count <=
+                                          checkStock[0].stock
+                                   ) {
+                                          const updateIndex =
+                                                 cart.products.findIndex(
+                                                        (product) =>
+                                                               ObjectId(
+                                                                      product._id,
+                                                               ).toString() ===
+                                                                      ObjectId(
+                                                                             productId,
+                                                                      ).toString() &&
+                                                               product.size ===
+                                                                      size,
+                                                 );
+
+                                          req.session.user.cart.products[
+                                                 productIndex
+                                          ].count += updatingProduct.count;
+                                          req.session.user.cartCount -= 1;
+                                          responseObject.changeCount = true;
+
+                                          req.session.user.cart.products.splice(
+                                                 updateIndex,
+                                                 1,
+                                          );
+                                   }
+                            } else {
+                                   const updateIndex = cart.products.findIndex(
+                                          (product) =>
+                                                 ObjectId(
+                                                        product._id,
+                                                 ).toString() ===
+                                                        ObjectId(
+                                                               productId,
+                                                        ).toString() &&
+                                                 product.size === size,
+                                   );
+
+                                   const existingProduct =
+                                          cart.products[updateIndex];
+
+                                   if (
+                                          existingProduct.count <=
+                                          checkStock[0].stock
+                                   ) {
+                                          req.session.user.cart.products[
+                                                 updateIndex
+                                          ].size = inc;
+                                   }
+                            }
                      }
               }
-       }
 
-       if (credential === 'remove') {
-              if (!guest) {
-                     object.push({
-                            $pull: {
-                                   products: {
-                                          _id: ObjectId(productId),
-                                          size,
+              if (credential === 'remove') {
+                     if (!guest) {
+                            object.push({
+                                   $pull: {
+                                          products: {
+                                                 _id: ObjectId(productId),
+                                                 size,
+                                          },
                                    },
-                            },
-                     });
+                            });
 
-                     await updateCart(object);
-                     req.session.user.cartCount -= 1;
-                     responseObject.changeCount = true;
-              } else {
-                     const productIndex = cart.products.indexOf(
-                            (product) =>
-                                   ObjectId(product._id).toString() ===
-                                          ObjectId(productId) &&
-                                   product.size === size,
-                     );
-                     req.session.user.cart.products.splice(productIndex, 1);
-                     req.session.user.cartCount -= 1;
-                     responseObject.changeCount = true;
+                            await updateCart(object);
+                            req.session.user.cartCount -= 1;
+                            responseObject.changeCount = true;
+                     } else {
+                            const productIndex = cart.products.indexOf(
+                                   (product) =>
+                                          ObjectId(product._id).toString() ===
+                                                 ObjectId(productId) &&
+                                          product.size === size,
+                            );
+                            req.session.user.cart.products.splice(
+                                   productIndex,
+                                   1,
+                            );
+                            req.session.user.cartCount -= 1;
+                            responseObject.changeCount = true;
+                     }
               }
-       }
 
-       async function updateCart(object) {
-              await db
-                     .get()
-                     .collection(collections.CART_COLLECTION)
-                     .updateOne(...object);
+              async function updateCart(object) {
+                     await db
+                            .get()
+                            .collection(collections.CART_COLLECTION)
+                            .updateOne(...object);
+              }
+              res.json(responseObject);
+       } catch (error) {
+              res.json({ error500: true });
        }
-       res.json(responseObject);
 };
 
 module.exports.mergeGuestUser = async (guestWishlist, guestCart, userId) => {
@@ -1125,8 +1709,6 @@ module.exports.mergeGuestUser = async (guestWishlist, guestCart, userId) => {
               size: product.size,
               count: product.count,
        }));
-
-       console.log(guestCartItems);
 
        await db
               .get()

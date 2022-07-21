@@ -1,7 +1,7 @@
 <link rel='stylesheet' href='/admin/css/lib/datatable/dataTables.bootstrap.min.css' />
 
 
-<div class="content categories-content">
+<div class="content categories-content" id="categoriesRow">
        <div class="animanted-fadeIn categories-content-child">
 
               <div class='orders'>
@@ -39,8 +39,10 @@
                                                                                     </div>
                                                                              </div>
                                                                              <div class="mb-3">
-                                                                                    <p id="addCategoryError" 
-                                                                                           class="text-danger category-error text-uppercase" style="font-size: small;"></p>
+                                                                                    <p id="addCategoryError"
+                                                                                           class="text-danger category-error text-uppercase"
+                                                                                           style="font-size: small;">
+                                                                                    </p>
                                                                              </div>
                                                                       </form>
                                                                </div>
@@ -48,7 +50,8 @@
 
                                                  </div>
                                                  <hr class="mt-0">
-                                             
+                                                 {{#if categories}}
+
                                                  <div class='table-stats order-table'>
                                                         <table class='table' id='bootstrap-data-table'>
                                                                <thead>
@@ -85,10 +88,11 @@
                                                                                                   onclick="editCategory('{{this._id}}')"
                                                                                                   onkeypress="return allowOnlyLetters(event,this)">Edit</a>
 
-                                                                                       
+
                                                                                            <a onclick="deleteCategory(event,'{{this._id}}','{{../isDeletePage}}')"
-                                                                                                  class="text-light badge btn badge-pending font-weight-bold">{{#if ../isDeletePage}}Restore{{else}}Delete{{/if}}</a>
-                                                                             
+                                                                                                  class="text-light badge btn badge-pending font-weight-bold">{{#if
+                                                                                                  ../isDeletePage}}Restore{{else}}Delete{{/if}}</a>
+
                                                                                     </td>
                                                                              </form>
                                                                              <td><a href="/admin/products/{{this._id}}"
@@ -103,6 +107,17 @@
                                                         </table>
 
                                                  </div>
+                                                 {{else}}
+                                                 <div class='card p-4'>
+                                                        <div class="card-body card-block">
+                                                               <h3 class="text-danger mb-3 font-weight-bold">
+                                                                      No categories available
+                                                               </h3>
+                                                               <a class="btn btn-success" href="#categoriesRow">Add new
+                                                                      categories</a>
+                                                        </div>
+                                                 </div>
+                                                 {{/if}}
                                                  <!-- /.table-stats -->
                                           </div>
                                    </div>
@@ -138,18 +153,6 @@
        <script src='/admin/js/lib/data-table/buttons.colVis.min.js'></script>
        <script src='/admin/js/init/datatables-init.js'></script>
 
-
-       {{!--
-       <script type='text/javascript'>
-
-
-              $(document).ready(function () {
-                     const table = $('#bootstrap-data-table').DataTable({
-                            responsive: true
-                     });
-
-              });
-       </script> --}}
 
 
        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>

@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css">
 <div class='content'>
        <div class='animated fadeIn'>
 
@@ -93,6 +94,20 @@
                                                                col-md-9'><input type='number' id='price-input'
                                                                       name='price' placeholder='Enter price'
                                                                       class='form-control' />
+                                                        </div>
+                                                 </div>
+
+                                                 <div class='row form-group'>
+                                                        <div class='col
+                                                               col-md-3'><label for='offer-percentage'
+                                                                      class='form-control-label'>Offer
+                                                                      percentage</label></div>
+                                                        <div class='col-12
+                                                               col-md-9'><input type='number' id='offer-percentage'
+                                                                      name='offerPercentage'
+                                                                      placeholder='Enter offer percentage (optional)'
+                                                                      class='form-control'
+                                                                      onkeypress="return onlyTwoNumbers(this)" />
                                                         </div>
                                                  </div>
 
@@ -346,9 +361,10 @@
                                    {{else}}
                                    <div class='card p-4'>
                                           <div class="card-body card-block">
-                                                 <h3 class="text-danger mb-3 font-weight-bold">No categories availabe
+                                                 <h3 class="text-danger mb-3 font-weight-bold">No categories availabe to
+                                                        add products
                                                  </h3>
-                                                 <a class="btn btn-success" href="/admin/categories">Add categories</a>
+                                                 <a class="btn btn-success" href="/admin/categories/all">Add categories</a>
                                           </div>
                                    </div>
                                    {{/if}}
@@ -360,35 +376,42 @@
               </div>
        </div>
 </div>
+</div>
+
+
+
+
+
+
+
+
 
 <script src='https://code.jquery.com/jquery-3.1.1.js'></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
 <script src='/admin/local_js/validation.js'></script>
 <script src='/admin/local_js/script.js'></script>
 
-
 <style>
-       {
-                     {
-                      !-- .imagePreview {
-                            width: 100%;
-                            height: 200px;
-                            background-position: center center;
-                            background:
-                                   url(http://cliquecities.com/assets/no-image-e3699ae23f866f6cbdf8ba2443ee5c4e.jpg);
-                            background-color: #fff;
-                            background-size: cover;
-                            background-repeat:
-                                   no-repeat;
-                            display: inline-block;
-                            box-shadow: 0px 1px 1px 1px rgba(70,
-                                          70, 70, 0.2);
-                     }
-
-                     --
-              }
+       .imagePreview {
+              width: 100%;
+              height: 200px;
+              background-position: center center;
+              background:
+                     url(http://cliquecities.com/assets/no-image-e3699ae23f866f6cbdf8ba2443ee5c4e.jpg);
+              background-color: #fff;
+              background-size: cover;
+              background-repeat:
+                     no-repeat;
+              display: inline-block;
+              box-shadow: 0px 1px 1px 1px rgba(70,
+                            70, 70, 0.2);
        }
+
+
+
 
        .btn-primary {
               display: block;
@@ -536,6 +559,8 @@
        }
 </style>
 
+
+
 <script>
        $(document).on("change", ".uploadProfileInput", function () {
               var triggerInput = this;
@@ -553,9 +578,15 @@
                      var reader = new FileReader(); // instance of the FileReader
                      reader.readAsDataURL(files[0]); // read the local file
 
+
                      reader.onloadend = function () {
                             $(holder).addClass("uploadInProgress");
+
+                          
+
                             $(holder).find(".pic").attr("src", this.result);
+
+
                             $(holder).append(
                                    '<div class="upload-loader"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div>'
                             );
@@ -570,37 +601,16 @@
 
                             } else {
                                    $(holder).find(".pic").attr("src", currentImg);
-                                   // Clear input after upload
-
 
                             }
+
 
                      };
               } else {
                      $(wrapper).append(
                             '<div class="alert alert-danger d-inline-block p-2 small" role="alert">Please choose the valid image.</div>'
                      );
-
-
               }
        });
 
-</script>
-<script>
-
-       $(function () {
-              $(document).on("change", ".uploadFile", function () {
-                     let uploadFile = $(this); var files = !!this.files ? this.files : []; if
-                            (!files.length || !window.FileReader) return; // no file selected, or noFileReader support 
-                     if (/^image/.test(files[0].type)) { // only image file
-                            var reader = new FileReader(); // instance of the FileReader
-                            reader.readAsDataURL(files[0]); // read the local file 
-                            reader.onloadend = function () { // set image data as background of div
-                                   //alert(uploadFile.closest(".upimage").find('.imagePreview').length);
-                                   uploadFile.closest(".imgUp").find('.imagePreview').css("background-image",
-                                          "url(" + this.result + ")");
-                            }
-                     }
-              });
-       });
 </script>

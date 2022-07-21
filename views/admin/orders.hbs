@@ -7,7 +7,7 @@
 
         <div class='orders'>
             <div class='row'>
-                <div class='col'>
+                <div class='col '>
                     <div class='card'>
 
 
@@ -19,17 +19,20 @@
                                 </div>
                             </div>
                             <hr class="mt-0">
+                            {{#if allOrders}}
                             <div class='table-stats order-table products-content'>
                                 <table class='table products-table products-content-child' id='bootstrap-data-table'>
                                     <thead>
                                         <tr>
 
-                                            <th>OrderId</th>
+                                            <th>Order ID</th>
                                             <th>Customer</th>
 
                                             <th>Order date</th>
                                             <th>Payment method</th>
-                                            <th>Amount</th>
+                                            <th>Total price</th>
+                                            <th>Discount</th>
+                                            <th>Amount payable</th>
                                             <th>Order status</th>
                                             <th>View</th>
 
@@ -41,13 +44,13 @@
                                         {{#each allOrders}}
                                         <tr>
 
-                                            <td>
+                                            <td class="text-uppercase">
                                                 {{this._id}}
                                             </td>
-                                            <td>
+                                            <td style="white-space: nowrap;">
                                                 {{this.user}}
                                             </td>
-                                            <td>
+                                            <td style="white-space: nowrap;">
                                                 {{this.orderDate}}
                                             </td>
 
@@ -55,13 +58,51 @@
                                                 {{this.paymentMethod}}
                                             </td>
                                             <td>
-                                                ₹{{this.amount}}
+                                                Rs.{{this.totalPrice}}
                                             </td>
-
                                             <td>
-                                                <span class='badge {{#ifeq this.orderStatus  'Placed'}} text-success
-                                                    {{/ifeq}} {{#ifeq this.orderStatus 'Pending' }} text-danger
-                                                    {{/ifeq}} font-weight-bold'>{{this.orderStatus}}</span>
+                                                Rs.{{this.discount}}
+                                            </td>
+                                            <td>
+
+                                                Rs.{{this.amountPayable}}
+
+                                            </td>
+                                            <td>
+
+                                                <select id="order-status{{this._id}}"
+                                                    class="form-control form-control-sm text-uppercase"
+                                                    style="width:fit-content;"
+                                                    onchange="changeOrderStatus('{{this._id}}')">
+                                                    <option class="text-uppercase" value="Pending" {{#ifeq
+                                                        this.orderStatus 'Cancelled' }} disabled {{/ifeq}} {{#ifeq
+                                                        this.orderStatus 'Pending' }} selected {{/ifeq}} disabled>
+                                                        Pending
+                                                    </option>
+                                                    <option class="text-uppercase" value="Placed" {{#ifeq
+                                                        this.orderStatus 'Cancelled' }} disabled {{/ifeq}} {{#ifeq
+                                                        this.orderStatus 'Placed' }} selected {{/ifeq}} disabled>Placed
+                                                    </option>
+                                                    <option class="text-uppercase" value="Shipped" {{#ifeq
+                                                        this.orderStatus 'Cancelled' }} disabled {{/ifeq}} {{#ifeq
+                                                        this.orderStatus 'Shipped' }} selected {{/ifeq}}>Shipped
+                                                    </option>
+                                                    <option class="text-uppercase" value="Out for delivery" {{#ifeq
+                                                        this.orderStatus 'Cancelled' }} disabled {{/ifeq}} {{#ifeq
+                                                        this.orderStatus 'Out for delivery' }} selected {{/ifeq}}>
+                                                        Out for delivery</option>
+                                                    <option class="text-uppercase" value="Delivered" {{#ifeq
+                                                        this.orderStatus 'Cancelled' }} disabled {{/ifeq}} {{#ifeq
+                                                        this.orderStatus 'Delivered' }} selected {{/ifeq}}>
+                                                        Delivered</option>
+                                                    <option class="text-uppercase" value="Cancelled" {{#ifeq
+                                                        this.orderStatus 'Cancelled' }} selected {{/ifeq}} {{#ifeq
+                                                        this.orderStatus 'Delivered' }} disabled {{/ifeq}}>
+                                                        Cancelled</option>
+                                                </select>
+
+
+
                                             </td>
                                             <td>
                                                 <div class="d-flex">
@@ -80,6 +121,14 @@
                                     </tbody>
                                 </table>
                             </div>
+                            {{else}}
+                            <div class='card p-4'>
+                                <div class="card-body card-block">
+                                    <h3 class="text-danger mb-3 font-weight-bold">Orders are yet to come
+                                    </h3>
+                                </div>
+                            </div>
+                            {{/if}}
                             <!-- /.table-stats -->
                         </div>
                     </div>
@@ -93,47 +142,34 @@
             </div>
         </div>
     </div>
+</div>
+
+
+
+
+
+<script src='https://code.jquery.com/jquery-3.1.1.js'></script>
+
+
+
+
+<script src='/admin/js/lib/data-table/datatables.min.js'></script>
+<script src='/admin/js/lib/data-table/dataTables.bootstrap.min.js'></script>
+<script src='/admin/js/lib/data-table/dataTables.buttons.min.js'></script>
+<script src='/admin/js/lib/data-table/buttons.bootstrap.min.js'></script>
+<script src='/admin/js/lib/data-table/jszip.min.js'></script>
+<script src='/admin/js/lib/data-table/vfs_fonts.js'></script>
+<script src='/admin/js/lib/data-table/buttons.html5.min.js'></script>
+<script src='/admin/js/lib/data-table/buttons.print.min.js'></script>
+<script src='/admin/js/lib/data-table/buttons.colVis.min.js'></script>
+<script src='/admin/js/init/datatables-init.js'></script>
 
 
 
 
 
 
-    <script src='https://code.jquery.com/jquery-3.1.1.js'></script>
-
-
-
-
-    <script src='/admin/js/lib/data-table/datatables.min.js'></script>
-    <script src='/admin/js/lib/data-table/dataTables.bootstrap.min.js'></script>
-    <script src='/admin/js/lib/data-table/dataTables.buttons.min.js'></script>
-    <script src='/admin/js/lib/data-table/buttons.bootstrap.min.js'></script>
-    <script src='/admin/js/lib/data-table/jszip.min.js'></script>
-    <script src='/admin/js/lib/data-table/vfs_fonts.js'></script>
-    <script src='/admin/js/lib/data-table/buttons.html5.min.js'></script>
-    <script src='/admin/js/lib/data-table/buttons.print.min.js'></script>
-    <script src='/admin/js/lib/data-table/buttons.colVis.min.js'></script>
-    <script src='/admin/js/init/datatables-init.js'></script>
-
-
-    {{!--
-    <script type='text/javascript'>
-
-
-        $(document).ready(function () {
-            var table = $('#bootstrap-data-table').DataTable({
-                responsive: true
-            });
-
-        });
-    </script> --}}
-
-
-
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
-    <script src='/admin/local_js/validation.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
-
-
-    <script src="/admin/local_js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js'></script>
+<script src='/admin/local_js/validation.js'></script>
+<script src='/admin/local_js/script.js'></script>

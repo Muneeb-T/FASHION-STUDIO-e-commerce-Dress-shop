@@ -26,49 +26,26 @@ module.exports.getBanners = async () => {
 };
 
 module.exports.updateBanner = async (req, res) => {
-       console.log(req.body);
-       const { bannerId, updation, title, subtitle } = req.body;
+       try {
+              const { bannerId, updation, title, subtitle } = req.body;
 
-       const update = [{}];
-       if (updation === 'remove') {
-              update.push({
-                     $pull: {
-                            banners: { _id: ObjectId(bannerId) },
-                     },
-              });
-              await updateBanner(update);
-              res.json({ updationSuccess: true });
-       }
-
-       if (updation === 'update') {
-              update.push(
-                     {
-                            $set: {
-                                   'banners.$[i].title': title,
-                                   'banners.$[i].subtitle': subtitle,
+              const update = [{}];
+              if (updation === 'remove') {
+                     update.push({
+                            $pull: {
+                                   banners: { _id: ObjectId(bannerId) },
                             },
-                     },
-                     {
-                            arrayFilters: [
-                                   {
-                                          'i._id': {
-                                                 $eq: ObjectId(bannerId),
-                                          },
-                                   },
-                            ],
-                     },
-              );
+                     });
+                     await updateBanner(update);
+                     res.json({ updationSuccess: true });
+              }
 
-              await updateBanner(update);
-
-              if (req.file) {
-                     update.splice(
-                            1,
-                            2,
+              if (updation === 'update') {
+                     update.push(
                             {
                                    $set: {
-                                          'banners.$[i].image':
-                                                 req.file.filename,
+                                          'banners.$[i].title': title,
+                                          'banners.$[i].subtitle': subtitle,
                                    },
                             },
                             {
@@ -81,15 +58,43 @@ module.exports.updateBanner = async (req, res) => {
                                    ],
                             },
                      );
-                     await updateBanner(update);
-              }
-              res.json({ bannerAddSuccess: true, update: true });
-       }
 
-       async function updateBanner(update) {
-              await db
-                     .get()
-                     .collection(collections.ADMIN_COLLECTION)
-                     .updateOne(...update);
+                     await updateBanner(update);
+
+                     if (req.file) {
+                            update.splice(
+                                   1,
+                                   2,
+                                   {
+                                          $set: {
+                                                 'banners.$[i].image':
+                                                        req.file.filename,
+                                          },
+                                   },
+                                   {
+                                          arrayFilters: [
+                                                 {
+                                                        'i._id': {
+                                                               $eq: ObjectId(
+                                                                      bannerId,
+                                                               ),
+                                                        },
+                                                 },
+                                          ],
+                                   },
+                            );
+                            await updateBanner(update);
+                     }
+                     res.json({ bannerAddSuccess: true, update: true });
+              }
+
+              async function updateBanner(update) {
+                     await db
+                            .get()
+                            .collection(collections.ADMIN_COLLECTION)
+                            .updateOne(...update);
+              }
+       } catch (error) {
+              res.json({ error500: true });
        }
 };

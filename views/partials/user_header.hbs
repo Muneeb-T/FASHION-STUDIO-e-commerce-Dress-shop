@@ -7,9 +7,9 @@
                      <nav class="limiter-menu-desktop container">
 
                             <!-- Logo desktop -->
-                            <a href="#" class="logo">
-                                   {{!-- <img src="/users/images/icons/logo-01.png" alt="IMG-LOGO" /> --}}
-                                   <h3 class="text-dark font-weight-bold">FASHION STUDIO</h1>
+                            <a href="/" class="logo">
+
+                                   <h3 class="text-dark font-weight-bold">FASHION STUDIO</h3>
                             </a>
 
                             <!-- Menu desktop -->
@@ -41,9 +41,8 @@
                                           <i class="zmdi zmdi-search"></i>
                                    </div>
 
-                                   <a 
-                                          href="/cart" id="cartCount"
-                                          class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
+                                   <a href="/cart" 
+                                          class="cartCount icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
                                           data-notify="{{#if session.user}}{{session.user.cartCount}}{{else}}0{{/if}}">
                                           <i class="material-icons">
                                                  shopping_bag
@@ -51,8 +50,8 @@
 
                                    </a>
 
-                                   <a href="/wishlist" id="wishlistCount"
-                                          class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                                   <a href="/wishlist"
+                                          class="wishlistCount dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
                                           data-notify="{{#if session.user}}{{session.user.wishlistCount}}{{else}}0{{/if}}">
                                           <i class="zmdi zmdi-favorite-outline"></i>
                                    </a>
@@ -68,10 +67,13 @@
                                                  <li>
                                                         {{#if session.userLogin}}
                                                         <a href="/profile">Hello
-                                                               {{session.user.username}}<br />{{session.user.phoneNumber}}</a>
+                                                               <span
+                                                                      id="headerUsername">{{session.user.username}}</span>
+                                                               <br /> <span id="headerPhoneNumber">
+                                                                      {{session.user.phoneNumber}}</span> </a>
                                                         {{else}}
-                                                         <a class="mb-3 cut-text" href="/profile">Hello
-                                                               {{session.user.username}}</a>
+                                                        <button class="mb-3 cut-text" disabled>Hello
+                                                               {{session.user.username}}</button>
                                                         <a href="" data-toggle="modal" data-target="#authModal"
                                                                class="btn bg1 btn-sm font-weight-bold px-3 text-light">Login
                                                                / Signup</a>
@@ -82,11 +84,11 @@
 
                                                  <li><a href="/orders">Your
                                                                orders</a></li>
-                                                 <li><a href="/coupons">Coupons</a></li>
+                                                 <li><a>Coupons</a></li>
                                                  <li><a href="/cart">Cart</a></li>
                                                  <li><a href="/wishlist">Wishlist</a></li>
-                                                 <li><a href="/about">About us</a></li>
-                                                 <li><a href="/contact">Contact
+                                                 <li><a>About us</a></li>
+                                                 <li><a>Contact
                                                                us</a></li>
                                                  {{#if session.userLogin}}
                                                  <hr />
@@ -104,22 +106,29 @@
        <div class="wrap-header-mobile">
               <!-- Logo moblie -->
               <div class="logo-mobile">
-                     <a href="index.html"><img src="/users/images/icons/logo-01.png" alt="IMG-LOGO" /></a>
+                     <a href="/">
+                            <h5 class="text-dark text-center font-weight-bold">FASHION <br> STUDIO</h5>
+                     </a>
               </div>
 
               <!-- Icon header -->
               <div class="wrap-icon-header flex-w flex-r-m m-r-15">
-                     <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 js-show-modal-search">
+                     <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-20 js-show-modal-search">
                             <i class="zmdi zmdi-search"></i>
                      </div>
 
-                     <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
-                            data-notify="2">
-                            <i class="zmdi zmdi-shopping-cart"></i>
-                     </div>
+                     <a href="/cart"
+                            class="cartCount icon-header-item cl2 hov-cl1 trans-04 icon-header-noti js-show-cart"
+                            data-notify="{{#if session.user}}{{session.user.cartCount}}{{else}}0{{/if}}">
+                            <i class="material-icons">
+                                   shopping_bag
+                            </i>
 
-                     <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
-                            data-notify="0">
+                     </a>
+
+                     <a href="/wishlist"
+                            class="dis-block wishlistCount icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                            data-notify="{{#if session.user}}{{session.user.wishlistCount}}{{else}}0{{/if}}">
                             <i class="zmdi zmdi-favorite-outline"></i>
                      </a>
                      <div class="dropdown dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-10 p-r-11">
@@ -130,10 +139,18 @@
                             </a>
                             <ul class="dropdown-content">
                                    <li>
-
-                                          {{!-- <a href="/profile">Hello Muneeb T<br />9484777234</a> --}}
-
-                                          <a href="/profile">Login/Signup</a>
+                                          {{#if session.userLogin}}
+                                          <a href="/profile">Hello
+                                                 <span id="headerUsername">{{session.user.username}}</span>
+                                                 <br /> <span id="headerPhoneNumber">
+                                                        {{session.user.phoneNumber}}</span> </a>
+                                          {{else}}
+                                          <button class="mb-3 cut-text" disabled>Hello
+                                                 {{session.user.username}}</button>
+                                          <a href="" data-toggle="modal" data-target="#authModal"
+                                                 class="btn bg1 btn-sm font-weight-bold px-3 text-light">Login
+                                                 / Signup</a>
+                                          {{/if}}
 
                                    </li>
                                    <hr />
@@ -143,8 +160,11 @@
                                    <li><a href="/wishlist">Wishlist</a></li>
                                    <li><a href="/about">About us</a></li>
                                    <li><a href="/contact">Contact us</a></li>
+
+                                   {{#if session.userLogin}}
                                    <hr />
                                    <li><a href="/logout">Logout</a></li>
+                                   {{/if}}
                             </ul>
                      </div>
               </div>
@@ -161,37 +181,22 @@
        <div class="menu-mobile">
 
               <ul class="main-menu-m">
-                     <li>
-                            <a href="index.html">Home</a>
-                            <ul class="sub-menu-m">
-                                   <li><a href="index.html">Homepage 1</a></li>
-                                   <li><a href="home-02.html">Homepage 2</a></li>
-                                   <li><a href="home-03.html">Homepage 3</a></li>
-                            </ul>
-                            <span class="arrow-main-menu-m">
-                                   <i class="fa fa-angle-right" aria-hidden="true"></i>
-                            </span>
+                     <li class="active-menu">
+                            <a href="/">Home</a>
                      </li>
 
                      <li>
-                            <a href="product.html">Shop</a>
+                            <a href="/products/men">Men</a>
                      </li>
 
                      <li>
-                            <a href="/cart" class="label1 rs1">Features</a>
+                            <a href="/products/women">Women</a>
                      </li>
 
                      <li>
-                            <a href="blog.html">Blog</a>
+                            <a href="/products/kids">Kids</a>
                      </li>
 
-                     <li>
-                            <a href="about.html">About</a>
-                     </li>
-
-                     <li>
-                            <a href="contact.html">Contact</a>
-                     </li>
               </ul>
 
        </div>
@@ -203,11 +208,12 @@
                             <img src="/users/images/icons/icon-close2.png" alt="CLOSE" />
                      </button>
 
-                     <form class="wrap-search-header flex-w p-l-15">
+                     <form class="wrap-search-header flex-w p-l-15" id="searchProduct" action="/products/all/"
+                            method="get">
                             <button class="flex-c-m trans-04">
                                    <i class="zmdi zmdi-search"></i>
                             </button>
-                            <input class="plh3" type="text" name="search" placeholder="Search..." />
+                            <input class="plh3" type="text" name="searchKey" placeholder="Search..." />
                      </form>
               </div>
        </div>
@@ -243,9 +249,11 @@
                                           <div class="flex-w flex-tr">
                                                  <div class="size-150  p-lr-50 p-t-55 p-b-70 p-lr-15-lg w-full">
                                                         <form id="user-login-form">
+
                                                                <h4 class="mtext-105 cl2 txt-center p-b-30">
                                                                       Login
                                                                </h4>
+
 
                                                                <div class="bor8 m-t-10 how-pos4-parent">
                                                                       <input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
@@ -275,6 +283,13 @@
                                                                <button
                                                                       class="flex-c-m stext-101 cl0 m-t-30 size-121 bg1 bor1 hov-btn3 p-lr-15 trans-04 pointer">
                                                                       LOGIN
+                                                               </button>
+                                                               <button type="button" onclick="event.preventDefault();"
+                                                                      data-dismiss="modal" data-toggle="modal"
+                                                                      data-target="#loginWithOtp"
+                                                                      class="flex-c-m stext-101 cl2 m-t-30 size-121 bor1 hov-btn3 p-lr-15 trans-04 pointer"
+                                                                      style="border: 1px solid;">
+                                                                      LOGIN WITH OTP
                                                                </button>
                                                         </form>
                                                         <div class="mt-3 text-center">
@@ -363,6 +378,69 @@
 </div>
 
 
+
+
+<div class="modal fade" id="loginWithOtp" tabindex="-1" role="dialog" aria-labelledby="authModalLabel"
+       aria-hidden="true" style="z-index: 10000;">
+       <div class="modal-dialog" role="document">
+              <div class="modal-content">
+
+                     <div class="modal-body p-0">
+
+                            <div class="tab-content" id="myTabContent">
+                                   <div class="tab-pane fade show active" id="login" role="tabpanel"
+                                          aria-labelledby="home-tab">
+                                          <div class="flex-w flex-tr">
+                                                 <div class="size-150  p-lr-50 p-t-55 p-b-70 p-lr-15-lg w-full">
+                                                        <form id="user-otp-login-form">
+
+                                                               <h4 class="mtext-105 cl2 txt-center p-b-30">
+                                                                      Login
+                                                               </h4>
+
+
+                                                               <div class="bor8 m-t-10 how-pos4-parent">
+                                                                      <input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30"
+                                                                             type="text" name="phoneNumber"
+                                                                             type="number" placeholder="Phone number"
+                                                                             value="">
+
+                                                                      <i class="material-icons  how-pos4 pointer-none">
+                                                                             phone
+                                                                      </i>
+                                                               </div>
+
+
+
+                                                               <p id="loginWithOtpError"
+                                                                      class="mb-0 mt-3 mb-3 font-weight-bold text-danger text-center">
+                                                               </p>
+
+                                                               <button type="submit"
+                                                                      class="flex-c-m stext-101 cl0 m-t-30 size-121 bg1 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+                                                                      Send OTP
+                                                               </button>
+
+                                                        </form>
+                                                        <div class="mt-3 text-center">
+                                                               <a class="text-secondary mr-2" href="">Create new
+                                                                      account?</a>
+                                                               <a class="text-secondary" href="">Forgot password?</a>
+                                                        </div>
+
+                                                 </div>
+                                          </div>
+                                   </div>
+
+                            </div>
+
+                     </div>
+              </div>
+       </div>
+</div>
+
+
+
 <div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="otpModalLabel" aria-hidden="true"
        style="z-index: 10000;">
        <div class="modal-dialog" role="document">
@@ -394,7 +472,8 @@
                                                                <input class="m-2 text-center form-control form-control-lg rounded"
                                                                       name="otp" type="text" id="fifth" maxlength="1" />
                                                                <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="text" id="sixth" maxlength="1" />
+                                                                      name="otp" type="text" id="sixth" maxlength="1"
+                                                                      onkeydown="if (input.value.length > 1) {return false;}" />
                                                         </div>
                                                         <p id="otpError"
                                                                class="text-center font-weight-bold mt-2 text-danger">
@@ -416,6 +495,124 @@
               </div>
        </div>
 </div>
+
+
+<div class="modal fade" id="otpModalWithPasswordUpdation" tabindex="-1" role="dialog" aria-labelledby="otpModalLabel"
+       aria-hidden="true" style="z-index: 10000;">
+       <div class="modal-dialog" role="document">
+              <div class="modal-content">
+
+                     <div class="modal-body otpModalBody m-0 p-5">
+
+                            <div class="container height-100 d-flex justify-content-center align-items-center">
+                                   <div class="position-relative">
+                                          <div class="text-center">
+                                                 <h4 id="otpFormHeadingWithPasswordUpdate">Please enter the one time
+                                                        password <br> to
+                                                        verify your account</h4>
+                                                 <div class="mb-3"> <span>A code has been sent to</span>
+                                                        <small id="otpPhoneNumberPasswordUpdate"></small>
+                                                 </div>
+                                                 <form id="otp-form-with-password-update"
+                                                        action="/verifyOtpAndUpdatePassword">
+                                                        <div id="otp"
+                                                               class="inputs d-flex flex-row justify-content-center mt-2">
+                                                               <input class="m-2 text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="first" />
+                                                               <input class="m-2 text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="second" />
+                                                               <input class="m-2 text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="third" />
+                                                               <input class="m-2 text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="fourth" />
+                                                               <input class="m-2 text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="fifth" />
+                                                               <input class="m-2 text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="sixth" />
+                                                        </div>
+                                                        <input type="password" id="newPassword" name="newPassword"
+                                                               placeholder="New password" class="form-control mt-3">
+                                                        <input type="password" name="confirmPassword"
+                                                               placeholder="Confirm password" class="form-control mt-3">
+                                                        <p id="otpWithPasswordUpdateError"
+                                                               class="text-center font-weight-bold mt-2 text-danger">
+                                                        </p>
+                                                        <button type="submit"
+                                                               class="mb-3 mt-3 flex-c-m stext-101 m-t-30 cl0 size-121 bg1 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+                                                               Verify and update
+                                                        </button>
+                                                 </form>
+                                                 <button class="btn text-secondary"
+                                                        id="resendOtpWithPasswordUpdate">Resend otp?</button>
+
+
+                                          </div>
+                                   </div>
+                            </div>
+
+
+                     </div>
+              </div>
+       </div>
+</div>
+
+
+
+<div class="modal fade" id="emailOtpModal" tabindex="-1" role="dialog" aria-labelledby="otpModalLabel"
+       aria-hidden="true" style="z-index: 10000;">
+       <div class="modal-dialog" role="document">
+              <div class="modal-content">
+
+                     <div class="modal-body otpModalBody m-0 p-5">
+
+                            <div class="container height-100 d-flex justify-content-center align-items-center">
+                                   <div class="position-relative">
+                                          <div class="text-center">
+                                                 <h4 id="otpFormHeadingWithPasswordUpdate">Please enter the one time
+                                                        password <br> to
+                                                        verify your account</h4>
+                                                 <div class="mb-3"> <span>A code has been sent to</span>
+                                                        <small id="otpEmail"></small>
+                                                 </div>
+                                                 <form id="emailOtpForm" action="/verifyOtpAndUpdateEmail">
+                                                        <div id="otp"
+                                                               class="inputs d-flex flex-row justify-content-center mt-2">
+                                                               <input class="m-2 text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="first" />
+                                                               <input class="m-2 text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="second" />
+                                                               <input class="m-2 text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="third" />
+                                                               <input class="m-2 text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="fourth" />
+                                                               <input class="m-2 text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="fifth" />
+                                                               <input class="m-2 text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="sixth" />
+                                                        </div>
+
+                                                        <p id="emailOtpError"
+                                                               class="text-center font-weight-bold mt-2 text-danger">
+                                                        </p>
+                                                        <button type="submit"
+                                                               class="mb-3 mt-3 flex-c-m stext-101 m-t-30 cl0 size-121 bg1 bor1 hov-btn3 p-lr-15 trans-04 pointer">
+                                                               Verify and update
+                                                        </button>
+                                                 </form>
+                                                 <button class="btn text-secondary" id="resendEmailOtp">Resend
+                                                        otp?</button>
+
+
+                                          </div>
+                                   </div>
+                            </div>
+
+
+                     </div>
+              </div>
+       </div>
+</div>
+
 
 <script>
        document.addEventListener("DOMContentLoaded", function (event) {
