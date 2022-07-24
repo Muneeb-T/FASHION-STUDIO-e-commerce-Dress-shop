@@ -761,6 +761,10 @@ function updateProfilePicture() {
                                                  'hidden',
                                                  true,
                                           );
+                                          $('#cancelButton').attr(
+                                                 'hidden',
+                                                 true,
+                                          );
                                    }
                             },
                      });

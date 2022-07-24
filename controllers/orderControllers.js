@@ -498,7 +498,16 @@ module.exports.checkIfUserOrdered = async (user, product) => {
                                    $and: [
                                           { user: ObjectId(user) },
                                           {
-                                                 orderStatus: 'Delivered',
+                                                 $or: [
+                                                        {
+                                                               orderStatus:
+                                                                      'Delivered',
+                                                        },
+                                                        {
+                                                               orderStatus:
+                                                                      'Cancelled',
+                                                        },
+                                                 ],
                                           },
                                    ],
                             },
