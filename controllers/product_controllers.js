@@ -117,6 +117,8 @@ module.exports.editCategory = async (req, res) => {
 
 module.exports.addProduct = async (req, res) => {
        try {
+              console.log("request");
+              console.log(req.body);
               const product = productModal(req.body, req.files);
               product.addedDate = new Date();
 
@@ -126,6 +128,8 @@ module.exports.addProduct = async (req, res) => {
                      .insertOne(product);
               res.json({ productAddSuccess: true });
        } catch (error) {
+              console.log("Error");
+              console.log(error);
               res.json({ error500: true });
        }
 };
