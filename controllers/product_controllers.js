@@ -751,6 +751,7 @@ module.exports.getSingleProductDetails = async (
                             type: 1,
                             price: 1,
                             offerPrice: 1,
+                            offerPercentage: 1,
                             description: 1,
                             category: 1,
                             images: 1,
@@ -1004,19 +1005,7 @@ module.exports.getWishlist = async function (userId, guest, guestWishlist) {
                             },
                      ])
                      .toArray();
-              wishlist.forEach((product) => {
-                     product.stars = [];
-                     for (let i = 1; i <= 5; i++) {
-                            if (
-                                   product.averageRating &&
-                                   i <= product.averageRating.averageRating
-                            ) {
-                                   product.stars.push(true);
-                            } else {
-                                   product.stars.push(false);
-                            }
-                     }
-              });
+
               return wishlist;
        }
        const wishlist = await db
@@ -1039,14 +1028,47 @@ module.exports.getWishlist = async function (userId, guest, guestWishlist) {
                                    foreignField: '_id',
                                    pipeline: [
                                           {
+                                                 $lookup: {
+                                                        from: collections.REVIEW_COLLECTION,
+                                                        localField: '_id',
+                                                        foreignField: 'product',
+                                                        pipeline: [
+                                                               {
+                                                                      $group: {
+                                                                             _id: '$product',
+                                                                             averageRating:
+                                                                                    {
+                                                                                           $avg: '$rate_value',
+                                                                                    },
+                                                                      },
+                                                               },
+                                                               {
+                                                                      $project: {
+                                                                             _id: 0,
+                                                                             averageRating:
+                                                                                    {
+                                                                                           $ceil: '$averageRating',
+                                                                                    },
+                                                                      },
+                                                               },
+                                                        ],
+                                                        as: 'averageRating',
+                                                 },
+                                          },
+                                          {
                                                  $project: {
                                                         product_name: 1,
                                                         brand: 1,
                                                         price: 1,
                                                         offerPrice: 1,
                                                         images: 1,
-                                                        offerPrice: 1,   
                                                         offerPercentage: 1,
+                                                        averageRating: {
+                                                               $arrayElemAt: [
+                                                                      '$averageRating',
+                                                                      0,
+                                                               ],
+                                                        },
                                                  },
                                           },
                                    ],

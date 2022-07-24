@@ -98,6 +98,23 @@ module.exports.wishlist = async (req, res, next) => {
                      guest,
                      guestWishlist,
               );
+              if (wishlist && wishlist.length > 0) {
+                     wishlist.forEach((product) => {
+                            product.stars = [];
+                            for (let i = 1; i <= 5; i++) {
+                                   if (
+                                          product.averageRating &&
+                                          i <=
+                                                 product.averageRating
+                                                        .averageRating
+                                   ) {
+                                          product.stars.push(true);
+                                   } else {
+                                          product.stars.push(false);
+                                   }
+                            }
+                     });
+              }
 
               res.render('users/wishlist', {
                      layout: 'users_layout',
