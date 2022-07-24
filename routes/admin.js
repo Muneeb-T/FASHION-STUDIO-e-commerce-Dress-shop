@@ -149,10 +149,20 @@ router.post(
        adminController.deleteCoupon,
 );
 
-router.post('/changeOrderStatus', orderControllers.changeOrderStatus);
+router.post(
+       '/changeOrderStatus',
+       middlewares.verfiyAdminLogin,
+       orderControllers.changeOrderStatus,
+);
 
 router.get('/error500', (req, res) => {
        res.render('error/error500', { layout: 'error_layout', status: '500' });
 });
+
+router.post(
+       '/readMessage',
+       middlewares.verfiyAdminLogin,
+       adminController.readMessage,
+);
 
 module.exports = router;

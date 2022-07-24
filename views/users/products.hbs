@@ -219,6 +219,12 @@
                                                                class="cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                                                {{this.product_name}}
                                                         </a>
+                                                         <div class="d-flex flex-row mt-1">
+                                                               {{#each this.stars}}
+                                                               <i
+                                                                      class="{{#if this}} fa fa-star  text-warning {{else}}fa fa-star-o text-secondary {{/if}}"></i>
+                                                               {{/each}}
+                                                        </div>
                                                         <a
                                                                class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.category}}</a>
                                                         <div class="d-flex">
@@ -239,6 +245,7 @@
                                                                </span>
                                                                {{/if}}
                                                         </div>
+                                                       
 
                                                  </div>
 
@@ -296,7 +303,19 @@
 
 
 </div>
+<style>
+       @media (max-width: 768px) {
+              .panel-filter {
+                     display: none;
+              }
+       }
 
+       @media (width > 768px) {
+              .panel-filter {
+                     display: block;
+              }
+       }
+</style>
 
 
 <script src='https://code.jquery.com/jquery-3.1.1.js'></script>

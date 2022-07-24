@@ -3640,11 +3640,9 @@ input.num-product::-webkit-inner-spin-button {
        font-size: 14px;
        line-height: 1.5;
        color: #555;
-
        display: block;
        padding: 15px 30px;
        width: 100%;
-
        transition: all 0.4s;
        -webkit-transition: all 0.4s;
        -o-transition: all 0.4s;
@@ -3655,12 +3653,17 @@ input.num-product::-webkit-inner-spin-button {
        width: max-content;
        right: 0;
        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-       z-index: 1;
 }
 
 .dropdown:hover .dropdown-content {
        display: block;
 }
+
+.menu-mobile {
+       z-index: 100 !important;
+}
+
+
 
 .view-100 {
        height: 100vh;

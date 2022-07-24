@@ -7,6 +7,7 @@ const otpControllers = require('../controllers/otp_controllers');
 const productControllers = require('../controllers/product_controllers');
 const orderControllers = require('../controllers/orderControllers');
 const middlewares = require('../controllers/middlewares');
+const reviewControllers = require('../controllers/reviewControllers');
 
 const { storage } = middlewares;
 const upload = multer({ storage });
@@ -72,9 +73,10 @@ router.post('/placeOrder', userControllers.placeOrder);
 
 router.post('/verifyRazorpayPayment', userControllers.verifyOrderPayment);
 
-router.get('/orderSuccess', middlewares.verfiyUserLogin, (req, res) => {
+router.get('/orderSuccess/:id', middlewares.verfiyUserLogin, (req, res) => {
        res.render('users/orderSuccess', {
               layout: 'users_layout',
+              orderId: req.params.id,
               user: true,
        });
 });
@@ -139,9 +141,11 @@ router.post(
        userControllers.addressEdit,
 );
 
-router.post('/reviewProduct', (req, res) => {
-       console.log(req.body);
-});
+router.post(
+       '/reviewProduct',
+       middlewares.verfiyUserLogin,
+       reviewControllers.saveReview,
+);
 
 router.get('/error500', (req, res) => {
        res.render('error/error500', { layout: 'error_layout', status: '500' });

@@ -32,8 +32,9 @@
                             <h4 class="mtext-105 cl2 js-name-detail p-b-14">
                                    {{product.product_name}}
                             </h4>
-
-
+                            <h5 class="text-secondary cl2 js-name-detail p-b-14">
+                                   {{product.brand}}
+                            </h5>
 
                             <div class="d-flex">
                                    <span class="mtext-106 {{#if product.offerPrice}} text-danger {{/if}} mr-3">
@@ -81,7 +82,7 @@
 
                                    <div class="flex-w justify-content-center p-b-10">
                                           <div class="size-204 flex-w flex-m respon6-next">
-                                                 <div class="wrap-num-product mb-4 flex-w m-r-20 m-tb-10">
+                                                 <div class="wrap-num-product mx-auto mb-4 flex-w m-r-20 m-tb-10">
                                                         <div
                                                                class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
                                                                <i class="fs-16 zmdi zmdi-minus"></i>
@@ -95,33 +96,41 @@
                                                                <i class="fs-16 zmdi zmdi-plus"></i>
                                                         </div>
                                                  </div>
-                                                 <div class="d-flex justify-content-between">
+                                                 <div class="row">
 
-                                                        <button type="submit" form="add-to-bag-form"
-                                                               class="flex-w align-items-center justify-content-center stext-101 mb-3 cl0 size-101 bg1 bor1 hov-btn1 trans-04 js-addcart-detail">
-                                                               <i class="material-icons mr-2">
-                                                                      shopping_bag
-                                                               </i>
-                                                               Add to bag
-                                                        </button>
+                                                        <div class="col">
+                                                               <button type="submit" form="add-to-bag-form"
+                                                                      class="mx-auto flex-w align-items-center justify-content-center stext-101 mb-3 cl0 size-101 bg1 bor1 hov-btn1 trans-04 js-addcart-detail">
+                                                                      <i class="material-icons mr-2">
+                                                                             shopping_bag
+                                                                      </i>
+                                                                      Add to bag
+                                                               </button>
+                                                        </div>
+                                                        <div class="col">
+                                                               <button class="flex-w mx-auto align-items-center justify-content-center stext-101 cl0 size-101 bg-danger bor1 hov-btn1  trans-04 js-addcart-detail wishlist-button"
+                                                                      onclick="addToWishlist('{{product._id}}','quickView')">
+
+                                                                      {{#if
+                                                                      product.wishlisted.wishlisted}} <span
+                                                                             class="material-icons mr-2">
+                                                                             favorite
+                                                                      </span>Wishlisted{{else}} <span
+                                                                             class="material-icons mr-2">
+                                                                             favorite
+                                                                      </span>Wishlist{{/if}}
+                                                               </button>
 
 
-                                                        <button class="flex-w align-items-center ml-4 justify-content-center stext-101 cl0 size-101 bg-danger bor1 hov-btn1  trans-04 js-addcart-detail wishlist-button"
-                                                               onclick="addToWishlist('{{product._id}}','quickView')">
-
-                                                               {{#if
-                                                               product.wishlisted.wishlisted}} <span
-                                                                      class="material-icons mr-2">
-                                                                      favorite
-                                                               </span>Wishlisted{{else}} <span
-                                                                      class="material-icons mr-2">
-                                                                      favorite
-                                                               </span>Wishlist{{/if}}
-                                                        </button>
 
 
 
 
+
+
+
+
+                                                        </div>
                                                  </div>
                                                  <div>
                                                         <p id="addToCartError" class="text-danger"></p>
@@ -136,18 +145,12 @@
               </div>
 
 
-              <form id="ratingForm">
-                     <div class="container mt-2">
-                            <div class="row">
-                                   <div class="col-12 col-md-6 mb-3">
-                                          <h4 class="mr-4">
-                                                 Customer reviews & ratings
-                                          </h4>
-                                   </div>
+
+              <div class="container mt-4">
+                     <form id="ratingForm" method="get">
 
 
-                            </div>
-                            <hr>
+                            {{#if session.userLogin}}
 
                             <div class="wrapper">
                                    <div class="master">
@@ -155,10 +158,10 @@
                                           <h2>How was your experience about our product?</h2>
 
                                           <div class="rating-component">
+                                                 <input class="rating_msg" form="ratingForm" type="hidden"
+                                                        name="rating_msg" value="" />
                                                  <div class="status-msg">
                                                         <label>
-                                                               <input class="rating_msg" type="hidden" name="rating_msg"
-                                                                      value="" />
                                                         </label>
                                                  </div>
                                                  <div class="stars-box">
@@ -171,7 +174,7 @@
                                                         <i class="star fa fa-star" title="4 stars" data-message="Nice"
                                                                data-value="4"></i>
                                                         <i class="star fa fa-star" title="5 stars"
-                                                               data-message="very good qality" data-value="5"></i>
+                                                               data-message="Very good quality" data-value="5"></i>
                                                  </div>
                                                  <div class="starrate">
                                                         <label>
@@ -214,10 +217,14 @@
                                                         </div>
                                                  </div>
 
+                                                 <div class="text-center text-danger">
+                                                        <p id="reviewError"></p>
+                                                 </div>
+
                                                  <div class="tags-box">
                                                         <input type="text" class="tag form-control" name="comment"
                                                                id="inlineFormInputName"
-                                                               placeholder="please enter your review" form="ratingForm">
+                                                               placeholder="Please enter your review" form="ratingForm">
                                                         <input type="hidden" form="ratingForm" name="product_id"
                                                                value="{{product._id}}" form="ratingForm" />
                                                  </div>
@@ -231,44 +238,172 @@
 
                                           <div class="submited-box">
                                                  <div class="loader"></div>
-                                                 <div class="success-message">
-                                                        Thank you!
+                                                 <div class="success-message text-success">
+                                                        <h4 class="font-weight-bold"> Thank you! </h4>
                                                  </div>
                                           </div>
                                    </div>
 
                             </div>
-                            <div class="row">
+                            {{/if}}
+                            <div class="row mt-5">
+                                   <div class="col-12 mb-3 text-center">
+                                          <h4 class="mr-4">
+                                                 Customer reviews & ratings
+                                          </h4>
+                                   </div>
+                            </div>
+                            <hr>
+                            <div id="reviewDiv" class="mt-3">
+                                   {{#if product.reviews}}
 
-                                   <div class="col-md-4">
-                                          <div class="card p-5 h-100"> <i class="fa fa-quote-left u-color"></i>
-                                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                        eiusmod
-                                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                                        minim
-                                                        veniam, quis nostrud exercitation ullamco</p>
-                                                 <div class="d-flex justify-content-between align-items-center">
-                                                        <div class="user-about"> <span
-                                                                      class="font-weight-bold d-block">Alex
-                                                                      Smith</span>
-                                                               <div class="d-flex flex-row mt-1"> <i
-                                                                             class="fa fa-star u-color"></i> <i
-                                                                             class="fa fa-star u-color"></i> <i
-                                                                             class="fa fa-star-o u-color"></i> <i
-                                                                             class="fa fa-star-o u-color"></i> <i
-                                                                             class="fa fa-star-o u-color"></i> </div>
+                                   <div class="row">
+                                          <div class="col-xs-12 col-md-6 mx-auto p-5">
+                                                 <div class="well well-sm">
+                                                        <div class="row align-items-center">
+                                                               <div class="col-xs-12 col-md-6 text-center">
+
+                                                                      <h1 class="rating-num">
+                                                                             {{product.averageRating}}.0</h1>
+
+                                                                      <div>
+                                                                             <span
+                                                                                    class="glyphicon glyphicon-user"></span>{{product.reviews.length}}
+                                                                             total
+                                                                      </div>
+
+                                                                      <h2>
+                                                                             <div
+                                                                                    class="d-flex flex-row mt-1 justify-content-center">
+                                                                                    {{#each product.stars}}
+                                                                                    <i
+                                                                                           class="{{#if this}} fa fa-star  text-warning {{else}}fa fa-star-o text-secondary{{/if}}"></i>
+                                                                                    {{/each}}
+                                                                             </div>
+                                                                      </h2>
+                                                               </div>
+                                                               <div class="col-xs-12 col-md-6">
+                                                                      <div class="row rating-desc">
+
+                                                                             <div class="col-xs-8 col-md-12">
+                                                                                    <p class="mb-1">{{productRatingCounts.[4]._id}} - Very good quality ({{productRatingCounts.[4].count}} ratings)</p>
+                                                                                    <div class="progress mb-3">
+                                                                                           <div class="progress-bar bg-success"
+                                                                                                  role="progressbar"
+                                                                                                  style="width: {{productRatingCounts.[4].percentage}}%"
+                                                                                                  aria-valuenow="{{productRatingCounts.[4].count}}"
+                                                                                                  aria-valuemin="0"
+                                                                                                  aria-valuemax="{{product.reviews.length}}">
+                                                                                           </div>
+                                                                                    </div>
+                                                                                  <p class="mb-1">
+                                                                                    {{productRatingCounts.[3]._id}} - Nice ({{productRatingCounts.[3].count}} ratings)
+                                                                                  </p>
+                                                                                           
+                                                                                    <div class="progress mb-3">
+                                                                                           <div class="progress-bar bg-info"
+                                                                                                  role="progressbar"
+                                                                                                  style="width: {{productRatingCounts.[3].percentage}}%"
+                                                                                                  aria-valuenow="{{productRatingCounts.[3].count}}"
+                                                                                                  aria-valuemin="0"
+                                                                                                  aria-valuemax="{{product.reviews.length}}">
+                                                                                           </div>
+                                                                                    </div>
+                                                                                    <p class="mb-1">  
+                                                                                           {{productRatingCounts.[2]._id}} - Average quality ({{productRatingCounts.[2].count}} ratings)</p>
+                                                                                    <div class="progress mb-3">
+                                                                                           <div class="progress-bar bg-warning"
+                                                                                                  role="progressbar"
+                                                                                                  style="width: {{productRatingCounts.[2].percentage}}%"
+                                                                                                  aria-valuenow="{{productRatingCounts.[2].count}}"
+                                                                                                  aria-valuemin="0"
+                                                                                                  aria-valuemax="{{product.reviews.length}}">
+                                                                                           </div>
+                                                                                    </div>
+                                                                                    <p class="mb-1">
+                                                                                            {{productRatingCounts.[1]._id}} - Poor quality ({{productRatingCounts.[1].count}} ratings)
+                                                                                    </p>
+                                                                                    <div class="progress mb-3">
+                                                                                           <div class="progress-bar bg-secondary"
+                                                                                                  role="progressbar"
+                                                                                                  style="width: {{productRatingCounts.[1].percentage}}%"
+                                                                                                  aria-valuenow="{{productRatingCounts.[1].count}}"
+                                                                                                  aria-valuemin="0"
+                                                                                                  aria-valuemax="{{product.reviews.length}}">
+                                                                                           </div>
+                                                                                    </div>
+                                                                                    <p class="mb-1">
+                                                                                            {{productRatingCounts.[0]._id}} - Too bad ({{productRatingCounts.[0].count}} ratings)
+                                                                                    </p>
+                                                                                    <div class="progress mb-3">
+                                                                                           <div class="progress-bar bg-danger"
+                                                                                                  role="progressbar"
+                                                                                                  style="width: {{productRatingCounts.[0].percentage}}%"
+                                                                                                  aria-valuenow="{{productRatingCounts.[0].count}}"
+                                                                                                  aria-valuemin="0"
+                                                                                                  aria-valuemax="{{product.reviews.length}}">
+                                                                                           </div>
+                                                                                    </div>
+                                                                             </div>
+                                                                             <!-- end 5 -->
+
+                                                                             <!-- end 1 -->
+                                                                      </div>
+                                                                      <!-- end row -->
+                                                               </div>
                                                         </div>
-                                                        <div class="user-image"> <img
-                                                                      src="https://i.imgur.com/UUW3zLx.jpg"
-                                                                      class="rounded-circle" width="70"> </div>
                                                  </div>
                                           </div>
                                    </div>
 
-                            </div>
-                     </div>
 
-              </form>
+                                   <div class="row mt-4 d-flex justify-content-center">
+
+                                          {{#each product.reviews}}
+                                          <div class="col-md-4 p-1 mb-1">
+                                                 <div class="card p-5 h-100">
+                                                        <p class="text-danger font-weight-bold mb-2">{{this.message}}
+                                                        </p>
+                                                        <i class="fa fa-quote-left u-color"></i>
+                                                        <p>{{this.comment}}</p>
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                               <div class="user-about">
+
+                                                                      <span class="font-weight-bold d-block">{{#ifeq
+                                                                             ../session.user._id this.userId}}<span
+                                                                                    class="text-primary">You</span>{{/ifeq}}
+                                                                             {{#ifnoteq ../session.user._id this.userId
+                                                                             }}{{this.userDetails.username}}{{/ifnoteq}}</span>
+                                                                      <div class="d-flex flex-row mt-1">
+                                                                             {{#each this.stars}}
+                                                                             <i
+                                                                                    class="{{#if this}} fa fa-star  text-warning {{else}}fa fa-star-o text-secondary {{/if}}"></i>
+                                                                             {{/each}}
+                                                                      </div>
+                                                               </div>
+
+                                                               <div class="user-image"> <img
+                                                                             style=" width: 50px; height: 50px; object-fit : cover;"
+                                                                             src="{{#if this.userDetails.profilePicture}} /admin/product-images/{{this.userDetails.profilePicture}} {{else}}/users/images/icons/profile_picture_placeholder.png{{/if}}"
+                                                                             class="rounded-circle" width="70"> </div>
+                                                        </div>
+                                                 </div>
+                                          </div>
+                                          {{/each}}
+
+                                   </div>
+                                   {{else}}
+                                   <h3 class="text-center mt-5 mb-5 text-danger">
+                                          0 reviews
+                                   </h3>
+
+                                   {{/if}}
+                            </div>
+
+                     </form>
+              </div>
+
+
        </div>
 
 
@@ -654,45 +789,6 @@
               }
        }
 </style>
-<script>
-       (function (e) { var t, o = { className: "autosizejs", append: "", callback: !1, resizeDelay: 10 }, i = '<textarea tabindex="-1" style="position:absolute; top:-999px; left:0; right:auto; bottom:auto; border:0; padding: 0; -moz-box-sizing:content-box; -webkit-box-sizing:content-box; box-sizing:content-box; word-wrap:break-word; height:0 !important; min-height:0 !important; overflow:hidden; transition:none; -webkit-transition:none; -moz-transition:none;"/>', n = ["fontFamily", "fontSize", "fontWeight", "fontStyle", "letterSpacing", "textTransform", "wordSpacing", "textIndent"], s = e(i).data("autosize", !0)[0]; s.style.lineHeight = "99px", "99px" === e(s).css("lineHeight") && n.push("lineHeight"), s.style.lineHeight = "", e.fn.autosize = function (i) { return this.length ? (i = e.extend({}, o, i || {}), s.parentNode !== document.body && e(document.body).append(s), this.each(function () { function o() { var t, o; "getComputedStyle" in window ? (t = window.getComputedStyle(u, null), o = u.getBoundingClientRect().width, e.each(["paddingLeft", "paddingRight", "borderLeftWidth", "borderRightWidth"], function (e, i) { o -= parseInt(t[i], 10) }), s.style.width = o + "px") : s.style.width = Math.max(p.width(), 0) + "px" } function a() { var a = {}; if (t = u, s.className = i.className, d = parseInt(p.css("maxHeight"), 10), e.each(n, function (e, t) { a[t] = p.css(t) }), e(s).css(a), o(), window.chrome) { var r = u.style.width; u.style.width = "0px", u.offsetWidth, u.style.width = r } } function r() { var e, n; t !== u ? a() : o(), s.value = u.value + i.append, s.style.overflowY = u.style.overflowY, n = parseInt(u.style.height, 10), s.scrollTop = 0, s.scrollTop = 9e4, e = s.scrollTop, d && e > d ? (u.style.overflowY = "scroll", e = d) : (u.style.overflowY = "hidden", c > e && (e = c)), e += w, n !== e && (u.style.height = e + "px", f && i.callback.call(u, u)) } function l() { clearTimeout(h), h = setTimeout(function () { var e = p.width(); e !== g && (g = e, r()) }, parseInt(i.resizeDelay, 10)) } var d, c, h, u = this, p = e(u), w = 0, f = e.isFunction(i.callback), z = { height: u.style.height, overflow: u.style.overflow, overflowY: u.style.overflowY, wordWrap: u.style.wordWrap, resize: u.style.resize }, g = p.width(); p.data("autosize") || (p.data("autosize", !0), ("border-box" === p.css("box-sizing") || "border-box" === p.css("-moz-box-sizing") || "border-box" === p.css("-webkit-box-sizing")) && (w = p.outerHeight() - p.height()), c = Math.max(parseInt(p.css("minHeight"), 10) - w || 0, p.height()), p.css({ overflow: "hidden", overflowY: "hidden", wordWrap: "break-word", resize: "none" === p.css("resize") || "vertical" === p.css("resize") ? "none" : "horizontal" }), "onpropertychange" in u ? "oninput" in u ? p.on("input.autosize keyup.autosize", r) : p.on("propertychange.autosize", function () { "value" === event.propertyName && r() }) : p.on("input.autosize", r), i.resizeDelay !== !1 && e(window).on("resize.autosize", l), p.on("autosize.resize", r), p.on("autosize.resizeIncludeStyle", function () { t = null, r() }), p.on("autosize.destroy", function () { t = null, clearTimeout(h), e(window).off("resize", l), p.off("autosize").off(".autosize").css(z).removeData("autosize") }), r()) })) : this } })(window.jQuery || window.$);
-
-       var __slice = [].slice; (function (e, t) { var n; n = function () { function t(t, n) { var r, i, s, o = this; this.options = e.extend({}, this.defaults, n); this.$el = t; s = this.defaults; for (r in s) { i = s[r]; if (this.$el.data(r) != null) { this.options[r] = this.$el.data(r) } } this.createStars(); this.syncRating(); this.$el.on("mouseover.starrr", "span", function (e) { return o.syncRating(o.$el.find("span").index(e.currentTarget) + 1) }); this.$el.on("mouseout.starrr", function () { return o.syncRating() }); this.$el.on("click.starrr", "span", function (e) { return o.setRating(o.$el.find("span").index(e.currentTarget) + 1) }); this.$el.on("starrr:change", this.options.change) } t.prototype.defaults = { rating: void 0, numStars: 5, change: function (e, t) { } }; t.prototype.createStars = function () { var e, t, n; n = []; for (e = 1, t = this.options.numStars; 1 <= t ? e <= t : e >= t; 1 <= t ? e++ : e--) { n.push(this.$el.append("<span class='glyphicon .glyphicon-star-empty'></span>")) } return n }; t.prototype.setRating = function (e) { if (this.options.rating === e) { e = void 0 } this.options.rating = e; this.syncRating(); return this.$el.trigger("starrr:change", e) }; t.prototype.syncRating = function (e) { var t, n, r, i; e || (e = this.options.rating); if (e) { for (t = n = 0, i = e - 1; 0 <= i ? n <= i : n >= i; t = 0 <= i ? ++n : --n) { this.$el.find("span").eq(t).removeClass("glyphicon-star-empty").addClass("glyphicon-star") } } if (e && e < 5) { for (t = r = e; e <= 4 ? r <= 4 : r >= 4; t = e <= 4 ? ++r : --r) { this.$el.find("span").eq(t).removeClass("glyphicon-star").addClass("glyphicon-star-empty") } } if (!e) { return this.$el.find("span").removeClass("glyphicon-star").addClass("glyphicon-star-empty") } }; return t }(); return e.fn.extend({ starrr: function () { var t, r; r = arguments[0], t = 2 <= arguments.length ? __slice.call(arguments, 1) : []; return this.each(function () { var i; i = e(this).data("star-rating"); if (!i) { e(this).data("star-rating", i = new n(e(this), r)) } if (typeof r === "string") { return i[r].apply(i, t) } }) } }) })(window.jQuery, window); $(function () { return $(".starrr").starrr() })
-
-       $(function () {
-
-              $('#new-review').autosize({ append: "\n" });
-
-              var reviewBox = $('#post-review-box');
-              var newReview = $('#new-review');
-              var openReviewBtn = $('#open-review-box');
-              var closeReviewBtn = $('#close-review-box');
-              var ratingsField = $('#ratings-hidden');
-
-              openReviewBtn.click(function (e) {
-                     reviewBox.slideDown(400, function () {
-                            $('#new-review').trigger('autosize.resize');
-                            newReview.focus();
-                     });
-                     openReviewBtn.fadeOut(100);
-                     closeReviewBtn.show();
-              });
-
-              closeReviewBtn.click(function (e) {
-                     e.preventDefault();
-                     reviewBox.slideUp(300, function () {
-                            newReview.focus();
-                            openReviewBtn.fadeIn(200);
-                     });
-                     closeReviewBtn.hide();
-
-              });
-
-              $('.starrr').on('starrr:change', function (e, value) {
-                     ratingsField.val(value);
-              });
-       });       
-</script>
 
 
 <script src='https://code.jquery.com/jquery-3.1.1.js'></script>
@@ -701,8 +797,10 @@
 <script src="/users/local_js/validate.js"></script>
 <script src="/users/local_js/script.js"></script>
 
-
+<script src="/socket.io/socket.io.js"></script>
 <script>
+
+       const socket = io();
        $(".rating-component .star").on("mouseover", function () {
               var onStar = parseInt($(this).data("value"), 10); //
               $(this).parent().children("i.star").each(function (e) {
@@ -751,7 +849,7 @@
                      $(stars[i]).addClass("selected");
               }
 
-              $(".status-msg .rating_msg").val(ratingMessage);
+              $(".rating_msg").val(ratingMessage);
               $(".status-msg").html(ratingMessage);
               $("[data-tag-set]").hide();
               $("[data-tag-set=" + onStar + "]").show();
@@ -787,19 +885,35 @@
 
 
        $(".done").on("click", function () {
-              $(".rating-component").hide();
-              $(".feedback-tags").hide();
-              $(".button-box").hide();
-              $(".submited-box").show();
-              $(".submited-box .loader").show();
 
               $.ajax({
                      url: '/reviewProduct',
                      type: "post",
                      data: $("#ratingForm").serialize(),
-                     success: () => {
-                            $(".submited-box .loader").hide();
-                            $(".submited-box .success-message").show();
+                     success: (response) => {
+                            if (response.error500) {
+                                   window.location.href = '/error500';
+                            }
+                            if (response.notOrdered) {
+                                   $('#reviewError').text('You have not ordered this product');
+                            }
+                            if (response.reviewSuccess) {
+                                   socket.emit('reviewAdded', response.messageDetails)
+                                   $('#reviewDiv')
+                                          .load(
+                                                 `${window.location.href} #reviewDiv > *`,
+                                          )
+                                          .hide()
+                                          .fadeIn('slow');
+                                   $("#reviewDiv")
+                                   $(".rating-component").hide();
+                                   $(".feedback-tags").hide();
+                                   $(".button-box").hide();
+                                   $(".submited-box").show();
+                                   $(".submited-box .loader").hide();
+                                   $(".submited-box .success-message").show();
+                            }
+
                      }
               })
 
@@ -809,3 +923,36 @@
        });
 
 </script>
+
+<style>
+       .glyphicon {
+              margin-right: 5px;
+       }
+
+       .rating .glyphicon {
+              font-size: 22px;
+       }
+
+       .rating-num {
+              margin-top: 0px;
+              font-size: 54px;
+       }
+
+       .progress {
+              margin-bottom: 5px;
+       }
+
+       .progress-bar {
+              text-align: left;
+       }
+
+       .rating-desc .col-md-3 {
+              padding-right: 0px;
+       }
+
+       .sr-only {
+              margin-left: 5px;
+              overflow: visible;
+              clip: auto;
+       }
+</style>

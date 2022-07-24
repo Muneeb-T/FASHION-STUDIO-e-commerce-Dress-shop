@@ -1,11 +1,14 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-param-reassign */
 /* eslint-disable radix */
 /* eslint-disable no-throw-literal */
 /* eslint-disable indent */
 const { ObjectId } = require('mongodb');
+const moment = require('moment');
 const db = require('../db_config/connection');
 const collections = require('../db_config/collections');
 const { productModal } = require('../models/product_models');
+const notificationController = require('./notificationControllers');
 
 module.exports.allCategories = async (allOrDeleted) => {
        const find = { deleted: allOrDeleted !== 'all' };
@@ -215,7 +218,9 @@ module.exports.getProductDetails = async (req, res, next) => {
               const productId = req.params.id;
               const categories = await this.allCategories('all');
               console.log(categories);
-
+              const productRatingCounts = await this.getProductRatingCounts(
+                     req.params.id,
+              );
               const [product] = [
                      await db
                             .get()
@@ -242,17 +247,98 @@ module.exports.getProductDetails = async (req, res, next) => {
                                    {
                                           $unwind: '$category',
                                    },
+                                   {
+                                          $lookup: {
+                                                 from: collections.REVIEW_COLLECTION,
+                                                 localField: '_id',
+                                                 foreignField: 'product',
+                                                 pipeline: [
+                                                        {
+                                                               $lookup: {
+                                                                      from: collections.USERS_COLLECTION,
+                                                                      localField:
+                                                                             'userId',
+                                                                      foreignField:
+                                                                             '_id',
+                                                                      pipeline: [
+                                                                             {
+                                                                                    $project: {
+                                                                                           _id: 0,
+                                                                                           username: 1,
+                                                                                           profilePicture: 1,
+                                                                                    },
+                                                                             },
+                                                                      ],
+                                                                      as: 'userDetails',
+                                                               },
+                                                        },
+                                                        {
+                                                               $project: {
+                                                                      _id: 1,
+                                                                      userId: 1,
+                                                                      username: 1,
+                                                                      product: 1,
+                                                                      rate_value: 1,
+                                                                      message: 1,
+                                                                      stars: 1,
+                                                                      addedDate: 1,
+                                                                      comment: 1,
+                                                                      userDetails:
+                                                                             {
+                                                                                    $arrayElemAt:
+                                                                                           [
+                                                                                                  '$userDetails',
+                                                                                                  0,
+                                                                                           ],
+                                                                             },
+                                                               },
+                                                        },
+                                                 ],
+                                                 as: 'reviews',
+                                          },
+                                   },
                             ])
                             .toArray(),
               ][0];
+              product.addedDate = moment(product.addedDate).format(
+                     'DD/MM/YYYY',
+              );
+              product.lastModified = moment(product.lastModified).format(
+                     'DD/MM/YYYY',
+              );
+              product.averageRating = Math.round(
+                     product.reviews.reduce(
+                            (total, next) => total + next.rate_value,
+                            0,
+                     ) / product.reviews.length,
+              );
+              product.stars = [];
+              if (isNaN(product.averageRating)) {
+                     product.averageRating = null;
+              } else {
+                     product.stars = [];
+                     for (let i = 1; i <= 5; i++) {
+                            if (
+                                   product.averageRating &&
+                                   i <= product.averageRating
+                            ) {
+                                   product.stars.push(true);
+                            } else {
+                                   product.stars.push(false);
+                            }
+                     }
+              }
               console.log(product);
-
+              const reviewNotifications =
+                     await notificationController.loadNotifications();
               res.render('admin/product-details', {
                      layout: 'admin_layout',
                      admin: true,
                      productViewOrEditPage: true,
                      product,
+                     productRatingCounts,
                      categories,
+                     reviewNotifications,
               });
        } catch (error) {
               next(error);
@@ -419,6 +505,45 @@ module.exports.getProducts = async (
                             images: 1,
                      },
               },
+              {
+                     $lookup: {
+                            from: collections.REVIEW_COLLECTION,
+                            localField: '_id',
+                            foreignField: 'product',
+                            pipeline: [
+                                   {
+                                          $group: {
+                                                 _id: null,
+                                                 averageRating: {
+                                                        $avg: '$rate_value',
+                                                 },
+                                          },
+                                   },
+                                   {
+                                          $project: {
+                                                 _id: 0,
+                                                 averageRating: {
+                                                        $ceil: '$averageRating',
+                                                 },
+                                          },
+                                   },
+                            ],
+                            as: 'averageRating',
+                     },
+              },
+              {
+                     $project: {
+                            product_name: 1,
+                            brand: 1,
+                            category: '$category.name',
+                            price: 1,
+                            offerPrice: 1,
+                            images: 1,
+                            averageRating: {
+                                   $arrayElemAt: ['$averageRating', 0],
+                            },
+                     },
+              },
        ];
 
        if (
@@ -500,6 +625,20 @@ module.exports.getProducts = async (
               .collection(collections.PRODUCT_COLLECTION)
               .aggregate(aggregate)
               .toArray();
+       products.forEach((product) => {
+              product.stars = [];
+              for (let i = 1; i <= 5; i++) {
+                     if (
+                            product.averageRating &&
+                            i <= product.averageRating.averageRating
+                     ) {
+                            product.stars.push(true);
+                     } else {
+                            product.stars.push(false);
+                     }
+              }
+       });
+       console.log(products);
        return products;
 };
 
@@ -556,6 +695,52 @@ module.exports.getSingleProductDetails = async (
                                           },
                                    },
                             },
+                     },
+              },
+              {
+                     $lookup: {
+                            from: collections.REVIEW_COLLECTION,
+                            localField: '_id',
+                            foreignField: 'product',
+                            pipeline: [
+                                   {
+                                          $lookup: {
+                                                 from: collections.USERS_COLLECTION,
+                                                 localField: 'userId',
+                                                 foreignField: '_id',
+                                                 pipeline: [
+                                                        {
+                                                               $project: {
+                                                                      _id: 0,
+                                                                      username: 1,
+                                                                      profilePicture: 1,
+                                                               },
+                                                        },
+                                                 ],
+                                                 as: 'userDetails',
+                                          },
+                                   },
+                                   {
+                                          $project: {
+                                                 _id: 1,
+                                                 userId: 1,
+                                                 username: 1,
+                                                 product: 1,
+                                                 rate_value: 1,
+                                                 message: 1,
+                                                 stars: 1,
+                                                 addedDate: 1,
+                                                 comment: 1,
+                                                 userDetails: {
+                                                        $arrayElemAt: [
+                                                               '$userDetails',
+                                                               0,
+                                                        ],
+                                                 },
+                                          },
+                                   },
+                            ],
+                            as: 'reviews',
                      },
               },
        ];
@@ -615,6 +800,23 @@ module.exports.getSingleProductDetails = async (
                      .aggregate(aggregate)
                      .toArray(),
        ][0];
+       product.averageRating = Math.round(
+              product.reviews.reduce(
+                     (total, next) => total + next.rate_value,
+                     0,
+              ) / product.reviews.length,
+       );
+       if (isNaN(product.averageRating)) {
+              product.averageRating = null;
+       }
+       product.stars = [];
+       for (let i = 1; i <= 5; i++) {
+              if (product.averageRating && i <= product.averageRating) {
+                     product.stars.push(true);
+              } else {
+                     product.stars.push(false);
+              }
+       }
 
        return product;
 };
@@ -691,17 +893,61 @@ module.exports.getWishlist = async function (userId, guest, guestWishlist) {
                                    },
                             },
                             {
+                                   $lookup: {
+                                          from: collections.REVIEW_COLLECTION,
+                                          localField: '_id',
+                                          foreignField: 'product',
+                                          pipeline: [
+                                                 {
+                                                        $group: {
+                                                               _id: null,
+                                                               averageRating: {
+                                                                      $avg: '$rate_value',
+                                                               },
+                                                        },
+                                                 },
+                                                 {
+                                                        $project: {
+                                                               _id: 0,
+                                                               averageRating: {
+                                                                      $ceil: '$averageRating',
+                                                               },
+                                                        },
+                                                 },
+                                          ],
+                                          as: 'averageRating',
+                                   },
+                            },
+                            {
                                    $project: {
                                           product_name: 1,
                                           brand: 1,
                                           price: 1,
                                           offerPrice: 1,
                                           images: 1,
+                                          averageRating: {
+                                                 $arrayElemAt: [
+                                                        '$averageRating',
+                                                        0,
+                                                 ],
+                                          },
                                    },
                             },
                      ])
                      .toArray();
-              console.log(wishlist);
+              wishlist.forEach((product) => {
+                     product.stars = [];
+                     for (let i = 1; i <= 5; i++) {
+                            if (
+                                   product.averageRating &&
+                                   i <= product.averageRating.averageRating
+                            ) {
+                                   product.stars.push(true);
+                            } else {
+                                   product.stars.push(false);
+                            }
+                     }
+              });
               return wishlist;
        }
        const wishlist = await db
@@ -1818,4 +2064,60 @@ const cartFunctions = {
                             ],
                      });
        },
+};
+
+module.exports.getProductRatingCounts = async (productId) => {
+       const ratingsCount = await db
+              .get()
+              .collection(collections.REVIEW_COLLECTION)
+              .aggregate([
+                     {
+                            $match: {
+                                   product: ObjectId(productId),
+                            },
+                     },
+                     {
+                            $group: {
+                                   _id: '$rate_value',
+                                   count: { $sum: 1 },
+                            },
+                     },
+                     {
+                            $sort: { _id: 1 },
+                     },
+              ])
+              .toArray();
+       console.log(ratingsCount);
+       if (ratingsCount.length > 0) {
+              const totalCounts = ratingsCount.reduce(
+                     (acc, obj) => acc + obj.count,
+                     0,
+              );
+              console.log(totalCounts);
+              for (let i = 0; i <= 4; i++) {
+                     if (ratingsCount[i]) {
+                            if (ratingsCount[i]._id !== i + 1) {
+                                   ratingsCount.splice(i, 0, {
+                                          _id: i + 1,
+                                          count: 0,
+                                          percentage: 0,
+                                   });
+                            } else {
+                                   ratingsCount[i].percentage =
+                                          (ratingsCount[i].count /
+                                                 totalCounts) *
+                                          100;
+                            }
+                     } else {
+                            ratingsCount[i] = {
+                                   _id: i + 1,
+                                   count: 0,
+                                   percentage: 0,
+                            };
+                     }
+              }
+              console.log(ratingsCount);
+              return ratingsCount;
+       }
+       return null;
 };

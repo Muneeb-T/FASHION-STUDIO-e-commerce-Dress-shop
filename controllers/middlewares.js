@@ -2,7 +2,6 @@
 const { ObjectId } = require('mongodb');
 const multer = require('multer');
 const path = require('path');
-const { registerUser } = require('./authentication_controllers');
 const db = require('../db_config/connection');
 const collections = require('../db_config/collections');
 

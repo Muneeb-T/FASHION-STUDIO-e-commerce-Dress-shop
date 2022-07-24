@@ -33,14 +33,19 @@
 </style>
 
 <div class="container">
-    <div class="row p-t-80" style="height: 90vh;">
+    <div class="row">
         <div class="col">
-            <div class="card p-t-100 w-100 text-center border-0">
+            <div class="card  w-100 text-center border-0">
                 <div style="border-radius:200px; height:150px; width:200px; background: #F8FAF5; margin:0 auto;">
                     <i class="checkmark">✓</i>
                 </div>
                 <h1 class="successMessage">Order Placed</h1>
                 <p>Thank you.Your order have been placed successfully<br /></p>
+                <p>Order ID : {{orderId}}</p>
+                <a href="/invoice/{{orderId}}" class="btn m-3 stext-101 cl0 bg-success bor1 hov-btn1 p-lr-15 trans-04"
+                    data-abc="true">Invoice</a>
+                <a href="/order/{{orderId}}" class="btn m-3 stext-101 cl0 bg-danger bor1 hov-btn1 p-lr-15 trans-04" data-abc="true">Order details</a>
+                <a href="/" class="btn m-3 stext-101 cl0 bg1 bor1 hov-btn1 p-lr-15 trans-04" data-abc="true">Go home</a>
             </div>
         </div>
     </div>

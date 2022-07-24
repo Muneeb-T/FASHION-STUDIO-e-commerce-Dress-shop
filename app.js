@@ -8,7 +8,7 @@ const flash = require('req-flash');
 const session = require('express-session');
 const nocache = require('nocache');
 const middlewares = require('./controllers/middlewares');
-
+const socketapi = require('./socketio/socketapi');
 const database = require('./db_config/connection');
 const usersRouter = require('./routes/users');
 const adminRouter = require('./routes/admin');
@@ -30,6 +30,7 @@ app.engine(
                             return parseInt(value) + 1;
                      },
                      ifeq(a, b, options) {
+                            console.log(a,b)
                             if (a && b) {
                                    if (a.toString() === b.toString()) {
                                           return options.fn(this);
@@ -88,8 +89,8 @@ app.use((_req, _res, next) => {
 
 // error handler
 app.use((err, req, res, next) => {
-       console.log(err)
+       console.log(err);
        res.render('error/error500', { layout: 'error_layout', status: '500' });
 });
 
-module.exports = app;
+module.exports = app, socketapi;

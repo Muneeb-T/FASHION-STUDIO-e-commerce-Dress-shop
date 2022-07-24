@@ -2,26 +2,35 @@
     <div class='card-body'>
         <div class="row">
             <div class="col">
-                
+
                 {{#ifnoteq orderDetails.orderStatus 'Cancelled'}}
                 <div class="row px-3">
                     <div class="col">
                         <div class="track">
-                    <div class="step {{#ifeq orderDetails.orderStatus 'Placed'}} active {{/ifeq}} {{#ifeq orderDetails.orderStatus 'Shipped'}} active {{/ifeq}}  {{#ifeq orderDetails.orderStatus 'Out for delivery'}} active {{/ifeq}} {{#ifeq orderDetails.orderStatus 'Delivered'}} active {{/ifeq}}"> <span class="icon"> 1 </span> <span
-                            class="text">Placed</span> </div>
-                    <div class="step {{#ifeq orderDetails.orderStatus 'Shipped'}} active {{/ifeq}} {{#ifeq orderDetails.orderStatus 'Out for delivery'}} active {{/ifeq}} {{#ifeq orderDetails.orderStatus 'Delivered'}} active {{/ifeq}}"> <span class="icon"> 2 </span> <span class="text">
-                            Shipped</span> </div>
-                    <div class="step {{#ifeq orderDetails.orderStatus 'Out for delivery'}} active {{/ifeq}} {{#ifeq orderDetails.orderStatus 'Delivered'}} active {{/ifeq}}"> <span class="icon"> 3 </span> <span class="text"> Out for delivery </span> </div>
-                    <div class="step {{#ifeq orderDetails.orderStatus 'Delivered'}} active {{/ifeq}}"> <span class="icon"> 4 </span> <span class="text">Delivered</span> </div>
-                </div>
-                    
+                            <div
+                                class="step {{#ifeq orderDetails.orderStatus 'Placed'}} active {{/ifeq}} {{#ifeq orderDetails.orderStatus 'Shipped'}} active {{/ifeq}}  {{#ifeq orderDetails.orderStatus 'Out for delivery'}} active {{/ifeq}} {{#ifeq orderDetails.orderStatus 'Delivered'}} active {{/ifeq}}">
+                                <span class="icon"> 1 </span> <span class="text">Placed</span>
+                            </div>
+                            <div
+                                class="step {{#ifeq orderDetails.orderStatus 'Shipped'}} active {{/ifeq}} {{#ifeq orderDetails.orderStatus 'Out for delivery'}} active {{/ifeq}} {{#ifeq orderDetails.orderStatus 'Delivered'}} active {{/ifeq}}">
+                                <span class="icon"> 2 </span> <span class="text">
+                                    Shipped</span>
+                            </div>
+                            <div
+                                class="step {{#ifeq orderDetails.orderStatus 'Out for delivery'}} active {{/ifeq}} {{#ifeq orderDetails.orderStatus 'Delivered'}} active {{/ifeq}}">
+                                <span class="icon"> 3 </span> <span class="text"> Out for delivery </span>
+                            </div>
+                            <div class="step {{#ifeq orderDetails.orderStatus 'Delivered'}} active {{/ifeq}}"> <span
+                                    class="icon"> 4 </span> <span class="text">Delivered</span> </div>
+                        </div>
+
                     </div>
                 </div>
                 {{/ifnoteq}}
             </div>
         </div>
-        <div class="row">
-            <div class="col d-flex justify-content-between align-items-center">
+        <div class="row mb-5">
+            <div class="col text-center">
 
                 <p class="font-weight-bold text-dark mb-0 p-3">
 
@@ -33,7 +42,8 @@
                         {{/ifeq}}
                     </span>
                 </p>
-                <div class="d-flex">
+
+                <div class="d-flex mx-auto" style="width: max-content;">
                     <a href="/invoice/{{orderDetails._id}}" class="btn btn-secondary mr-2 d-flex align-items-center"
                         style="height: fit-content;">Invoice</a>
                     {{#ifnoteq orderDetails.orderStatus 'Cancelled'}}
@@ -47,30 +57,25 @@
             </div>
         </div>
 
-        <div class="row p-3">
-
-
-
+        <div class="row">
             <div class="col">
-                <h4 class='text-uppercase mb-4'>Products</h4>
+                <h2 class='text-uppercase mb-4 text-center font-weight-bold'>Products</h3>
 
 
-                <div style="border-radius: 10px;">
+                    <div style="border-radius: 10px;">
 
-
-                    <div class="card-body p-0">
 
                         {{#each orderedProducts}}
                         <div class="card">
 
-                            <div class="card-body p-5 border">
+                            <div class="card-body p-4 border">
                                 <div class="float-end">
 
                                     <div class="media flex-column flex-sm-row">
                                         <div class="media-body">
-                                            <h5 class="bold mb-2 mtext-105 cl2 js-name-detail">
+                                            <h5 style="max-width: 90%;" class="bold mb-2 mtext-105 cl2 js-name-detail">
                                                 {{this.product.product_name}}</h5>
-                                            <h6 class="bold mb-2 mtext-90">Brand :
+                                            <h6 style="max-width: 90%;" class="bold mb-2 mtext-90">Brand :
                                                 {{this.product.brand}}
                                             </h6>
                                             <h6 class="bold mb-2 mtext-90">Category :
@@ -98,14 +103,14 @@
 
                         </div>
                         {{/each}}
-                    </div>
 
-                </div>
+                    </div>
 
 
             </div>
         </div>
         <hr class="mt-0">
+
         <div class="row">
             <div class="col">
                 <div class=" border-0" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
@@ -144,9 +149,6 @@
 
                                 </span>
                             </p>
-
-
-
 
                         </div>
 
@@ -332,8 +334,6 @@
     }
 </style>
 <style>
-  
-
     .track {
         position: relative;
         background-color: #ddd;
@@ -392,8 +392,6 @@
         display: block;
         margin-top: 7px
     }
-
- 
 </style>
 
 

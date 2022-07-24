@@ -7,6 +7,7 @@
 
 const debug = require('debug')('shopping-website:server');
 const http = require('http');
+const socketapi = require('../socketio/socketapi');
 const app = require('../app');
 /**
  * Get port from environment and store in Express.
@@ -20,7 +21,7 @@ app.set('port', port);
  */
 
 const server = http.createServer(app);
-
+socketapi.io.attach(server);
 /**
  * Listen on provided port, on all network interfaces.
  */

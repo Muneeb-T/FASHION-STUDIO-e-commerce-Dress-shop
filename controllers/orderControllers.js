@@ -487,3 +487,43 @@ module.exports.cancelOrder = async (req, res) => {
               res.json({ error500: true });
        }
 };
+
+module.exports.checkIfUserOrdered = async (user, product) => {
+       const isUserOrdered = await db
+              .get()
+              .collection(collections.ORDERS_COLLECTION)
+              .aggregate([
+                     {
+                            $match: {
+                                   $and: [
+                                          { user: ObjectId(user) },
+                                          {
+                                                 orderStatus: 'Delivered',
+                                          },
+                                   ],
+                            },
+                     },
+                     {
+                            $project: {
+                                   products: 1,
+                                   _id: 0,
+                            },
+                     },
+                     {
+                            $unwind: {
+                                   path: '$products',
+                            },
+                     },
+                     {
+                            $match: {
+                                   'products.product': ObjectId(product),
+                            },
+                     },
+              ])
+              .toArray();
+
+       if (isUserOrdered && isUserOrdered.length > 0) {
+              return true;
+       }
+       return false;
+};

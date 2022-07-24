@@ -1,9 +1,9 @@
 <div class="container mb-3 p-t-100">
     <div class="row">
 
-        <div class="col col-lg-8 flex-w flex-t
+        <div class="col col-xl-8 flex-w flex-t
             p-b-30" style="display: block;">
-            <div class="card shadow p-3">
+            <div class="card shadow ">
                 <div class="card-body">
                     <form id="checkoutForm" action="/placeOrder" method="post">
                         <div class="p-r-18 p-r-0-sm
@@ -31,7 +31,7 @@
                                             {{#if addressList}}
                                             {{#each addressList}}
                                             <div class="row" id="addressDiv{{this._id}}">
-                                                <div class="col m-3 p-3
+                                                <div class="col m-3
                                                     font-weight-bold">
 
 
@@ -88,7 +88,7 @@
                                     </div>
                                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
                                         data-parent="#accordion">
-                                        <div class="card-body p-5">
+                                        <div class="card-body p-3">
                                             <div class="p-t-15">
 
                                                 <div class="bor8 bg0
@@ -191,13 +191,6 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="paymentMethod" id="paypalPayment"
-                                        value="paypal" checked>
-                                    <label class="form-check-label" for="paypalPayment">
-                                        Paypal
-                                    </label>
-                                </div>
-                                <div class="form-check">
                                     <input class="form-check-input" type="radio" name="paymentMethod" id="cod"
                                         value="cod">
                                     <label class="form-check-label" for="cod">
@@ -230,7 +223,7 @@
                 </div>
             </div>
         </div>
-        <div class="col col-lg-4">
+        <div class="col col-xl-4">
             <div class="card shadow">
                 <div class="card-body p-5">
                     <h5 class="card-title text-dark font-weight-bold">Price
@@ -325,12 +318,12 @@
 
                         $('#chooseAddressSection')
                             .prepend(`<div class="row" id="addressDiv${response.newAddressId}">
-                                               <div class="col m-3 p-3
-                                                   font-weight-bold">
+                                               <div class="col m-3
+                                                    font-weight-bold">
 
 
-                                                   <div class="row">
-                                                       <div class="col-1 mt-2">
+                                                    <div class="row">
+                                                        <div class="col-auto mt-2">
                                                            <input type="radio" value="${response.newAddressId}"
                                                                class="form-control" name="address" required checked>
                                                        </div>

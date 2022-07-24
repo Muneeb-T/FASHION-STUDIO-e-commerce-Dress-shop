@@ -91,13 +91,12 @@
                      </div>
                      <div class="col-md-8">
                             <div class="card mb-3">
-                                   <div class="card-body">
-                                          <div class="row d-flex align-items-center">
-                                                 <div class="col-4 ">
-                                                        <h6 class="mb-0"><i class="fa fa-user mr-3"
+                                   <div class="card-body p-5">
+                                          <div class="row d-flex align-items-center justify-content-center">
+                                              
+                                                 <div class="col-10 text-secondary">
+                                                         <h6 class="mb-1"><i class="fa fa-user mr-3"
                                                                       aria-hidden="true"></i>Username</h6>
-                                                 </div>
-                                                 <div class="col-6 text-secondary">
                                                         <form id="updateUsernameForm">
                                                                <input type="text" id="updateUsername" name="username"
                                                                       class="form-control"
@@ -105,7 +104,7 @@
                                                         </form>
 
                                                  </div>
-                                                 <div class="col-2">
+                                                 <div class="col-2 d-flex pt-3">
                                                         <button id="updateUsernameEditButton"
                                                                onclick="event.preventDefault(); updateUsername();"><i
                                                                       class="fa fa-pencil-square-o font-weight-bold text-primary"
@@ -115,18 +114,16 @@
                                                                       aria-hidden="true"></i></button>
                                                         <button class="cancelProfileUpdate"
                                                                onclick="cancelUpdate('Username')" hidden><i
-                                                                      class="fa fa-close ml-2 font-weight-bold text-danger"
+                                                                      class="fa fa-close ml-3 font-weight-bold text-danger"
                                                                       aria-hidden="true"></i></button>
 
                                                  </div>
                                           </div>
                                           <hr />
                                           <div class="row d-flex align-items-center">
-                                                 <div class="col-4">
-                                                        <h6 class="mb-0"><i class="fa fa-envelope mr-3"
+                                                 <div class="col-10">
+                                                        <h6 class="mb-1"><i class="fa fa-envelope mr-3"
                                                                       aria-hidden="true"></i>Email</h6>
-                                                 </div>
-                                                 <div class="col-6 text-secondary">
                                                         <form id="updateEmailForm">
                                                                <input type="text" id="updateEmail" name="email"
                                                                       class="form-control" value="{{userDetails.email}}"
@@ -135,7 +132,7 @@
                                                         <p class="text-danger" id="updateEmailError"></p>
 
                                                  </div>
-                                                 <div class="col-2">
+                                                 <div class="col-2 d-flex pt-3">
                                                         <button id="updateEmailEditButton"
                                                                onclick="event.preventDefault(); updateEmail();"><i
                                                                       class="fa fa-pencil-square-o font-weight-bold text-primary"
@@ -145,17 +142,15 @@
                                                                       aria-hidden="true"></i></button>
                                                         <button class="cancelProfileUpdate"
                                                                onclick="cancelUpdate('Email')" hidden><i
-                                                                      class="fa fa-close ml-2 font-weight-bold text-danger"
+                                                                      class="fa fa-close ml-3 font-weight-bold text-danger"
                                                                       aria-hidden="true"></i></button>
                                                  </div>
                                           </div>
                                           <hr />
                                           <div class="row d-flex align-items-center">
-                                                 <div class="col-4">
+                                                 <div class="col-10  text-secondary">
                                                         <h6 class="mb-0"><i class="fa fa-phone mr-3"
                                                                       aria-hidden="true"></i>Phone number</h6>
-                                                 </div>
-                                                 <div class="col-6  text-secondary">
                                                         <form id="updatePhonenumberForm">
                                                                <input type="text" id="updatePhonenumber"
                                                                       name="phone_number" class="form-control"
@@ -164,7 +159,7 @@
                                                         <p class="text-danger" id="updatePhonenumberError"></p>
 
                                                  </div>
-                                                 <div class="col-2">
+                                                 <div class="col-2 d-flex pt-3">
                                                         <button id="updatePhonenumberEditButton"
                                                                onclick="event.preventDefault(); updatePhonenumber();"><i
                                                                       class="fa fa-pencil-square-o font-weight-bold text-primary"
@@ -174,12 +169,12 @@
                                                                       aria-hidden="true"></i></button>
                                                         <button class="cancelProfileUpdate"
                                                                onclick="cancelUpdate('Phonenumber')" hidden><i
-                                                                      class="fa fa-close ml-2 font-weight-bold text-danger"
+                                                                      class="fa fa-close ml-3 font-weight-bold text-danger"
                                                                       aria-hidden="true"></i></button>
                                                  </div>
                                           </div>
                                           <hr class="mb-0" />
-                                          <div class="text-center mt-0">
+                                          <div class="mt-0">
                                                  <button class="btn font-weight-bold btn-danger mt-3"
                                                         onclick="updatePassword()">Update
                                                         password</button>
@@ -228,7 +223,6 @@
        }
 
        .pic-holder .pic {
-              height: 100%;
               width: 100%;
               -o-object-fit: cover;
               object-fit: cover;

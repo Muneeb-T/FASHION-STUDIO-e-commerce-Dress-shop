@@ -13,14 +13,14 @@
                                 <p class="text-muted text-secondary mb-0">Last modifed on {{product.lastModified}}</p>
                             </div>
                             <div>
-                                <a class='btn btn-sm
+                                <a class='btn btn-sm float-right mb-2
                                 font-weight-bold text-light
                                 badge-pending px-3' id="delete-product-button"
                                     onclick="deleteProduct(event,'{{product._id}}','single-view')">Delete</a>
-                                <a class='btn btn-sm
+                                <a class='btn btn-sm float-right
                                 font-weight-bold text-light
                                 badge-complete px-3' id="edit-product-button">Edit</a>
-                                <a class='btn btn-sm
+                                <a class='btn btn-sm float-right
                                 font-weight-bold text-light
                                 badge-pending px-3' id="cancel-edit-product-button" hidden>Cancel</a>
                             </div>
@@ -181,16 +181,150 @@
                                         text-light badge-complete'> Save updates </button>
                                 </div>
                             </div>
+                            <hr>
+                            <div class="row mt-5">
+                                <div>
+                                    <h3 class='text-uppercase mb-2'> {{#if product.reviews}} Reviews and ratings
+                                        {{else}} Reviews and ratings <span class="text-danger">
+                                            (No reviews)</span> {{/if}}
 
-                        </form>
+
+                                    </h3>
+
+                                </div>
+
+                            </div>
+                            {{#if product.reviews}}
+                            <div class="col mx-auto p-5">
+                                <div class="well well-sm">
+                                    <div class="row align-items-center">
+                                        <div class="col-xs-12 col-md-6 text-center">
+
+                                            <h1 class="rating-num">
+                                                {{product.averageRating}}.0</h1>
+
+                                            <div>
+                                                <span class="glyphicon glyphicon-user"></span>{{product.reviews.length}}
+                                                total
+                                            </div>
+
+                                            <h2>
+                                                <div class="d-flex flex-row mt-1 justify-content-center">
+                                                    {{#each product.stars}}
+                                                    <i
+                                                        class="{{#if this}} fa fa-star  text-warning {{else}}fa fa-star-o text-secondary{{/if}}"></i>
+                                                    {{/each}}
+                                                </div>
+                                            </h2>
+                                        </div>
+                                        <div class="col-xs-12 col-md-6">
+                                            <div class="row rating-desc">
+
+                                                <div class="col-xs-8 col-md-12">
+                                                    <p class="mb-1">{{productRatingCounts.[4]._id}} - Very good quality
+                                                        ({{productRatingCounts.[4].count}} ratings)</p>
+                                                    <div class="progress mb-3">
+                                                        <div class="progress-bar bg-success" role="progressbar"
+                                                            style="width: {{productRatingCounts.[4].percentage}}%"
+                                                            aria-valuenow="{{productRatingCounts.[4].count}}"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="{{product.reviews.length}}">
+                                                        </div>
+                                                    </div>
+                                                    <p class="mb-1">
+                                                        {{productRatingCounts.[3]._id}} - Nice
+                                                        ({{productRatingCounts.[3].count}} ratings)
+                                                    </p>
+
+                                                    <div class="progress mb-3">
+                                                        <div class="progress-bar bg-info" role="progressbar"
+                                                            style="width: {{productRatingCounts.[3].percentage}}%"
+                                                            aria-valuenow="{{productRatingCounts.[3].count}}"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="{{product.reviews.length}}">
+                                                        </div>
+                                                    </div>
+                                                    <p class="mb-1">
+                                                        {{productRatingCounts.[2]._id}} - Average quality
+                                                        ({{productRatingCounts.[2].count}} ratings)</p>
+                                                    <div class="progress mb-3">
+                                                        <div class="progress-bar bg-warning" role="progressbar"
+                                                            style="width: {{productRatingCounts.[2].percentage}}%"
+                                                            aria-valuenow="{{productRatingCounts.[2].count}}"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="{{product.reviews.length}}">
+                                                        </div>
+                                                    </div>
+                                                    <p class="mb-1">
+                                                        {{productRatingCounts.[1]._id}} - Poor quality
+                                                        ({{productRatingCounts.[1].count}} ratings)
+                                                    </p>
+                                                    <div class="progress mb-3">
+                                                        <div class="progress-bar bg-secondary" role="progressbar"
+                                                            style="width: {{productRatingCounts.[1].percentage}}%"
+                                                            aria-valuenow="{{productRatingCounts.[1].count}}"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="{{product.reviews.length}}">
+                                                        </div>
+                                                    </div>
+                                                    <p class="mb-1">
+                                                        {{productRatingCounts.[0]._id}} - Too bad
+                                                        ({{productRatingCounts.[0].count}} ratings)
+                                                    </p>
+                                                    <div class="progress mb-3">
+                                                        <div class="progress-bar bg-danger" role="progressbar"
+                                                            style="width: {{productRatingCounts.[0].percentage}}%"
+                                                            aria-valuenow="{{productRatingCounts.[0].count}}"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="{{product.reviews.length}}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end 5 -->
+
+                                                <!-- end 1 -->
+                                            </div>
+                                            <!-- end row -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{#each product.reviews}}
+
+                            <div class="col-12 mb-3 border">
+                                <div class="card p-3 pt-5">
+                                    <p class="text-danger font-weight-bold mb-2">{{this.message}}</p>
+                                    <p>{{this.comment}}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="user-about"> <span
+                                                class="font-weight-bold d-block">{{this.userDetails.username}}</span>
+                                            <div class="d-flex flex-row mt-1">
+                                                {{#each this.stars}}
+                                                <i
+                                                    class="{{#if this}} fa fa-star  text-warning {{else}}fa fa-star-o text-secondary {{/if}}"></i>
+                                                {{/each}}
+                                            </div>
+                                        </div>
+
+                                        <div class="user-image"> <img style=" width: 50px; height: 50px;"
+                                                src="{{#if this.userDetails.profilePicture}} /admin/product-images/{{this.userDetails.profilePicture}} {{else}}/users/images/icons/profile_picture_placeholder.png{{/if}}"
+                                                class="rounded-circle" width="70"> </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/each}}
+                            {{/if}}
                     </div>
-
+                    </form>
                 </div>
 
             </div>
 
         </div>
+
     </div>
+</div>
 </div>
 
 <script src='https://code.jquery.com/jquery-3.1.1.js'></script>

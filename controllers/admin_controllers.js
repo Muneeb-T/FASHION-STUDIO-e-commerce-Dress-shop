@@ -8,6 +8,7 @@ const collections = require('../db_config/collections');
 const productControllers = require('./product_controllers');
 const bannerControllers = require('./bannerControllers');
 const orderControllers = require('./orderControllers');
+const notificationController = require('./notificationControllers');
 
 module.exports.adminLogin = (req, res, next) => {
        try {
@@ -19,13 +20,15 @@ module.exports.adminLogin = (req, res, next) => {
                      loginError: req.flash('loginError'),
               });
        } catch (error) {
-              console.log(error)
+              console.log(error);
               next(error);
        }
 };
 
 module.exports.adminDashboard = async (req, res, next) => {
        try {
+              const reviewNotifications =
+                     await notificationController.loadNotifications();
               function padTo2Digits(num) {
                      return num.toString().padStart(2, '0');
               }
@@ -440,6 +443,7 @@ module.exports.adminDashboard = async (req, res, next) => {
                      orderStatus,
                      recentOrders:
                             recentOrders.length > 0 ? recentOrders : null,
+                     reviewNotifications,
               });
        } catch (error) {
               next(error);
@@ -449,12 +453,15 @@ module.exports.adminDashboard = async (req, res, next) => {
 module.exports.addProduct = async (req, res, next) => {
        try {
               let categories = await productControllers.allCategories('all');
+              const reviewNotifications =
+                     await notificationController.loadNotifications();
               if (categories.length === 0) categories = null;
 
               res.render('admin/add-product', {
                      layout: 'admin_layout',
                      admin: true,
                      categories,
+                     reviewNotifications,
               });
        } catch (error) {
               next(error);
@@ -464,7 +471,8 @@ module.exports.addProduct = async (req, res, next) => {
 module.exports.allCategories = async (req, res, next) => {
        try {
               const { allOrDeleted } = req.params;
-
+              const reviewNotifications =
+                     await notificationController.loadNotifications();
               const categories = await productControllers.allCategories(
                      allOrDeleted,
               );
@@ -476,6 +484,7 @@ module.exports.allCategories = async (req, res, next) => {
                      admin: true,
                      categories: categories.length > 0 ? categories : null,
                      isDeletePage,
+                     reviewNotifications,
                      addCategoryError: req.flash('addCategoryError'),
               });
        } catch (error) {
@@ -486,10 +495,13 @@ module.exports.allCategories = async (req, res, next) => {
 module.exports.products = async (req, res, next) => {
        try {
               const categoryId = req.params.id;
+              const reviewNotifications =
+                     await notificationController.loadNotifications();
               const products = await productControllers.allProducts(categoryId);
               res.render('admin/products', {
                      layout: 'admin_layout',
                      admin: true,
+                     reviewNotifications,
                      products: products.length > 0 ? products : null,
               });
        } catch (error) {
@@ -499,11 +511,14 @@ module.exports.products = async (req, res, next) => {
 
 module.exports.banners = async (req, res, next) => {
        try {
+              const reviewNotifications =
+                     await notificationController.loadNotifications();
               const banners = await bannerControllers.getBanners();
               res.render('admin/banners', {
                      layout: 'admin_layout',
                      banners: banners.length > 0 ? banners : null,
                      admin: true,
+                     reviewNotifications,
               });
        } catch (error) {
               next(error);
@@ -551,10 +566,13 @@ module.exports.coupons = async (req, res, next) => {
                             },
                      ])
                      .toArray();
+              const reviewNotifications =
+                     await notificationController.loadNotifications();
               res.render('admin/coupons', {
                      layout: 'admin_layout',
                      admin: true,
                      coupons,
+                     reviewNotifications,
               });
        } catch (error) {
               next(error);
@@ -598,9 +616,12 @@ module.exports.addCoupon = async (req, res, next) => {
 module.exports.orders = async (req, res, next) => {
        try {
               const allOrders = await orderControllers.getAllOrders();
+              const reviewNotifications =
+                     await notificationController.loadNotifications();
               res.render('admin/orders', {
                      layout: 'admin_layout',
                      admin: true,
+                     reviewNotifications,
                      allOrders: allOrders.length > 0 ? allOrders : null,
               });
        } catch (error) {
@@ -610,10 +631,13 @@ module.exports.orders = async (req, res, next) => {
 module.exports.orderDetails = async (req, res, next) => {
        try {
               const orderId = req.params.id;
+              const reviewNotifications =
+                     await notificationController.loadNotifications();
               const orderDetails = await orderControllers.orderDetails(orderId);
               res.render('admin/orderDetails', {
                      layout: 'admin_layout',
                      admin: true,
+                     reviewNotifications,
                      orderedProducts: orderDetails[0],
                      orderDetails: orderDetails[1],
               });
@@ -625,9 +649,12 @@ module.exports.orderDetails = async (req, res, next) => {
 module.exports.deletedProducts = async (req, res, next) => {
        try {
               const products = await productControllers.allProducts('deleted');
+              const reviewNotifications =
+              await notificationController.loadNotifications();
               res.render('admin/deletedProducts', {
                      layout: 'admin_layout',
                      admin: true,
+                     reviewNotifications,
                      products: products.length > 0 ? products : null,
               });
        } catch (error) {
@@ -652,5 +679,20 @@ module.exports.deleteCoupon = async (req, res, next) => {
               res.json({ couponDelete: true });
        } catch (error) {
               next(error);
+       }
+};
+
+module.exports.readMessage = async (req, res, next) => {
+       try {
+              await db
+                     .get()
+                     .collection(collections.REVIEW_COLLECTION)
+                     .updateOne(
+                            { _id: ObjectId(req.body.messageId) },
+                            { $set: { read: true } },
+                     );
+              res.json({ messageReadSuccess: true });
+       } catch (error) {
+              res.json({ error500: true });
        }
 };

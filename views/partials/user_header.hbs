@@ -41,7 +41,7 @@
                                           <i class="zmdi zmdi-search"></i>
                                    </div>
 
-                                   <a href="/cart" 
+                                   <a href="/cart"
                                           class="cartCount icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
                                           data-notify="{{#if session.user}}{{session.user.cartCount}}{{else}}0{{/if}}">
                                           <i class="material-icons">
@@ -137,7 +137,7 @@
                                           account_circle
                                    </i>
                             </a>
-                            <ul class="dropdown-content">
+                            <ul class="dropdown-content" style="max-width : 250px;">
                                    <li>
                                           {{#if session.userLogin}}
                                           <a href="/profile">Hello
@@ -248,7 +248,7 @@
                                           aria-labelledby="home-tab">
                                           <div class="flex-w flex-tr">
                                                  <div class="size-150  p-lr-50 p-t-55 p-b-70 p-lr-15-lg w-full">
-                                                        <form id="user-login-form">
+                                                        <form id="user-login-form" autocomplete="off">
 
                                                                <h4 class="mtext-105 cl2 txt-center p-b-30">
                                                                       Login
@@ -306,7 +306,7 @@
                                                  aria-labelledby="home-tab">
                                                  <div class="flex-w flex-tr">
                                                         <div class="size-150  p-lr-50 p-t-30 p-b-70 p-lr-15-lg w-full">
-                                                               <form id="user-signup-form">
+                                                               <form id="user-signup-form" autocomplete="off">
                                                                       <h4 class="mtext-105 cl2 txt-center p-b-20">
                                                                              SignUp
                                                                       </h4>
@@ -392,7 +392,7 @@
                                           aria-labelledby="home-tab">
                                           <div class="flex-w flex-tr">
                                                  <div class="size-150  p-lr-50 p-t-55 p-b-70 p-lr-15-lg w-full">
-                                                        <form id="user-otp-login-form">
+                                                        <form id="user-otp-login-form" autocomplete="off">
 
                                                                <h4 class="mtext-105 cl2 txt-center p-b-30">
                                                                       Login
@@ -423,9 +423,8 @@
 
                                                         </form>
                                                         <div class="mt-3 text-center">
-                                                               <a class="text-secondary mr-2" href="">Create new
-                                                                      account?</a>
-                                                               <a class="text-secondary" href="">Forgot password?</a>
+                                                               {{!-- <a class="text-secondary" href="">Forgot
+                                                                      password?</a> --}}
                                                         </div>
 
                                                  </div>
@@ -446,34 +445,37 @@
        <div class="modal-dialog" role="document">
               <div class="modal-content">
 
-                     <div class="modal-body otpModalBody m-0 p-5">
+                     <div class="modal-body otpModalBody m-0 p-3 pt-5">
 
                             <div class="container height-100 d-flex justify-content-center align-items-center">
                                    <div class="position-relative">
                                           <div class="text-center">
-                                                 <h4 id="otpFormHeading">Please enter the one time password <br> to
+                                                 <h4 id="otpFormHeading">Please enter the one time password to
                                                         verify your account</h4>
                                                  <div class="mb-3"> <span>A code has been sent to</span>
                                                         <small id="otpPhoneNumber"></small>
                                                  </div>
-                                                 <form id="otp-form" action="/verifyOtp">
+                                                 <form id="otp-form" action="/verifyOtp" autocomplete="off">
                                                         <div id="otp"
                                                                class="inputs d-flex flex-row justify-content-center mt-2">
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="text" id="first" maxlength="1" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="text" id="second"
-                                                                      maxlength="1" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="text" id="third" maxlength="1" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="text" id="fourth"
-                                                                      maxlength="1" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="text" id="fifth" maxlength="1" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="text" id="sixth" maxlength="1"
-                                                                      onkeydown="if (input.value.length > 1) {return false;}" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="first" /
+                                                                      style="padding : 2">
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="second"
+                                                                      style="padding : 2" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="third"
+                                                                      style="padding : 2" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="fourth"
+                                                                      style="padding : 2" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="fifth"
+                                                                      style="padding : 2" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="sixth"
+                                                                      style="padding : 2" />
                                                         </div>
                                                         <p id="otpError"
                                                                class="text-center font-weight-bold mt-2 text-danger">
@@ -502,14 +504,13 @@
        <div class="modal-dialog" role="document">
               <div class="modal-content">
 
-                     <div class="modal-body otpModalBody m-0 p-5">
+                     <div class="modal-body otpModalBody m-0 p-3 pt-5">
 
                             <div class="container height-100 d-flex justify-content-center align-items-center">
                                    <div class="position-relative">
                                           <div class="text-center">
                                                  <h4 id="otpFormHeadingWithPasswordUpdate">Please enter the one time
-                                                        password <br> to
-                                                        verify your account</h4>
+                                                        password to verify your account</h4>
                                                  <div class="mb-3"> <span>A code has been sent to</span>
                                                         <small id="otpPhoneNumberPasswordUpdate"></small>
                                                  </div>
@@ -517,18 +518,24 @@
                                                         action="/verifyOtpAndUpdatePassword">
                                                         <div id="otp"
                                                                class="inputs d-flex flex-row justify-content-center mt-2">
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="number" id="first" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="number" id="second" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="number" id="third" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="number" id="fourth" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="number" id="fifth" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="number" id="sixth" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="first" /
+                                                                      style="padding : 2">
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="second"
+                                                                      style="padding : 2" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="third"
+                                                                      style="padding : 2" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="fourth"
+                                                                      style="padding : 2" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="fifth"
+                                                                      style="padding : 2" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="sixth"
+                                                                      style="padding : 2" />
                                                         </div>
                                                         <input type="password" id="newPassword" name="newPassword"
                                                                placeholder="New password" class="form-control mt-3">
@@ -563,13 +570,13 @@
        <div class="modal-dialog" role="document">
               <div class="modal-content">
 
-                     <div class="modal-body otpModalBody m-0 p-5">
+                     <div class="modal-body otpModalBody m-0 p-3 pt-5">
 
                             <div class="container height-100 d-flex justify-content-center align-items-center">
                                    <div class="position-relative">
                                           <div class="text-center">
                                                  <h4 id="otpFormHeadingWithPasswordUpdate">Please enter the one time
-                                                        password <br> to
+                                                        password  to
                                                         verify your account</h4>
                                                  <div class="mb-3"> <span>A code has been sent to</span>
                                                         <small id="otpEmail"></small>
@@ -577,18 +584,24 @@
                                                  <form id="emailOtpForm" action="/verifyOtpAndUpdateEmail">
                                                         <div id="otp"
                                                                class="inputs d-flex flex-row justify-content-center mt-2">
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="number" id="first" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="number" id="second" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="number" id="third" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="number" id="fourth" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="number" id="fifth" />
-                                                               <input class="m-2 text-center form-control form-control-lg rounded"
-                                                                      name="otp" type="number" id="sixth" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="first" /
+                                                                      style="padding : 2">
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="second"
+                                                                      style="padding : 2" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="third"
+                                                                      style="padding : 2" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="fourth"
+                                                                      style="padding : 2" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="fifth"
+                                                                      style="padding : 2" />
+                                                               <input class="text-center form-control form-control-lg rounded"
+                                                                      name="otp" type="number" id="sixth"
+                                                                      style="padding : 2" />
                                                         </div>
 
                                                         <p id="emailOtpError"

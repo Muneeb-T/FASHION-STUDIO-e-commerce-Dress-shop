@@ -94,8 +94,13 @@
                                         class="cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         {{this.product_name}}
                                     </a>
-                                    <a class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.category}}</a>
-
+                                     <a class="stext-104 cl4 hov-cl1 trans-04 js-name-b2">{{this.category}}</a>
+                                    <div class="d-flex flex-row mb-2">
+                                        {{#each this.stars}}
+                                        <i
+                                            class="{{#if this}} fa fa-star  text-warning {{else}}fa fa-star-o text-secondary {{/if}}"></i>
+                                        {{/each}}
+                                    </div>
                                     <div class="d-flex">
                                         <span
                                             class="stext-105  font-weight-bold  {{#if this.offerPrice}} text-danger {{/if}} mr-3">
@@ -140,7 +145,7 @@
 
 
 
-        
+
         {{#if newProducts}}
         <div class="p-b-10 mt-5">
             <h3 class="ltext-103 cl5 mb-4">
@@ -158,7 +163,7 @@
                             </div>
                             <a href="/product-view{{this._id}}"></a>
 
-                           <div class="block2-txt flex-w flex-t p-t-14">
+                            <div class="block2-txt flex-w flex-t p-t-14">
                                 <div class="block2-txt-child1 flex-col-l">
 
                                     <a
@@ -167,8 +172,13 @@
                                         class="cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         {{this.product_name}}
                                     </a>
-                                    <a class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">{{this.category}}</a>
-
+                                    <a class="stext-104 cl4 hov-cl1 trans-04 js-name-b2">{{this.category}}</a>
+                                    <div class="d-flex flex-row mb-2">
+                                        {{#each this.stars}}
+                                        <i
+                                            class="{{#if this}} fa fa-star  text-warning {{else}}fa fa-star-o text-secondary {{/if}}"></i>
+                                        {{/each}}
+                                    </div>
                                     <div class="d-flex">
                                         <span
                                             class="stext-105  font-weight-bold  {{#if this.offerPrice}} text-danger {{/if}} mr-3">

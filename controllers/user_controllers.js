@@ -41,6 +41,10 @@ module.exports.quickView = async (req, res, next) => {
        try {
               const userId = req.session.user._id;
               const { guest, wishlist } = req.session.user;
+              const productRatingCounts =
+                     await productControllers.getProductRatingCounts(
+                            req.params.id,
+                     );
               const product = await productControllers.getSingleProductDetails(
                      req.params.id,
                      userId,
@@ -50,6 +54,7 @@ module.exports.quickView = async (req, res, next) => {
               res.render('users/quick_view', {
                      layout: 'users_layout',
                      product,
+                     productRatingCounts,
                      user: true,
               });
        } catch (error) {
@@ -68,7 +73,6 @@ module.exports.homepage = async (req, res, next) => {
               const newProducts = await productControllers.getProducts('all', {
                      newProducts: true,
               });
-
 
               const banners = await bannerControllers.getBanners();
 
@@ -401,10 +405,9 @@ module.exports.placeOrder = async (req, res, next) => {
                             );
 
                      res.json({ online: true, razorpayOrder, userDetails });
-              } else if (paymentMethod === 'paypal') {
               } else {
                      await clearCart();
-                     res.json({ cod: true });
+                     res.json({ cod: true, orderId: createOrder.insertedId });
               }
 
               products.forEach(async (product) => {
@@ -463,7 +466,7 @@ module.exports.verifyOrderPayment = async (req, res) => {
                                    },
                             );
                      await clearCart();
-                     res.json({ paymentSuccess: true });
+                     res.json({ paymentSuccess: true, orderId });
               } else {
                      res.json({ paymentSuccess: false });
               }

@@ -377,9 +377,9 @@ function verifyPayment(payment, order) {
                             window.location.href = '/error500';
                      }
                      if (response.paymentSuccess) {
-                            location.href = '/orderSuccess';
+                            location.href = `/orderSuccess/${response.orderId}`;
                      } else {
-                            location.href = '/wentWrong';
+                            location.href = '/error500';
                      }
               },
        });
@@ -454,7 +454,7 @@ $('#checkoutForm').validate({
                                    window.location.href = '/error500';
                             }
                             if (response.cod) {
-                                   location.href = '/orderSuccess';
+                                   window.location.href = `/orderSuccess/${response.orderId}`;
                             }
                             if (response.online) {
                                    razorpayPayment(

@@ -1,304 +1,321 @@
-<div class="container p-t-100 mb-5 justify-content-center ">
-
-    <div class="col-10 p-2  mx-auto d-flex align-items-center justify-content-between p-0"
-        style="background-color: #007bff;">
-        <h4 class="text-light ml-3">INVOICE</h4>
-        <button class="btn btn-outline-light d-flex align-items-center" id="downloadButton"
-            onclick="generatePDF()"><span class="material-icons">
-                file_download
-            </span>Download as PDF</button>
+<div class="container p-t-100 mb-5 justify-content-center">
+    <div class="page-tools">
+        <div class="action-buttons">
+            <a class="btn bg-white btn-light mx-1px text-95 float-right" href="#" onclick="generatePDF()" data-title="PDF">
+                <i class="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
+                Download
+            </a>
+        </div>
     </div>
+</div>
+<div class="container mb-5 justify-content-center" id="invoice">
 
-    <div class='col-10 mx-auto card-body border border-dark p-5' id="invoice">
+    <div class="page-content p-3 container">
+        <div class="page-header text-blue-d2">
+            <h1 class="page-title text-secondary-d1">
+                Invoice
+                <small class="page-info">
+                    <i class="fa fa-angle-double-right text-80"></i>
+                    ID: {{orderDetails._id}}
+                </small>
+            </h1>
 
-        <div class="row mb-3">
-            <div class="col d-flex justify-content-between align-items-center">
-                <h2 class="font-weight-bold">FASHION STUDIO</h2>
-                <p class="font-weight-bold text-dark mb-0 p-3">
-
-                    <span class="font-weight-light text-muted">
-                        Invoice : <span class="text-uppercase">{{orderDetails._id}}</span> <br>
-                        Date : {{orderDetails.orderDate}} <br>
-                    </span>
-                </p>
-
-
-            </div>
-        </div>
-        <hr class="bg-dark mb-5">
-        <div class="row mb-5">
-            <div class="col">
-                <p class="font-weight-bold text-dark mb-0">
-                    BILLED TO:
-                    <br>
-                    <span class="font-weight-light text-muted">
-                        {{orderDetails.address.name}},
-                        {{orderDetails.address.houseName}} <br>
-                        {{orderDetails.address.town}} <br>
-                        {{orderDetails.address.district}} <br>
-                        {{orderDetails.address.state}},
-                        {{orderDetails.address.pincode}} <br>
-                        Email : {{orderDetails.address.email}} <br>
-                        Phone : {{orderDetails.address.phoneNumber}}
-                        <br><br>
-                        <p class="text-dark mb-0">
-                            <span class="font-weight-bold "> PAYMENT METHOD :</span> {{orderDetails.paymentMethod}}
-                        </p>
-                    </span>
-                </p>
-            </div>
 
         </div>
 
-        <div class="row ">
+        <div class="container px-0">
+            <div class="row mt-4">
+                <div class="col-12 col-lg-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="text-center text-150">
+                                <span class="text-default-d3">FASHION STUDIO</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- .row -->
+
+                    <hr class="row brc-default-l1 mx-n1 mb-4" />
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div>
+                                <span class="text-sm text-grey-m2 align-middle">To:</span>
+
+                                <span
+                                    class="text-600 text-110 text-blue align-middle">{{orderDetails.address.name}}</span>
+                            </div>
+                            <div class="text-grey-m2">
+                                <div class="my-1">
+
+                                    {{orderDetails.address.houseName}}
+
+                                </div>
+                                <div class="my-1">
+                                    {{orderDetails.address.town}}
+                                    {{orderDetails.address.district}}
+                                </div>
+                                <div class="my-1">
+                                    {{orderDetails.address.state}},
+                                    {{orderDetails.address.pincode}}
+
+
+                                </div>
+                                <div class="my-1"><i class="fa fa-envelope fa-flip-horizontal text-secondary"></i> <b
+                                        class="text-600">{{orderDetails.address.email}}</b></div>
+                                <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b
+                                        class="text-600">{{orderDetails.address.phoneNumber}}</b></div>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+
+                        <div class="text-95 col-sm-6 align-self-start d-sm-flex justify-content-end">
+                            <hr class="d-sm-none" />
+                            <div class="text-grey-m2">
+                                <div class="mt-1 mb-2 text-secondary-m1 text-600 text-125">
+                                    Invoice
+                                </div>
+
+                                <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span
+                                        class="text-600 text-90">ID:</span> {{orderDetails._id}}
+                                </div>
+
+                                <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span
+                                        class="text-600 text-90">Issue Date:</span> {{orderDetails.orderDate}}</div>
+
+                                <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span
+                                        class="text-600 text-90">Payment method:</span> {{orderDetails.paymentMethod}}
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                    <div class="mt-4">
 
 
 
-            <div class="col">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-borderless border-0 border-b-2 brc-default-l1">
+                                <thead class="bg-none bgc-default-tp1">
+                                    <tr class="text-white">
+                                        <th scope="col">S.No</th>
+                                        <th scope="col">Item</th>
+                                        <th scope="col">Size</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Unit cost</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
 
-                <div style="border-radius: 10px;">
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th scope="col">S.No</th>
-                                <th scope="col">Item</th>
-                                <th scope="col">Size</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Unit cost</th>
-                                <th scope="col">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{#each orderedProducts}}
-                            <tr>
-                                <th>{{inc @index}}</th>
-                                <td>{{this.product.product_name}}</td>
-                                <td>{{this.size}}</td>
-                                <td>{{this.quantity}}</td>
-                                <td>Rs.{{this.product.price}}</td>
-                                <td>Rs.{{this.totalPrice}}</td>
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
+                                </thead>
 
-                </div>
+                                <tbody class="text-95 text-secondary-d3">
+                                    {{#each orderedProducts}}
+                                    <tr>
+                                        <th>{{inc @index}}</th>
+                                        <td>{{this.product.product_name}}</td>
+                                        <td>{{this.size}}</td>
+                                        <td>{{this.quantity}}</td>
+                                        <td>Rs.{{this.product.price}}</td>
+                                        <td>Rs.{{this.totalPrice}}</td>
+                                    </tr>
+                                    {{/each}}
+                                    <tr></tr>
 
-
-            </div>
-        </div>
-        <hr class="mt-0">
-        <div class="row">
-            <div class="col">
-                <div class=" border-0" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-
-                    <div class="row p-3">
-
-
-
-
-                        <div class="col d-flex justify-content-between p-3">
-
-                            <h5 class="d-flex m-3 text-dark align-items-center justify-content-end text-white mb-0">
-                                Total
-                                Amount : <span class="h3 mb-0 ml-2">Rs.{{orderDetails.amountPayable}}</span>
-                            </h5>
-                            <p class="font-weight-bold text-dark mb-0">
-
-                                <span class="font-weight-light">
-
-                                    Subtotal : Rs.{{orderDetails.totalPrice}} <br>
-                                    Discount : Rs.{{orderDetails.discount}} <br>
-                                    Total : Rs.{{orderDetails.amountPayable}}
-
-                                </span>
-                            </p>
-
+                                </tbody>
+                            </table>
                         </div>
 
 
+                        <div class="row mt-3">
+                            <div class="col-12 col-sm-7 text-grey-d2 text-95 mt-2 mt-lg-0">
+                            </div>
+
+                            <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
+                                <div class="row my-2">
+                                    <div class="col-7 text-right">
+                                        SubTotal
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="text-120 text-secondary-d1"> Rs.{{orderDetails.totalPrice}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="row my-2">
+                                    <div class="col-7 text-right">
+                                        Discount
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="text-110 text-secondary-d1"> Rs.{{orderDetails.discount}}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="row my-2 align-items-center bgc-primary-l3 p-2">
+                                    <div class="col-7 text-right">
+                                        Total Amount
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="text-150 text-success-d3 opacity-2">
+                                            Rs.{{orderDetails.amountPayable}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
-
                 </div>
             </div>
         </div>
-
     </div>
+
 </div>
 
 
+
+
+
 <style>
-    .container-fluid {
-        margin-top: 80px !important;
-        margin-bottom: 80px !important;
+    .text-secondary-d1 {
+        color: #728299 !important;
     }
 
-
-
-    .cursor-pointer {
-        cursor: pointer;
+    .page-header {
+        margin: 0 0 1rem;
+        padding-bottom: 1rem;
+        padding-top: .5rem;
+        border-bottom: 1px dotted #e2e2e2;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -ms-flex-align: center;
+        align-items: center;
     }
 
-
-    .bold {
-        font-weight: 600;
+    .page-title {
+        padding: 0;
+        margin: 0;
+        font-size: 1.75rem;
+        font-weight: 300;
     }
 
-    .small {
-        font-size: 12px !important;
-        letter-spacing: 0.5px !important;
+    .brc-default-l1 {
+        border-color: #dce9f0 !important;
     }
 
-    .Today {
-        color: rgb(83, 83, 83);
+    .ml-n1,
+    .mx-n1 {
+        margin-left: -.25rem !important;
     }
 
-    .btn-outline-primary {
-        background-color: #fff !important;
-        color: #4bb8a9 !important;
-        border: 1.3px solid #4bb8a9;
-        font-size: 12px;
-        border-radius: 0.4em !important;
+    .mr-n1,
+    .mx-n1 {
+        margin-right: -.25rem !important;
     }
 
-    .btn-outline-primary:hover {
-        background-color: #4bb8a9 !important;
-        color: #fff !important;
-        border: 1.3px solid #4bb8a9;
+    .mb-4,
+    .my-4 {
+        margin-bottom: 1.5rem !important;
     }
 
-    .btn-outline-primary:focus,
-    .btn-outline-primary:active {
-        outline: none !important;
-        box-shadow: none !important;
-        border-color: #42A5F5 !important;
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, .1);
     }
 
-    #progressbar {
-        margin-bottom: 30px;
-        overflow: hidden;
-        color: #455A64;
-        padding-left: 0px;
-        margin-top: 30px
+    .text-grey-m2 {
+        color: #888a8d !important;
     }
 
-    #progressbar li {
-        list-style-type: none;
-        font-size: 13px;
-        width: 25%;
-        float: left;
-        position: relative;
-        font-weight: 400;
-        color: #455A64 !important;
-
+    .text-success-m2 {
+        color: #86bd68 !important;
     }
 
-    #progressbar #step1:before {
-        content: "1";
-        color: #fff;
-        width: 29px;
-        margin-left: 15px !important;
-        padding-left: 11px !important;
+    .font-bolder,
+    .text-600 {
+        font-weight: 600 !important;
     }
 
-
-    #progressbar #step2:before {
-        content: "2";
-        color: #fff;
-        width: 29px;
-
+    .text-110 {
+        font-size: 110% !important;
     }
 
-    #progressbar #step3:before {
-        content: "3";
-        color: #fff;
-        width: 29px;
-
+    .text-blue {
+        color: #478fcc !important;
     }
 
-    #progressbar #step4:before {
-        content: "4";
-        color: #fff;
-        width: 29px;
-        margin-right: 15px !important;
-        padding-right: 11px !important;
+    .pb-25,
+    .py-25 {
+        padding-bottom: .75rem !important;
     }
 
-    #progressbar li:before {
-        line-height: 29px;
-        display: block;
-        font-size: 12px;
-        background: #455A64;
-        border-radius: 50%;
-        margin: auto;
+    .pt-25,
+    .py-25 {
+        padding-top: .75rem !important;
     }
 
-    #progressbar li:after {
-        content: '';
-        width: 121%;
-        height: 2px;
-        background: #455A64;
-        position: absolute;
-        left: 0%;
-        right: 0%;
-        top: 15px;
-        z-index: -1;
+    .bgc-default-tp1 {
+        background-color: rgba(121, 169, 197, .92) !important;
     }
 
-    #progressbar li:nth-child(2):after {
-        left: 50%;
-
+    .bgc-default-l4,
+    .bgc-h-default-l4:hover {
+        background-color: #f3f8fa !important;
     }
 
-    #progressbar li:nth-child(1):after {
-        left: 25%;
-        width: 121%;
+    .page-header .page-tools {
+        -ms-flex-item-align: end;
+        align-self: flex-end;
     }
 
-    #progressbar li:nth-child(3):after {
-        left: 25%;
-        width: 121%;
+    .btn-light {
+        color: #757984;
+        background-color: #f5f6f9;
+        border-color: #dddfe4;
     }
 
-    #progressbar li:nth-child(4):after {
-        left: 25% !important;
-        width: 50% !important;
+    .w-2 {
+        width: 1rem;
     }
 
-    #progressbar li.active:before,
-    #progressbar li.active:after {
-        background: #717fe0
+    .text-120 {
+        font-size: 120% !important;
     }
 
-    .card {
-        background-color: #fff;
-        z-index: 0;
+    .text-primary-m1 {
+        color: #4087d4 !important;
     }
 
-    small {
-        font-size: 12px !important;
+    .text-danger-m1 {
+        color: #dd4949 !important;
     }
 
-    .a {
-        justify-content: space-between !important;
+    .text-blue-m2 {
+        color: #68a3d5 !important;
     }
 
-    .border-line {
-        border-right: 1px solid rgb(226, 206, 226)
+    .text-150 {
+        font-size: 150% !important;
     }
 
-    .card-footer img {
-        opacity: 0.3;
+    .text-60 {
+        font-size: 60% !important;
     }
 
-    .card-footer h5 {
-        font-size: 1.1em;
-        color: #8C9EFF;
-        cursor: pointer;
+    .text-grey-m1 {
+        color: #7b7d81 !important;
+    }
+
+    .align-bottom {
+        vertical-align: bottom !important;
     }
 </style>
-
 
 
 

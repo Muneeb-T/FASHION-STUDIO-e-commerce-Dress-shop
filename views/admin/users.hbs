@@ -38,10 +38,11 @@
 
                                         {{#each users}}
                                         <tr id="userRow{{this._id}}">
-                                            <td class='avatar'>
+                                            <td>
                                                 <div class='round-img'>
                                                     <a><img class='rounded-circle'
-                                                            src='/users/profile_pictures/thumbnail.jpg' alt='' /></a>
+                                                            src='{{#if this.profilePicture}} /admin/product-images/{{this.profilePicture}} {{else}}/users/images/icons/profile_picture_placeholder.png{{/if}}'
+                                                            style="width: 45px; height: 45px; object-fit:cover;" alt='' /></a>
                                                 </div>
                                             </td>
                                             <td>

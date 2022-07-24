@@ -400,7 +400,8 @@ function updateBanner(bannerId, updation, title, subtitle, image) {
                                    url: '/admin/updateBanner',
                                    success: (response) => {
                                           if (response.error500) {
-                                                 window.location.href = '/admin/error500';
+                                                 window.location.href =
+                                                        '/admin/error500';
                                           }
                                           if (response.updationSuccess) {
                                                  toastMixin.fire({
@@ -461,7 +462,8 @@ function deleteCoupon(event, couponId) {
                             url: '/admin/deleteCoupon',
                             success: (response) => {
                                    if (response.error500) {
-                                          window.location.href = '/admin/error500';
+                                          window.location.href =
+                                                 '/admin/error500';
                                    }
                                    if (response.couponDelete) {
                                           toastMixin.fire({
@@ -500,7 +502,8 @@ function changeOrderStatus(orderId) {
                             url: '/admin/changeOrderStatus',
                             success: (response) => {
                                    if (response.error500) {
-                                          window.location.href = '/admin/error500';
+                                          window.location.href =
+                                                 '/admin/error500';
                                    }
                                    if (response.orderStatusChangeSuccess) {
                                           Swal.fire(
@@ -516,5 +519,22 @@ function changeOrderStatus(orderId) {
               } else {
                      return false;
               }
+       });
+}
+
+function readMessage(messageId, productId) {
+
+       $.ajax({
+              type: 'post',
+              data: { messageId },
+              url: '/admin/readMessage',
+              success: (response) => {
+                     if (response.error500) {
+                            window.location.href = '/admin/error500';
+                     }
+                     if (response.messageReadSuccess) {
+                            location.href = `/admin/product/${productId}`;
+                     }
+              },
        });
 }
