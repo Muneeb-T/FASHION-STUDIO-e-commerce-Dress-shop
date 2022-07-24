@@ -47,9 +47,13 @@
                                    </span>
 
                                    {{#if product.offerPrice}}
-                                   <span class="mtext-106 cl2">
+                                   <span class="mtext-106 cl2 mr-2">
 
                                           Rs.{{product.offerPrice}}
+
+                                          <span class="text-success font-weight-bold text-small">
+                                                 ({{product.offerPercentage}} %off)
+                                          </span>
 
                                    </span>
                                    {{/if}}
@@ -286,7 +290,11 @@
                                                                       <div class="row rating-desc">
 
                                                                              <div class="col-xs-8 col-md-12">
-                                                                                    <p class="mb-1">{{productRatingCounts.[4]._id}} - Very good quality ({{productRatingCounts.[4].count}} ratings)</p>
+                                                                                    <p class="mb-1">
+                                                                                           {{productRatingCounts.[4]._id}}
+                                                                                           - Very good quality
+                                                                                           ({{productRatingCounts.[4].count}}
+                                                                                           ratings)</p>
                                                                                     <div class="progress mb-3">
                                                                                            <div class="progress-bar bg-success"
                                                                                                   role="progressbar"
@@ -296,10 +304,13 @@
                                                                                                   aria-valuemax="{{product.reviews.length}}">
                                                                                            </div>
                                                                                     </div>
-                                                                                  <p class="mb-1">
-                                                                                    {{productRatingCounts.[3]._id}} - Nice ({{productRatingCounts.[3].count}} ratings)
-                                                                                  </p>
-                                                                                           
+                                                                                    <p class="mb-1">
+                                                                                           {{productRatingCounts.[3]._id}}
+                                                                                           - Nice
+                                                                                           ({{productRatingCounts.[3].count}}
+                                                                                           ratings)
+                                                                                    </p>
+
                                                                                     <div class="progress mb-3">
                                                                                            <div class="progress-bar bg-info"
                                                                                                   role="progressbar"
@@ -309,8 +320,11 @@
                                                                                                   aria-valuemax="{{product.reviews.length}}">
                                                                                            </div>
                                                                                     </div>
-                                                                                    <p class="mb-1">  
-                                                                                           {{productRatingCounts.[2]._id}} - Average quality ({{productRatingCounts.[2].count}} ratings)</p>
+                                                                                    <p class="mb-1">
+                                                                                           {{productRatingCounts.[2]._id}}
+                                                                                           - Average quality
+                                                                                           ({{productRatingCounts.[2].count}}
+                                                                                           ratings)</p>
                                                                                     <div class="progress mb-3">
                                                                                            <div class="progress-bar bg-warning"
                                                                                                   role="progressbar"
@@ -321,7 +335,10 @@
                                                                                            </div>
                                                                                     </div>
                                                                                     <p class="mb-1">
-                                                                                            {{productRatingCounts.[1]._id}} - Poor quality ({{productRatingCounts.[1].count}} ratings)
+                                                                                           {{productRatingCounts.[1]._id}}
+                                                                                           - Poor quality
+                                                                                           ({{productRatingCounts.[1].count}}
+                                                                                           ratings)
                                                                                     </p>
                                                                                     <div class="progress mb-3">
                                                                                            <div class="progress-bar bg-secondary"
@@ -333,7 +350,10 @@
                                                                                            </div>
                                                                                     </div>
                                                                                     <p class="mb-1">
-                                                                                            {{productRatingCounts.[0]._id}} - Too bad ({{productRatingCounts.[0].count}} ratings)
+                                                                                           {{productRatingCounts.[0]._id}}
+                                                                                           - Too bad
+                                                                                           ({{productRatingCounts.[0].count}}
+                                                                                           ratings)
                                                                                     </p>
                                                                                     <div class="progress mb-3">
                                                                                            <div class="progress-bar bg-danger"

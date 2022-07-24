@@ -117,7 +117,7 @@ module.exports.editCategory = async (req, res) => {
 
 module.exports.addProduct = async (req, res) => {
        try {
-              console.log("request");
+              console.log('request');
               console.log(req.body);
               const product = productModal(req.body, req.files);
               product.addedDate = new Date();
@@ -128,7 +128,7 @@ module.exports.addProduct = async (req, res) => {
                      .insertOne(product);
               res.json({ productAddSuccess: true });
        } catch (error) {
-              console.log("Error");
+              console.log('Error');
               console.log(error);
               res.json({ error500: true });
        }
@@ -465,11 +465,69 @@ module.exports.getProducts = async (
        if (filterQuery.priceRange) {
               const priceRange = JSON.parse(filterQuery.priceRange);
               if (priceRange.max === 'max') {
-                     filter.$match.price = { $gte: priceRange.min };
+                     filter.$match.$expr = {
+                            $cond: {
+                                   if: {
+                                          $eq: ['$offerPrice', null],
+                                   },
+                                   then: {
+                                          $gte: ['$price', priceRange.min],
+                                   },
+                                   else: {
+                                          $gte: ['$offerPrice', priceRange.min],
+                                   },
+                            },
+                     };
               } else {
                      filter.$match.$and.push(
-                            { price: { $gte: priceRange.min } },
-                            { price: { $lte: priceRange.max } },
+                            {
+                                   $expr: {
+                                          $cond: {
+                                                 if: {
+                                                        $eq: [
+                                                               '$offerPrice',
+                                                               null,
+                                                        ],
+                                                 },
+                                                 then: {
+                                                        $lte: [
+                                                               '$price',
+                                                               priceRange.max,
+                                                        ],
+                                                 },
+                                                 else: {
+                                                        $lte: [
+                                                               '$offerPrice',
+                                                               priceRange.max,
+                                                        ],
+                                                 },
+                                          },
+                                   },
+                            },
+                            {
+                                   $expr: {
+                                          $cond: {
+                                                 if: {
+                                                        $eq: [
+                                                               '$offerPrice',
+                                                               null,
+                                                        ],
+                                                 },
+                                                 then: {
+                                                        $gte: [
+                                                               '$price',
+                                                               priceRange.min,
+                                                        ],
+                                                 },
+                                                 else: {
+                                                        $gte: [
+                                                               '$offerPrice',
+                                                               priceRange.min,
+                                                        ],
+                                                 },
+                                          },
+                                   },
+                            },
                      );
               }
        }
@@ -506,6 +564,7 @@ module.exports.getProducts = async (
                             category: '$category.name',
                             price: 1,
                             offerPrice: 1,
+                            offerPercentage: 1,
                             images: 1,
                      },
               },
@@ -543,6 +602,7 @@ module.exports.getProducts = async (
                             price: 1,
                             offerPrice: 1,
                             images: 1,
+                            offerPercentage: 1,
                             averageRating: {
                                    $arrayElemAt: ['$averageRating', 0],
                             },
@@ -555,6 +615,10 @@ module.exports.getProducts = async (
               (filterQuery.price === '-1' || filterQuery.price === '1')
        ) {
               aggregate.push({ $sort: { price: parseInt(filterQuery.price) } });
+       }
+
+       if (filterQuery.price && filterQuery.price === 'popularity') {
+              aggregate.push({ $sort: { 'averageRating.averageRating': -1 } });
        }
 
        if (userId) {
@@ -929,6 +993,7 @@ module.exports.getWishlist = async function (userId, guest, guestWishlist) {
                                           price: 1,
                                           offerPrice: 1,
                                           images: 1,
+                                          offerPercentage: 1,
                                           averageRating: {
                                                  $arrayElemAt: [
                                                         '$averageRating',
@@ -980,6 +1045,8 @@ module.exports.getWishlist = async function (userId, guest, guestWishlist) {
                                                         price: 1,
                                                         offerPrice: 1,
                                                         images: 1,
+                                                        offerPrice: 1,   
+                                                        offerPercentage: 1,
                                                  },
                                           },
                                    ],

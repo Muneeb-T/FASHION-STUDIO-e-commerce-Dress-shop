@@ -36,6 +36,7 @@
                                                  </div>
 
                                                  <ul id="filterByPriceUl">
+
                                                         <li class="p-b-6">
                                                                <button href="#" class="filter-link stext-106 trans-04"
                                                                       id="filterByPriceLink0"
@@ -70,6 +71,17 @@
                                                                <input type="radio" id="filterByPrice-1" name="price"
                                                                       value="-1"
                                                                       onchange="saveFilterByPriceRadio(-1); submitFilterProductsForm(this.form);"
+                                                                      class="dis-none">
+                                                        </li>
+                                                        <li class="p-b-6">
+                                                               <button onclick="changeFilterPriceValue(event,4);"
+                                                                      id="filterByPriceLink4"
+                                                                      class="filter-link stext-106 trans-04">
+                                                                      Popularity
+                                                               </button>
+                                                               <input type="radio" id="filterByPrice4" name="price"
+                                                                      value="popularity"
+                                                                      onchange="saveFilterByPriceRadio(4); submitFilterProductsForm(this.form);"
                                                                       class="dis-none">
                                                         </li>
                                                  </ul>
@@ -219,7 +231,7 @@
                                                                class="cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                                                {{this.product_name}}
                                                         </a>
-                                                         <div class="d-flex flex-row mt-1">
+                                                        <div class="d-flex flex-row mt-1">
                                                                {{#each this.stars}}
                                                                <i
                                                                       class="{{#if this}} fa fa-star  text-warning {{else}}fa fa-star-o text-secondary {{/if}}"></i>
@@ -234,6 +246,7 @@
                                                                       <del>Rs.{{this.price}}</del>
                                                                       {{else}}
                                                                       Rs.{{this.price}}
+
                                                                       {{/if}}
 
                                                                </span>
@@ -245,7 +258,12 @@
                                                                </span>
                                                                {{/if}}
                                                         </div>
-                                                       
+                                                        {{#if this.offerPrice}}
+                                                        <p class="text-success font-weight-bold"
+                                                               style="font-size: 15px;">({{this.offerPercentage}} %off)
+                                                        </p>
+                                                        {{/if}}
+
 
                                                  </div>
 

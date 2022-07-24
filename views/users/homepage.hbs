@@ -94,7 +94,7 @@
                                         class="cut-text stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                         {{this.product_name}}
                                     </a>
-                                     <a class="stext-104 cl4 hov-cl1 trans-04 js-name-b2">{{this.category}}</a>
+                                    <a class="stext-104 cl4 hov-cl1 trans-04 js-name-b2">{{this.category}}</a>
                                     <div class="d-flex flex-row mb-2">
                                         {{#each this.stars}}
                                         <i
@@ -119,6 +119,11 @@
                                         </span>
                                         {{/if}}
                                     </div>
+                                    {{#if this.offerPrice}}
+                                    <p class="text-success font-weight-bold" style="font-size: 15px;">
+                                        ({{this.offerPercentage}} %off)
+                                    </p>
+                                    {{/if}}
                                 </div>
 
                                 <div class="block2-txt-child2 flex-r p-t-3">
@@ -197,6 +202,11 @@
                                         </span>
                                         {{/if}}
                                     </div>
+                                    {{#if this.offerPrice}}
+                                    <p class="text-success font-weight-bold" style="font-size: 15px;">
+                                        ({{this.offerPercentage}} %off)
+                                    </p>
+                                    {{/if}}
                                 </div>
 
                                 <div class="block2-txt-child2 flex-r p-t-3">
