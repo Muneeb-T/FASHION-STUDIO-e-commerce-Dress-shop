@@ -31,33 +31,26 @@
                                             {{#if addressList}}
                                             {{#each addressList}}
                                             <div class="row" id="addressDiv{{this._id}}">
-                                                <div class="col m-3
-                                                    font-weight-bold">
 
-
-                                                    <div class="row">
-                                                        <div class="col-auto mt-2">
-                                                            <input type="radio" value="{{this._id}}"
-                                                                class="form-control" name="address" required>
-                                                        </div>
-                                                        <div class="col">
-                                                            <p>{{this.name}},
-                                                                {{this.houseName}},<br>
-                                                                {{this.town}},{{this.district}},
-                                                                <br>{{this.state}},
-                                                                {{this.pincode}}
-                                                            </p>
-
-                                                            <p>Email :
-                                                                {{this.email}}</p>
-                                                            <p>Phone :
-                                                                {{this.phoneNumber}}</p>
-                                                        </div>
-                                                    </div>
-
+                                                <div class="col-auto mt-2">
+                                                    <input type="radio" value="{{this._id}}" class="form-control"
+                                                        name="address" required>
                                                 </div>
-                                                <hr>
+                                                <div class="col">
+                                                    <p>{{this.name}},
+                                                        {{this.houseName}},<br>
+                                                        {{this.town}},{{this.district}},
+                                                        <br>{{this.state}},
+                                                        {{this.pincode}}
+                                                    </p>
+
+                                                    <p>Email :
+                                                        {{this.email}}</p>
+                                                    <p>Phone :
+                                                        {{this.phoneNumber}}</p>
+                                                </div>
                                             </div>
+                                            <hr>
                                             {{/each}}
 
                                             {{else}}
@@ -318,11 +311,7 @@
 
                         $('#chooseAddressSection')
                             .prepend(`<div class="row" id="addressDiv${response.newAddressId}">
-                                               <div class="col m-3
-                                                    font-weight-bold">
-
-
-                                                    <div class="row">
+                                             
                                                         <div class="col-auto mt-2">
                                                            <input type="radio" value="${response.newAddressId}"
                                                                class="form-control" name="address" required checked>
@@ -340,11 +329,11 @@
                                                            <p>Phone :
                                                                ${response.savedAddress.phoneNumber}</p>
                                                        </div>
-                                                   </div>
-
-                                               </div>
-                                               <hr>
-                                           </div>`);
+                                                
+                                              
+                                           </div>
+                                           
+                                            <hr>`);
                         $(form)[0].reset();
 
                         $('#choosAddressButton').trigger('click');
